@@ -4,6 +4,8 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import ServicesPage from "@/pages/ServicesPage";
+import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +14,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/services" component={ServicesPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
   Calculator, ShieldCheck, LineChart, Building2, Scale, PiggyBank,
-  ArrowUpRight, ArrowRight, CheckCircle2, Plus, Phone, Mail,
+  ArrowUpRight, ArrowRight, Phone, Mail,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -27,124 +27,11 @@ const steps = [
   { n: "05", title: "Ongoing Support", desc: "Quarterly reviews that evolve your strategy as your business grows." },
 ];
 
-function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.2 });
-  const Icon = svc.icon;
-  const isEven = index % 2 === 0;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      className="group border-b border-border/60"
-    >
-      <button
-        onClick={() => setOpen(v => !v)}
-        className="w-full text-left py-8 md:py-10"
-      >
-        <div className="flex items-center gap-6 md:gap-10">
-          {/* Number */}
-          <span
-            className="font-serif text-[11px] font-bold tracking-[0.2em] shrink-0 transition-colors duration-300"
-            style={{ color: open ? svc.color : "hsl(var(--muted-foreground))" }}
-          >
-            {svc.num}
-          </span>
-
-          {/* Icon circle */}
-          <motion.div
-            animate={{ backgroundColor: open ? svc.color : "hsl(var(--secondary))" }}
-            transition={{ duration: 0.3 }}
-            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-          >
-            <Icon className="w-4 h-4 transition-colors duration-300" style={{ color: open ? "white" : svc.color }} />
-          </motion.div>
-
-          {/* Title + tagline */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-baseline gap-4 flex-wrap">
-              <h3 className="font-serif font-bold text-xl md:text-2xl lg:text-3xl text-foreground group-hover:text-primary transition-colors duration-300 leading-tight">
-                {svc.title}
-              </h3>
-              <span
-                className="text-[11px] font-semibold uppercase tracking-[0.16em] hidden md:block transition-colors duration-300"
-                style={{ color: open ? svc.color : "hsl(var(--muted-foreground))" }}
-              >
-                {svc.tagline}
-              </span>
-            </div>
-          </div>
-
-          {/* Stat */}
-          <span className="hidden lg:block text-[12px] font-bold uppercase tracking-[0.14em] text-muted-foreground shrink-0">
-            {svc.stat}
-          </span>
-
-          {/* Toggle */}
-          <motion.div
-            animate={{ rotate: open ? 45 : 0, backgroundColor: open ? svc.color : "transparent" }}
-            transition={{ duration: 0.3 }}
-            className="w-9 h-9 rounded-full border border-border flex items-center justify-center shrink-0"
-          >
-            <Plus className="w-3.5 h-3.5 transition-colors duration-300" style={{ color: open ? "white" : "hsl(var(--foreground))" }} />
-          </motion.div>
-        </div>
-      </button>
-
-      {/* Expanded content */}
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden"
-          >
-            <div className={`grid md:grid-cols-2 gap-10 pb-12 pl-16 md:pl-28 ${isEven ? "" : "md:flex-row-reverse"}`}>
-              {/* Description */}
-              <div>
-                <p className="text-base text-muted-foreground font-light leading-[1.9] mb-8">{svc.description}</p>
-                <motion.button
-                  whileHover={{ x: 4 }}
-                  onClick={() => document.getElementById("contact-cta")?.scrollIntoView({ behavior: "smooth" })}
-                  className="flex items-center gap-2 font-bold uppercase tracking-[0.14em] text-[11px] transition-colors"
-                  style={{ color: svc.color }}
-                >
-                  Start This Service <ArrowRight className="w-3.5 h-3.5" />
-                </motion.button>
-              </div>
-
-              {/* Features */}
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
-                {svc.features.map((f, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-start gap-2.5 text-sm text-foreground/80"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: svc.color }} />
-                    {f}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
 
 export default function ServicesPage() {
   const [, navigate] = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
+
 
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const imgParallax = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
@@ -238,6 +125,45 @@ export default function ServicesPage() {
     const progressValues = [0, 0.25, 0.45, 0.65, 0.85];
     const targetProgress = progressValues[idx];
     
+    const targetScroll = start + (totalHeight - viewportHeight) * targetProgress;
+    window.scrollTo({
+      top: targetScroll,
+      behavior: "smooth"
+    });
+  };
+
+  // ─── Services scroll-driven index ───
+  const servicesContainerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: servicesScroll } = useScroll({
+    target: servicesContainerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    const unsubscribe = servicesScroll.on("change", (latest) => {
+      const idx = Math.min(5, Math.floor(latest * 6));
+      setActiveServiceIndex(prev => {
+        if (idx !== prev) {
+          setDirection(idx > prev ? 1 : -1);
+        }
+        return idx;
+      });
+    });
+    return () => unsubscribe();
+  }, [servicesScroll]);
+
+  const scrollToService = (idx: number) => {
+    if (!servicesContainerRef.current) return;
+    const rect = servicesContainerRef.current.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const start = rect.top + scrollTop;
+    const totalHeight = servicesContainerRef.current.scrollHeight;
+    const viewportHeight = window.innerHeight;
+
+    const targetProgress = idx / 5.5;
     const targetScroll = start + (totalHeight - viewportHeight) * targetProgress;
     window.scrollTo({
       top: targetScroll,
@@ -372,50 +298,227 @@ export default function ServicesPage() {
         />
       </div>
 
-      {/* ─── SERVICES ACCORDION LIST ─────────────────────────────── */}
-      <section id="services-list" className="py-20 md:py-28 bg-background">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          {/* Section header */}
-          <div className="grid md:grid-cols-2 gap-10 mb-16 pb-16 border-b border-border">
-            <div>
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-4"
-                style={{ color: "hsl(38 88% 46%)" }}
-              >
-                Our Services
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="font-serif font-bold text-4xl md:text-5xl text-foreground leading-[1.08]"
-              >
-                Everything your<br />business needs.
-              </motion.h2>
+      {/* ─── SERVICES: Scroll-Reveal Split Panel ───────────────────── */}
+      <section
+        ref={servicesContainerRef}
+        id="services-list"
+        className="relative z-20"
+        style={{ background: "hsl(222 55% 4%)", height: "600vh" }}
+      >
+        <div className="absolute inset-0" style={{ background: "hsl(222 55% 4%)" }} />
+
+        {/* Sticky viewport */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden" style={{ background: "hsl(222 55% 4%)" }}>
+
+          {/* Ambient glow — moves with active service color */}
+          <div
+            className="absolute inset-0 pointer-events-none transition-all duration-700"
+            style={{
+              background: `radial-gradient(ellipse 60% 50% at 70% 50%, ${services[activeServiceIndex]?.color}18 0%, transparent 70%)`,
+            }}
+          />
+
+          {/* Subtle grid lines */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+            style={{
+              backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+
+          {/* ─── Main two-column layout ─── */}
+          <div className="h-full max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-0">
+
+            {/* LEFT: Content panel */}
+            <div className="flex flex-col justify-center pr-0 lg:pr-16 py-20 relative">
+
+              {/* Top label */}
+              <div className="flex items-center gap-3 mb-10">
+                <span className="text-[10px] uppercase tracking-[0.28em] font-bold" style={{ color: "hsl(38 88% 55%)" }}>Our Services</span>
+                <span className="flex-1 h-px bg-white/10" />
+                <span className="font-mono text-[10px] text-white/30">{String(activeServiceIndex + 1).padStart(2,"0")} / {String(services.length).padStart(2,"0")}</span>
+              </div>
+
+              {/* Animated content with AnimatePresence */}
+              <div className="relative overflow-hidden" style={{ minHeight: 340 }}>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={activeServiceIndex}
+                    initial={{ opacity: 0, y: direction > 0 ? 40 : -40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: direction > 0 ? -40 : 40 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="absolute inset-0 flex flex-col justify-start"
+                  >
+                    {/* Service tagline badge */}
+                    <span
+                      className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-6 w-fit"
+                      style={{ color: services[activeServiceIndex]?.color, background: `${services[activeServiceIndex]?.color}15`, border: `1px solid ${services[activeServiceIndex]?.color}30` }}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: services[activeServiceIndex]?.color }} />
+                      {services[activeServiceIndex]?.tagline}
+                    </span>
+
+                    {/* Big service number */}
+                    <span className="font-serif font-black text-8xl md:text-9xl leading-none select-none mb-2"
+                      style={{ color: `${services[activeServiceIndex]?.color}18`, WebkitTextStroke: `1px ${services[activeServiceIndex]?.color}30` }}
+                    >
+                      {services[activeServiceIndex]?.num}
+                    </span>
+
+                    {/* Title */}
+                    <h2 className="font-serif font-bold text-3xl md:text-4xl text-white leading-tight mb-4">
+                      {services[activeServiceIndex]?.title}
+                    </h2>
+
+                    {/* Description */}
+                    <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-sm">
+                      {services[activeServiceIndex]?.description}
+                    </p>
+
+                    {/* Stat */}
+                    <div className="flex items-center gap-4 pt-4 border-t" style={{ borderColor: `${services[activeServiceIndex]?.color}20` }}>
+                      <div>
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-white/30 block mb-0.5">Key Metric</span>
+                        <span className="font-serif font-black text-xl text-white">{services[activeServiceIndex]?.stat}</span>
+                      </div>
+                      <button
+                        onClick={() => document.getElementById("contact-cta")?.scrollIntoView({ behavior: "smooth" })}
+                        className="ml-auto flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-lg border transition-all duration-300 hover:scale-105"
+                        style={{ borderColor: services[activeServiceIndex]?.color, color: services[activeServiceIndex]?.color, background: `${services[activeServiceIndex]?.color}10` }}
+                      >
+                        Enquire <ArrowUpRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Step dots navigation */}
+              <div className="flex items-center gap-3 mt-10">
+                {services.map((svc, idx) => (
+                  <button
+                    key={svc.id}
+                    onClick={() => scrollToService(idx)}
+                    className="rounded-full transition-all duration-400 outline-none"
+                    style={{
+                      width: activeServiceIndex === idx ? 28 : 8,
+                      height: 8,
+                      background: activeServiceIndex === idx ? svc.color : "rgba(255,255,255,0.15)",
+                      boxShadow: activeServiceIndex === idx ? `0 0 12px ${svc.color}60` : "none",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-base text-muted-foreground font-light leading-[1.9] self-end"
-            >
-              Click any service to expand the full scope. Each engagement is handled by a dedicated partner — not a junior executive.
-            </motion.p>
+
+            {/* RIGHT: Card display */}
+            <div className="hidden lg:flex flex-col justify-center pl-8 relative">
+
+              {/* Features card with AnimatePresence */}
+              <div className="relative" style={{ height: 480 }}>
+                <AnimatePresence mode="wait" initial={false}>
+                  {(() => {
+                    const svc = services[activeServiceIndex];
+                    const Icon = svc.icon;
+                    return (
+                      <motion.div
+                        key={activeServiceIndex}
+                        initial={{ opacity: 0, x: direction > 0 ? 60 : -60, rotate: direction > 0 ? 3 : -3 }}
+                        animate={{ opacity: 1, x: 0, rotate: 0 }}
+                        exit={{ opacity: 0, x: direction > 0 ? -60 : 60, rotate: direction > 0 ? -3 : 3 }}
+                        transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="absolute inset-0 rounded-2xl overflow-hidden"
+                        style={{ willChange: "transform, opacity" }}
+                      >
+                        {/* Card background */}
+                        <div
+                          className="absolute inset-0 rounded-2xl"
+                          style={{
+                            background: `linear-gradient(135deg, hsl(222 55% 8%) 0%, hsl(222 55% 12%) 100%)`,
+                            border: `1px solid ${svc.color}30`,
+                            boxShadow: `0 32px 64px -16px ${svc.color}20, inset 0 1px 0 rgba(255,255,255,0.06)`,
+                          }}
+                        />
+
+                        {/* Diagonal color stripe accent */}
+                        <div
+                          className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
+                          style={{
+                            background: `linear-gradient(225deg, ${svc.color}20 0%, transparent 60%)`,
+                            borderRadius: "0 16px 0 0",
+                          }}
+                        />
+
+                        {/* Card inner content */}
+                        <div className="relative h-full p-8 flex flex-col">
+                          {/* Header */}
+                          <div className="flex items-start justify-between mb-8">
+                            <div>
+                              <span className="font-mono text-[9px] text-white/25 tracking-[0.2em] block mb-1">SERVICE MODULE</span>
+                              <span className="font-serif font-black text-4xl" style={{ color: `${svc.color}40` }}>{svc.num}</span>
+                            </div>
+                            <div
+                              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                              style={{ background: `${svc.color}15`, border: `1px solid ${svc.color}40` }}
+                            >
+                              <Icon className="w-6 h-6" style={{ color: svc.color }} />
+                            </div>
+                          </div>
+
+                          {/* Features list */}
+                          <div className="flex-1">
+                            <span className="text-[9px] uppercase tracking-[0.22em] font-bold block mb-4 pb-2 border-b" style={{ color: svc.color, borderColor: `${svc.color}20` }}>
+                              What's Included
+                            </span>
+                            <ul className="space-y-3">
+                              {svc.features.map((feat, fIdx) => (
+                                <motion.li
+                                  key={fIdx}
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: fIdx * 0.06, duration: 0.3 }}
+                                  className="flex items-start gap-3"
+                                >
+                                  <span
+                                    className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
+                                    style={{ background: svc.color }}
+                                  />
+                                  <span className="text-sm text-white/70 font-light leading-snug">{feat}</span>
+                                </motion.li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Footer */}
+                          <div className="mt-6 pt-5 border-t flex items-center gap-2" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: svc.color }} />
+                            <span className="text-[9px] uppercase tracking-[0.2em] text-white/35 font-semibold">Maxworth Global — {svc.title}</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })()}
+                </AnimatePresence>
+              </div>
+            </div>
+
           </div>
 
-          {/* Accordion rows */}
-          <div>
-            {services.map((svc, i) => (
-              <ServiceRow key={svc.id} svc={svc} index={i} />
-            ))}
+          {/* Bottom progress bar */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5">
+            <motion.div
+              className="h-full origin-left"
+              style={{
+                scaleX: servicesScroll,
+                background: `linear-gradient(90deg, ${services[0].color}, ${services[2].color}, ${services[5].color})`,
+              }}
+            />
           </div>
+
         </div>
       </section>
+
 
       {/* ─── PROCESS: 3D Scroll Stacking Cards ───────────────────── */}
       <section

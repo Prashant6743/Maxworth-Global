@@ -14,36 +14,42 @@ const serviceItems = [
     title: "Taxation",
     desc: "Income Tax, GST returns & advanced tax planning",
     color: "hsl(222 55% 18%)",
+    id: "taxation",
   },
   {
     icon: ShieldCheck,
     title: "Audit & Assurance",
     desc: "Statutory, internal & tax audits",
     color: "hsl(38 88% 46%)",
+    id: "audit",
   },
   {
     icon: LineChart,
     title: "Business Advisory",
     desc: "Virtual CFO, financial planning & MIS reports",
     color: "hsl(210 65% 40%)",
+    id: "advisory",
   },
   {
     icon: Building2,
     title: "Company Registration",
     desc: "Pvt Ltd, LLP, OPC incorporation end-to-end",
     color: "hsl(155 50% 38%)",
+    id: "registration",
   },
   {
     icon: Scale,
     title: "Legal Compliance",
     desc: "ROC, FEMA, RBI & full secretarial services",
     color: "hsl(280 45% 45%)",
+    id: "compliance",
   },
   {
     icon: PiggyBank,
     title: "Payroll Management",
     desc: "Payroll processing, PF/ESI & tax structuring",
     color: "hsl(10 75% 48%)",
+    id: "payroll",
   },
 ];
 
@@ -55,15 +61,14 @@ const HIGHLIGHT_SERVICE = {
 
 // ─── Nav links (Services gets a hasDropdown flag) ─────────────────────────────
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Services", href: "#services", hasDropdown: true },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/services", hasDropdown: true },
   { name: "Why Us", href: "#why-us" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "/contact" },
 ];
 
-// ─── Mobile services accordion data ─────────────────────────────────────────
-const mobileServices = serviceItems.map((s) => s.title);
+
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,15 +102,41 @@ export function Navbar() {
     setDropdownOpen(false);
     setActiveLink(name);
     
-    if (location !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+    const hashIndex = href.indexOf("#");
+    const path = hashIndex !== -1 ? href.substring(0, hashIndex) : href;
+    const hash = hashIndex !== -1 ? href.substring(hashIndex) : "";
+    
+    if (path && path !== "/") {
+      // It's a full page route like /about or /services
+      if (location === path) {
+        if (hash) {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } else {
+        navigate(href);
+        if (hash) {
+          setTimeout(() => {
+            const el = document.querySelector(hash);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
+      }
     } else {
-      const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      // Home page or home page anchor (e.g., "/" or "#why-us")
+      const targetHash = hash || "#home";
+      if (location !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const el = document.querySelector(targetHash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 250);
+      } else {
+        const el = document.querySelector(targetHash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -227,7 +258,7 @@ export function Navbar() {
                                       initial={{ opacity: 0, y: 6 }}
                                       animate={{ opacity: 1, y: 0 }}
                                       transition={{ delay: i * 0.04 }}
-                                      onClick={() => scrollTo("#services", "Services")}
+                                      onClick={() => scrollTo(`/services#${svc.id}`, "Services")}
                                       className="group/item flex items-start gap-3 p-3.5 rounded-sm hover:bg-slate-50 transition-all duration-200 text-left"
                                     >
                                       <div
@@ -372,7 +403,7 @@ export function Navbar() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 + i * 0.07 }}
-                      onClick={() => { setMobileOpen(false); navigate("/services"); }}
+                      onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                       className="w-full flex items-center justify-between text-4xl font-serif font-bold text-foreground hover:text-gold transition-colors py-3"
                     >
                       <span>Services</span>
@@ -391,12 +422,12 @@ export function Navbar() {
                           className="overflow-hidden"
                         >
                           <div className="pl-4 pb-3 pt-1 border-l-2 border-gold/40 ml-2 flex flex-col gap-1">
-                            {serviceItems.map((svc, si) => {
+                            {serviceItems.map((svc) => {
                               const Icon = svc.icon;
                               return (
                                 <button
                                   key={svc.title}
-                                  onClick={() => { setMobileOpen(false); navigate("/services"); }}
+                                  onClick={() => scrollTo(`/services#${svc.id}`, "Services")}
                                   className="flex items-center gap-3 py-2.5 px-3 rounded-sm hover:bg-slate-50 text-left transition-colors group/ms"
                                 >
                                   <div

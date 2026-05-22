@@ -1,29 +1,64 @@
-import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { ArrowUpRight } from "lucide-react";
-
-const scrollTo = (id: string) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-};
 
 const links = {
   Explore: [
-    { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Services", id: "services" },
-    { name: "Why Us", id: "why-us" },
-    { name: "Contact", id: "contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Why Us", href: "#why-us" },
+    { name: "Contact", href: "/contact" },
   ],
   Services: [
-    { name: "Taxation", id: "services" },
-    { name: "Audit & Assurance", id: "services" },
-    { name: "Business Advisory", id: "services" },
-    { name: "Company Registration", id: "services" },
-    { name: "Legal Compliance", id: "services" },
-    { name: "Payroll Management", id: "services" },
+    { name: "Taxation", href: "/services#taxation" },
+    { name: "Audit & Assurance", href: "/services#audit" },
+    { name: "Business Advisory", href: "/services#advisory" },
+    { name: "Company Registration", href: "/services#registration" },
+    { name: "Legal Compliance", href: "/services#compliance" },
+    { name: "Payroll Management", href: "/services#payroll" },
   ],
 };
 
 export function Footer() {
+  const [location, navigate] = useLocation();
+
+  const handleNavClick = (href: string) => {
+    const hashIndex = href.indexOf("#");
+    const path = hashIndex !== -1 ? href.substring(0, hashIndex) : href;
+    const hash = hashIndex !== -1 ? href.substring(hashIndex) : "";
+
+    if (path && path !== "/") {
+      if (location === path) {
+        if (hash) {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } else {
+        navigate(href);
+        if (hash) {
+          setTimeout(() => {
+            const el = document.querySelector(hash);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }, 200);
+        }
+      }
+    } else {
+      const targetHash = hash || "#home";
+      if (location !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const el = document.querySelector(targetHash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 250);
+      } else {
+        const el = document.querySelector(targetHash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <footer
       className="relative overflow-hidden"
@@ -68,7 +103,7 @@ export function Footer() {
 
             {/* CTA */}
             <button
-              onClick={() => scrollTo("contact")}
+              onClick={() => handleNavClick("#contact")}
               className="group inline-flex items-center gap-2 px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] border border-white/20 text-white/80 hover:text-white hover:border-gold/50 transition-all duration-300"
             >
               Book a Consultation
@@ -84,7 +119,7 @@ export function Footer() {
                 {items.map((item) => (
                   <li key={item.name}>
                     <button
-                      onClick={() => scrollTo(item.id)}
+                      onClick={() => handleNavClick(item.href)}
                       className="text-[13px] font-light text-white/65 hover:text-gold transition-colors duration-200"
                     >
                       {item.name}
