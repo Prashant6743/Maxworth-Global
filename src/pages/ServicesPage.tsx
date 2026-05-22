@@ -1,0 +1,691 @@
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
+import {
+  Calculator, ShieldCheck, LineChart, Building2, Scale, PiggyBank,
+  ArrowUpRight, ArrowRight, CheckCircle2, Plus, Phone, Mail,
+} from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+
+import img11 from "@/Stock_img/2.png";
+
+const services = [
+  { id: "taxation", icon: Calculator, color: "hsl(38 88% 46%)", num: "01", title: "Taxation", tagline: "Smart tax planning that saves you more", description: "We go beyond compliance. Our tax professionals craft personalised strategies that dramatically reduce liability while keeping you fully protected under every regulation.", features: ["Income Tax Return filing (ITR 1–7)", "GST registration, returns & reconciliation", "TDS / TCS computation & filing", "Advance tax planning & optimisation", "Tax notices & litigation support", "International taxation & DTAA advisory"], stat: "₹2B+ Tax Savings" },
+  { id: "audit", icon: ShieldCheck, color: "hsl(222 55% 40%)", num: "02", title: "Audit & Assurance", tagline: "Complete transparency, zero surprises", description: "Our audit practice goes beyond a certificate — it provides stakeholders with genuine confidence, combining rigorous methodology with practical business insight.", features: ["Statutory audit under Companies Act", "Tax audit under Income Tax Act", "Internal audit & risk assessment", "Concurrent audit for banks & NBFCs", "Forensic audit & fraud investigation", "Due diligence for M&A transactions"], stat: "500+ Audits Done" },
+  { id: "advisory", icon: LineChart, color: "hsl(210 70% 42%)", num: "03", title: "Business Advisory", tagline: "Your virtual CFO, always on call", description: "Access the strategic financial leadership of a full-time CFO without the overhead. We partner with founders and CEOs to drive growth through data-led insights.", features: ["Virtual CFO & fractional finance leadership", "Financial modelling & projections", "Budget planning & variance analysis", "MIS reporting & dashboards", "Investor readiness & pitch decks", "Business valuation & feasibility studies"], stat: "120+ Businesses Scaled" },
+  { id: "registration", icon: Building2, color: "hsl(155 55% 35%)", num: "04", title: "Company Registration", tagline: "From idea to incorporation in days", description: "We handle every step of your business formation — from selecting the right structure to obtaining all post-incorporation registrations so you can start trading fast.", features: ["Private Limited, LLP & OPC incorporation", "Section 8 (NGO) & Trust registration", "Import Export Code (IEC) registration", "MSME / Udyam registration", "Professional Tax & Shops Act registration", "Post-incorporation compliance calendar"], stat: "300+ Companies Formed" },
+  { id: "compliance", icon: Scale, color: "hsl(280 50% 42%)", num: "05", title: "Legal Compliance", tagline: "Stay compliant, stay protected", description: "Navigating India's regulatory landscape is complex. Our compliance team ensures your business never misses a deadline or exposes itself to unnecessary risk.", features: ["Annual ROC filings & secretarial records", "FEMA & RBI compliance", "Board meeting & AGM management", "SEBI compliance for listed entities", "Labour law & PF/ESI registrations", "Secretarial audit (Form MR-3)"], stat: "99% On-time Filing" },
+  { id: "payroll", icon: PiggyBank, color: "hsl(10 80% 46%)", num: "06", title: "Payroll Management", tagline: "Accurate payroll, happy employees", description: "Outsource your entire payroll function to us. Every employee paid accurately, on time, and in full compliance with all statutory requirements.", features: ["Monthly payroll processing & payslips", "PF, ESI, PT & LWF compliance", "Form 16 & TDS on salary management", "Full & final settlement processing", "Employee CTC structuring for tax savings", "HR payroll software integration"], stat: "5000+ Employees Managed" },
+];
+
+const steps = [
+  { n: "01", title: "Discovery Call", desc: "30-min call to understand your business, goals, and pain points." },
+  { n: "02", title: "Proposal", desc: "A tailored scope of work with fixed, transparent pricing — no surprises." },
+  { n: "03", title: "Onboarding", desc: "Secure document handover and a dedicated senior partner assigned." },
+  { n: "04", title: "Execution", desc: "Precision work delivered on schedule with real-time updates." },
+  { n: "05", title: "Ongoing Support", desc: "Quarterly reviews that evolve your strategy as your business grows." },
+];
+
+function ServiceRow({ svc, index }: { svc: typeof services[0]; index: number }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const Icon = svc.icon;
+  const isEven = index % 2 === 0;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.65, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      className="group border-b border-border/60"
+    >
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="w-full text-left py-8 md:py-10"
+      >
+        <div className="flex items-center gap-6 md:gap-10">
+          {/* Number */}
+          <span
+            className="font-serif text-[11px] font-bold tracking-[0.2em] shrink-0 transition-colors duration-300"
+            style={{ color: open ? svc.color : "hsl(var(--muted-foreground))" }}
+          >
+            {svc.num}
+          </span>
+
+          {/* Icon circle */}
+          <motion.div
+            animate={{ backgroundColor: open ? svc.color : "hsl(var(--secondary))" }}
+            transition={{ duration: 0.3 }}
+            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+          >
+            <Icon className="w-4 h-4 transition-colors duration-300" style={{ color: open ? "white" : svc.color }} />
+          </motion.div>
+
+          {/* Title + tagline */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline gap-4 flex-wrap">
+              <h3 className="font-serif font-bold text-xl md:text-2xl lg:text-3xl text-foreground group-hover:text-primary transition-colors duration-300 leading-tight">
+                {svc.title}
+              </h3>
+              <span
+                className="text-[11px] font-semibold uppercase tracking-[0.16em] hidden md:block transition-colors duration-300"
+                style={{ color: open ? svc.color : "hsl(var(--muted-foreground))" }}
+              >
+                {svc.tagline}
+              </span>
+            </div>
+          </div>
+
+          {/* Stat */}
+          <span className="hidden lg:block text-[12px] font-bold uppercase tracking-[0.14em] text-muted-foreground shrink-0">
+            {svc.stat}
+          </span>
+
+          {/* Toggle */}
+          <motion.div
+            animate={{ rotate: open ? 45 : 0, backgroundColor: open ? svc.color : "transparent" }}
+            transition={{ duration: 0.3 }}
+            className="w-9 h-9 rounded-full border border-border flex items-center justify-center shrink-0"
+          >
+            <Plus className="w-3.5 h-3.5 transition-colors duration-300" style={{ color: open ? "white" : "hsl(var(--foreground))" }} />
+          </motion.div>
+        </div>
+      </button>
+
+      {/* Expanded content */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className={`grid md:grid-cols-2 gap-10 pb-12 pl-16 md:pl-28 ${isEven ? "" : "md:flex-row-reverse"}`}>
+              {/* Description */}
+              <div>
+                <p className="text-base text-muted-foreground font-light leading-[1.9] mb-8">{svc.description}</p>
+                <motion.button
+                  whileHover={{ x: 4 }}
+                  onClick={() => document.getElementById("contact-cta")?.scrollIntoView({ behavior: "smooth" })}
+                  className="flex items-center gap-2 font-bold uppercase tracking-[0.14em] text-[11px] transition-colors"
+                  style={{ color: svc.color }}
+                >
+                  Start This Service <ArrowRight className="w-3.5 h-3.5" />
+                </motion.button>
+              </div>
+
+              {/* Features */}
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                {svc.features.map((f, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="flex items-start gap-2.5 text-sm text-foreground/80"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: svc.color }} />
+                    {f}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+export default function ServicesPage() {
+  const [, navigate] = useLocation();
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const imgParallax = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
+  const textY = useTransform(heroScroll, [0, 1], [0, 60]);
+  const textOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  // ─── 3D Process scroll animations ───
+  const processContainerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: processScroll } = useScroll({
+    target: processContainerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = processScroll.on("change", (latest) => {
+      if (latest < 0.15) {
+        setActiveIndex(0);
+      } else if (latest < 0.35) {
+        setActiveIndex(1);
+      } else if (latest < 0.55) {
+        setActiveIndex(2);
+      } else if (latest < 0.75) {
+        setActiveIndex(3);
+      } else {
+        setActiveIndex(4);
+      }
+    });
+    return () => unsubscribe();
+  }, [processScroll]);
+
+  // Smooth progress bar scale calculation
+  const activeProgressScaleY = useTransform(processScroll, [0, 0.85], ["0%", "100%"]);
+
+  // Set up transforms for each card
+  // Card 0 (i = 0)
+  const y0 = useTransform(processScroll, [0, 0.15, 0.35, 0.55], [0, 0, -45, -80]);
+  const scale0 = useTransform(processScroll, [0, 0.15, 0.35, 0.55], [1, 1, 0.95, 0.92]);
+  const rotateX0 = useTransform(processScroll, [0, 0.15, 0.35, 0.55], [0, 0, -10, -15]);
+  const translateZ0 = useTransform(processScroll, [0, 0.15, 0.35, 0.55], [0, 0, -60, -120]);
+  const opacity0 = useTransform(processScroll, [0, 0.15, 0.35, 0.55], [1, 1, 0.6, 0.35]);
+
+  // Card 1 (i = 1)
+  const y1 = useTransform(processScroll, [0, 0.15, 0.35, 0.55, 0.75], [300, 0, 0, -45, -80]);
+  const scale1 = useTransform(processScroll, [0, 0.15, 0.35, 0.55, 0.75], [0.85, 1, 1, 0.95, 0.92]);
+  const rotateX1 = useTransform(processScroll, [0, 0.15, 0.35, 0.55, 0.75], [30, 0, 0, -10, -15]);
+  const translateZ1 = useTransform(processScroll, [0, 0.15, 0.35, 0.55, 0.75], [-150, 0, 0, -60, -120]);
+  const opacity1 = useTransform(processScroll, [0, 0.15, 0.35, 0.55, 0.75], [0, 1, 1, 0.6, 0.35]);
+
+  // Card 2 (i = 2)
+  const y2 = useTransform(processScroll, [0.15, 0.35, 0.55, 0.75, 0.95], [300, 0, 0, -45, -80]);
+  const scale2 = useTransform(processScroll, [0.15, 0.35, 0.55, 0.75, 0.95], [0.85, 1, 1, 0.95, 0.92]);
+  const rotateX2 = useTransform(processScroll, [0.15, 0.35, 0.55, 0.75, 0.95], [30, 0, 0, -10, -15]);
+  const translateZ2 = useTransform(processScroll, [0.15, 0.35, 0.55, 0.75, 0.95], [-150, 0, 0, -60, -120]);
+  const opacity2 = useTransform(processScroll, [0.15, 0.35, 0.55, 0.75, 0.95], [0, 1, 1, 0.6, 0.35]);
+
+  // Card 3 (i = 3)
+  const y3 = useTransform(processScroll, [0.35, 0.55, 0.75, 0.95, 1.0], [300, 0, 0, -45, -45]);
+  const scale3 = useTransform(processScroll, [0.35, 0.55, 0.75, 0.95, 1.0], [0.85, 1, 1, 0.95, 0.95]);
+  const rotateX3 = useTransform(processScroll, [0.35, 0.55, 0.75, 0.95, 1.0], [30, 0, 0, -10, -10]);
+  const translateZ3 = useTransform(processScroll, [0.35, 0.55, 0.75, 0.95, 1.0], [-150, 0, 0, -60, -60]);
+  const opacity3 = useTransform(processScroll, [0.35, 0.55, 0.75, 0.95, 1.0], [0, 1, 1, 0.6, 0.6]);
+
+  // Card 4 (i = 4)
+  const y4 = useTransform(processScroll, [0.55, 0.75, 0.95, 1.0], [300, 0, 0, 0]);
+  const scale4 = useTransform(processScroll, [0.55, 0.75, 0.95, 1.0], [0.85, 1, 1, 1]);
+  const rotateX4 = useTransform(processScroll, [0.55, 0.75, 0.95, 1.0], [30, 0, 0, 0]);
+  const translateZ4 = useTransform(processScroll, [0.55, 0.75, 0.95, 1.0], [-150, 0, 0, 0]);
+  const opacity4 = useTransform(processScroll, [0.55, 0.75, 0.95, 1.0], [0, 1, 1, 1]);
+
+  const cardTransforms = [
+    { y: y0, scale: scale0, rotateX: rotateX0, translateZ: translateZ0, opacity: opacity0 },
+    { y: y1, scale: scale1, rotateX: rotateX1, translateZ: translateZ1, opacity: opacity1 },
+    { y: y2, scale: scale2, rotateX: rotateX2, translateZ: translateZ2, opacity: opacity2 },
+    { y: y3, scale: scale3, rotateX: rotateX3, translateZ: translateZ3, opacity: opacity3 },
+    { y: y4, scale: scale4, rotateX: rotateX4, translateZ: translateZ4, opacity: opacity4 },
+  ];
+
+  const scrollToStep = (idx: number) => {
+    if (!processContainerRef.current) return;
+    const rect = processContainerRef.current.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const start = rect.top + scrollTop;
+    const totalHeight = processContainerRef.current.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    
+    // Map index to progress values
+    const progressValues = [0, 0.25, 0.45, 0.65, 0.85];
+    const targetProgress = progressValues[idx];
+    
+    const targetScroll = start + (totalHeight - viewportHeight) * targetProgress;
+    window.scrollTo({
+      top: targetScroll,
+      behavior: "smooth"
+    });
+  };
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <Navbar />
+
+      {/* ─── HERO: Full-bleed split with image ───────────────────── */}
+      <div ref={heroRef} className="relative h-screen min-h-[700px] overflow-hidden">
+        {/* Right image half */}
+        <motion.div
+          style={{ y: imgParallax }}
+          className="absolute inset-y-0 right-0 w-full md:w-[55%]"
+        >
+          <img
+            src={img11}
+            alt="CA firm services"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.75) contrast(1.05)" }}
+          />
+          {/* Overlay gradients */}
+          <div className="absolute inset-0" style={{
+            background: "linear-gradient(to right, hsl(36 33% 97%) 0%, hsl(36 33% 97% / 0.5) 35%, transparent 65%)",
+          }} />
+          <div className="absolute inset-0" style={{
+            background: "linear-gradient(to top, hsl(36 33% 97%) 0%, transparent 25%)",
+          }} />
+        </motion.div>
+
+        {/* Left text content */}
+        <motion.div
+          style={{ y: textY, opacity: textOpacity }}
+          className="relative z-10 h-full flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-10"
+        >
+          <div className="max-w-xl pt-20">
+            <motion.button
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-semibold text-muted-foreground hover:text-primary transition-colors mb-12"
+            >
+              ← Back to Home
+            </motion.button>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-[11px] uppercase tracking-[0.26em] font-semibold mb-6"
+              style={{ color: "hsl(38 88% 46%)" }}
+            >
+              What We Do
+            </motion.p>
+
+            <div className="overflow-hidden mb-8">
+              <motion.h1
+                initial={{ y: 80 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+                className="font-serif font-bold text-foreground leading-[1.04]"
+                style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.2rem)" }}
+              >
+                Financial
+                <br />
+                <span style={{
+                  background: "linear-gradient(135deg, hsl(38 88% 40%), hsl(38 88% 58%))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}>
+                  expertise
+                </span>
+                <br />
+                you can trust.
+              </motion.h1>
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45 }}
+              className="text-base text-muted-foreground font-light leading-[1.85] mb-10"
+            >
+              Six pillars of service, 25 years of expertise, one dedicated senior partner handling your account personally.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-wrap gap-8 mb-12"
+            >
+              {[["6", "Services"], ["25+", "Years"], ["500+", "Clients"], ["98%", "Retention"]].map(([v, l]) => (
+                <div key={l}>
+                  <p className="font-serif font-bold text-2xl text-primary">{v}</p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">{l}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.button
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75 }}
+              whileHover={{ x: 4 }}
+              onClick={() => document.querySelector("#services-list")?.scrollIntoView({ behavior: "smooth" })}
+              className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.16em] text-primary"
+            >
+              Explore All Services
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              >
+                <ArrowRight className="w-4 h-4" />
+              </motion.span>
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* Gold bottom accent bar */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute bottom-0 left-0 right-0 h-[3px] origin-left"
+          style={{ background: "linear-gradient(90deg, hsl(38 88% 44%), hsl(38 88% 62%), transparent 75%)" }}
+        />
+      </div>
+
+      {/* ─── SERVICES ACCORDION LIST ─────────────────────────────── */}
+      <section id="services-list" className="py-20 md:py-28 bg-background">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          {/* Section header */}
+          <div className="grid md:grid-cols-2 gap-10 mb-16 pb-16 border-b border-border">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-4"
+                style={{ color: "hsl(38 88% 46%)" }}
+              >
+                Our Services
+              </motion.p>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="font-serif font-bold text-4xl md:text-5xl text-foreground leading-[1.08]"
+              >
+                Everything your<br />business needs.
+              </motion.h2>
+            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-base text-muted-foreground font-light leading-[1.9] self-end"
+            >
+              Click any service to expand the full scope. Each engagement is handled by a dedicated partner — not a junior executive.
+            </motion.p>
+          </div>
+
+          {/* Accordion rows */}
+          <div>
+            {services.map((svc, i) => (
+              <ServiceRow key={svc.id} svc={svc} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PROCESS: 3D Scroll Stacking Cards ───────────────────── */}
+      <section
+        ref={processContainerRef}
+        className="relative z-20"
+        style={{ background: "hsl(36 25% 96%)", height: "300vh" }}
+      >
+        {/* Full-height background fill — ensures no white gaps */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "hsl(36 25% 96%)" }}
+        />
+        {/* Dot grid overlay */}
+        <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
+
+        {/* Sticky viewport wrapper */}
+        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden pt-20 lg:pt-24"
+          style={{ background: "hsl(36 25% 96%)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left column: Info & Timeline progress */}
+            <div className="lg:col-span-5 flex flex-col justify-center h-full">
+              <div className="max-w-md">
+                <span className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-4 block text-gold" style={{ color: "hsl(38 88% 46%)" }}>
+                  Our Process
+                </span>
+                <h2 className="font-serif font-bold text-3xl md:text-5xl text-foreground leading-[1.1] mb-6">
+                  Simple steps.<br />Exceptional outcomes.
+                </h2>
+                <p className="text-sm md:text-base text-muted-foreground font-light leading-[1.8] mb-8 md:mb-12">
+                  Our structured approach ensures maximum efficiency, complete compliance, and seamless collaboration at every stage.
+                </p>
+              </div>
+
+              {/* Vertical Step Progress Line */}
+              <div className="hidden lg:flex flex-col relative pl-4 border-l border-border/60 ml-2 py-2 gap-6">
+                {/* Animated active progress bar line overlay */}
+                <motion.div
+                  className="absolute left-[-1px] top-0 w-[2px] origin-top"
+                  style={{
+                    height: "100%",
+                    scaleY: activeProgressScaleY,
+                    background: "hsl(38 88% 48%)",
+                  }}
+                />
+
+                {steps.map((step, idx) => {
+                  const isActive = activeIndex === idx;
+                  const isDone = activeIndex > idx;
+                  return (
+                    <button
+                      key={step.n}
+                      onClick={() => scrollToStep(idx)}
+                      className="flex items-center gap-4 text-left group transition-all duration-300 outline-none"
+                    >
+                      {/* Step Indicator Dot/Bubble */}
+                      <div className="relative shrink-0 z-10">
+                        <div
+                          className={`w-8 h-8 rounded-full border flex items-center justify-center font-serif text-xs font-bold transition-all duration-300 ${
+                            isActive
+                              ? "bg-gold text-white scale-110"
+                              : isDone
+                                ? "text-white"
+                                : "bg-background text-muted-foreground group-hover:border-gold group-hover:text-gold"
+                          }`}
+                          style={{
+                            borderColor: isActive || isDone ? "hsl(38 88% 48%)" : "hsl(var(--border))",
+                            backgroundColor: isActive ? "hsl(38 88% 48%)" : isDone ? "hsl(var(--primary))" : "",
+                            boxShadow: isActive ? "0 0 16px hsl(38 88% 48% / 0.4)" : "",
+                          }}
+                        >
+                          {step.n}
+                        </div>
+                      </div>
+
+                      {/* Text */}
+                      <div className="transition-all duration-300">
+                        <h4 className={`text-[13px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                          isActive ? "text-primary font-extrabold" : "text-muted-foreground group-hover:text-foreground"
+                        }`}
+                        style={{ color: isActive ? "hsl(var(--primary))" : "" }}
+                        >
+                          {step.title}
+                        </h4>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Horizontal steps on mobile/tablet */}
+              <div className="lg:hidden flex justify-between items-center gap-2 mt-4 px-2 py-4 bg-secondary/30 rounded-xl border border-border/40" style={{ backgroundColor: "hsl(var(--secondary) / 0.3)" }}>
+                {steps.map((step, idx) => {
+                  const isActive = activeIndex === idx;
+                  return (
+                    <button
+                      key={step.n}
+                      onClick={() => scrollToStep(idx)}
+                      className="flex flex-col items-center gap-1.5 flex-1 py-1 transition-all duration-300 outline-none"
+                    >
+                      <div
+                        className={`w-7 h-7 rounded-full border flex items-center justify-center font-serif text-[10px] font-bold transition-all duration-300 ${
+                          isActive
+                            ? "text-white"
+                            : "text-muted-foreground"
+                        }`}
+                        style={{
+                          borderColor: isActive ? "hsl(38 88% 48%)" : "hsl(var(--border))",
+                          backgroundColor: isActive ? "hsl(38 88% 48%)" : "",
+                          boxShadow: isActive ? "0 0 12px hsl(38 88% 48% / 0.4)" : "",
+                        }}
+                      >
+                        {step.n}
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider font-semibold transition-colors duration-300"
+                        style={{ color: isActive ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))" }}
+                      >
+                        {step.title.split(" ")[0]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right column: 3D stacked cards */}
+            <div className="lg:col-span-7 flex justify-center items-center relative h-[360px] md:h-[400px] w-full" style={{ perspective: 1200, transformStyle: "preserve-3d" }}>
+              {steps.map((step, i) => {
+                // Card scroll transforms
+                const { y, scale, rotateX, translateZ, opacity } = cardTransforms[i];
+
+                return (
+                  <motion.div
+                    key={step.n}
+                    style={{
+                      y,
+                      scale,
+                      rotateX,
+                      z: translateZ,
+                      zIndex: i + 10,
+                      opacity,
+                      transformStyle: "preserve-3d",
+                      background: "linear-gradient(135deg, hsl(222 55% 14%), hsl(222 55% 24%))",
+                      borderColor: "rgba(255, 255, 255, 0.08)",
+                      boxShadow: "0 24px 48px -12px rgba(15,27,58,0.3)",
+                    }}
+                    className="absolute w-full max-w-[460px] border border-white/10 rounded-2xl p-8 md:p-10 shadow-2xl flex flex-col justify-between h-[300px] md:h-[340px]"
+                  >
+                    <div className="absolute inset-0 dot-grid opacity-[0.04] pointer-events-none rounded-2xl" />
+                    <div className="absolute top-0 right-0 w-24 h-24 stripe-bg opacity-[0.06] pointer-events-none rounded-tr-2xl" />
+
+                    {/* Card Header */}
+                    <div className="flex justify-between items-start">
+                      <span className="font-serif font-bold text-5xl md:text-6xl tracking-wider select-none" style={{ color: "rgba(196, 141, 30, 0.15)" }}>
+                        {step.n}
+                      </span>
+                      <div className="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center" style={{ backgroundColor: "rgba(196, 141, 30, 0.1)", borderColor: "rgba(196, 141, 30, 0.3)" }}>
+                        <span className="w-2 h-2 rounded-full bg-gold animate-pulse-gold" style={{ backgroundColor: "hsl(38 88% 48%)" }} />
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="my-auto">
+                      <h3 className="font-serif font-bold text-2xl md:text-3xl text-white mb-3">
+                        {step.title}
+                      </h3>
+                      <p className="text-white/70 font-light text-sm md:text-base leading-relaxed">
+                        {step.desc}
+                      </p>
+                    </div>
+
+                    {/* Card Footer */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-white/5 select-none" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" style={{ backgroundColor: "hsl(38 88% 48%)" }} />
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+                        The Maxworth Global • Process
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─────────────────────────────────────────────────── */}
+      <section id="contact-cta" className="relative overflow-hidden">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img src={img11} alt="" className="w-full h-full object-cover" style={{ filter: "brightness(0.25) saturate(0.6)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, hsl(222 55% 14% / 0.95), hsl(222 55% 8% / 0.98))" }} />
+        </div>
+
+        <div className="relative z-10 py-32 max-w-5xl mx-auto px-6 md:px-10">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-[11px] uppercase tracking-[0.22em] font-semibold mb-5"
+                style={{ color: "hsl(38 88% 55%)" }}
+              >
+                Get Started Today
+              </motion.p>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="font-serif font-bold text-4xl md:text-5xl text-white leading-[1.08] mb-6"
+              >
+                Let's talk about your business.
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-white/55 font-light leading-[1.85]"
+              >
+                Book a free 30-minute discovery call. No jargon, no commitment — just an honest conversation.
+              </motion.p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.25 }}
+              className="flex flex-col gap-4"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate("/#contact")}
+                className="group flex items-center justify-between h-16 px-8 font-bold uppercase tracking-[0.14em] text-[12px] text-primary relative overflow-hidden"
+                style={{ background: "hsl(38 88% 48%)" }}
+              >
+                <span className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-400 bg-white/12" />
+                <span className="relative">Schedule Free Call</span>
+                <ArrowUpRight className="relative w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </motion.button>
+
+              <a
+                href="tel:+912223456789"
+                className="flex items-center gap-3 h-16 px-8 font-medium text-sm text-white/70 hover:text-white transition-colors"
+                style={{ border: "1px solid rgba(255,255,255,0.12)" }}
+              >
+                <Phone className="w-4 h-4 shrink-0" style={{ color: "hsl(38 88% 55%)" }} />
+                +91 (22) 2345-6789
+              </a>
+
+              <a
+                href="mailto:consult@themaxworthglobal.com"
+                className="flex items-center gap-3 h-16 px-8 font-medium text-sm text-white/70 hover:text-white transition-colors"
+                style={{ border: "1px solid rgba(255,255,255,0.12)" }}
+              >
+                <Mail className="w-4 h-4 shrink-0" style={{ color: "hsl(38 88% 55%)" }} />
+                consult@themaxworthglobal.com
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}
