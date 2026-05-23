@@ -127,57 +127,135 @@ function FAQItem({ q, a, index, color }: { q: string; a: string; index: number; 
   );
 }
 
-// ─── Process Step Card — light 3D ───────────────────────────────────────────
-function ProcessCard({ step, title, desc, color, index }: {
-  step: number; title: string; desc: string; color: string; accent?: string; index: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className="relative group cursor-default"
-      style={{ perspective: "800px" }}
-    >
-      <div
-        className="relative rounded-2xl p-7 border overflow-hidden transition-all duration-500"
-        style={{
-          background: "#fff",
-          borderColor: `${color}22`,
-          boxShadow: `0 4px 24px rgba(0,0,0,0.06), 0 0 0 0 ${color}00`,
-          transformStyle: "preserve-3d",
-          transition: "box-shadow 0.4s ease",
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.boxShadow = `0 12px 36px rgba(0,0,0,0.1), 0 0 0 2px ${color}28`;
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 24px rgba(0,0,0,0.06), 0 0 0 0 transparent";
-        }}
-      >
-        {/* Step badge */}
-        <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center text-white font-bold text-[13px] tracking-wider mb-5"
-          style={{
-            background: `linear-gradient(135deg, ${color}, ${color}cc)`,
-            boxShadow: `0 4px 16px ${color}44`,
-          }}
-        >
-          {String(step).padStart(2, "0")}
-        </div>
+// ─── Animated Process Timeline ────────────────────────────────────────────────
+function ProcessTimeline({ steps, color }: { steps: { title: string; desc: string }[]; color: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 80%", "end 60%"],
+  });
 
-        {/* Top color stripe */}
+  return (
+    <div ref={ref} className="relative">
+      {/* ── Horizontal connecting line track (desktop) ── */}
+      <div className="hidden lg:block relative mb-0">
+        {/* Grey track */}
         <div
-          className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-          style={{ background: `linear-gradient(90deg, ${color}, ${color}55, transparent)` }}
+          className="absolute top-[22px] left-[10%] right-[10%] h-[2px] rounded-full"
+          style={{ background: `${color}18` }}
+        />
+        {/* Animated fill line */}
+        <motion.div
+          className="absolute top-[22px] left-[10%] rounded-full origin-left h-[2px]"
+          style={{
+            right: "10%",
+            scaleX: scrollYProgress,
+            background: `linear-gradient(90deg, ${color}, ${color}88)`,
+            boxShadow: `0 0 12px ${color}60`,
+          }}
         />
 
-        <h4 className="font-bold text-[15px] mb-2" style={{ color: "hsl(222 55% 14%)" }}>{title}</h4>
-        <p className="text-[13.5px] leading-[1.75]" style={{ color: "hsl(222 20% 48%)" }}>{desc}</p>
+        {/* Nodes row */}
+        <div className="relative flex justify-around mb-8">
+          {steps.map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ scale: 0, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.18, type: "spring", stiffness: 280, damping: 20 }}
+              className="flex flex-col items-center"
+            >
+              {/* Outer ring */}
+              <motion.div
+                className="relative w-11 h-11 rounded-full flex items-center justify-center"
+                style={{ background: `${color}14`, border: `2px solid ${color}35` }}
+                whileInView={{ borderColor: color }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.18 + 0.3 }}
+              >
+                {/* Inner filled dot */}
+                <motion.div
+                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-black"
+                  style={{ background: color, boxShadow: `0 0 14px ${color}70` }}
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.18 + 0.25, type: "spring" }}
+                >
+                  {i + 1}
+                </motion.div>
+                {/* Pulse ring */}
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  style={{ border: `1.5px solid ${color}` }}
+                  animate={{ scale: [1, 1.45, 1], opacity: [0.6, 0, 0.6] }}
+                  transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.3, ease: "easeOut" }}
+                />
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </motion.div>
+
+      {/* ── Cards row ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        {steps.map((step, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            whileHover={{ y: -7, scale: 1.02 }}
+            className="group relative rounded-2xl p-6 border overflow-hidden cursor-default"
+            style={{
+              background: "#fff",
+              borderColor: `${color}20`,
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+              transition: "box-shadow 0.35s ease, border-color 0.35s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow = `0 14px 40px rgba(0,0,0,0.1), 0 0 0 2px ${color}30`;
+              (e.currentTarget as HTMLDivElement).style.borderColor = `${color}40`;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 16px rgba(0,0,0,0.05)";
+              (e.currentTarget as HTMLDivElement).style.borderColor = `${color}20`;
+            }}
+          >
+            {/* Step number — visible only on mobile (desktop uses node above) */}
+            <div className="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center text-white text-[11px] font-black mb-4"
+              style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)`, boxShadow: `0 4px 14px ${color}40` }}
+            >
+              {i + 1}
+            </div>
+
+            {/* Top stripe on hover */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl"
+              style={{ background: `linear-gradient(90deg, ${color}, ${color}44, transparent)` }}
+            />
+            {/* Left accent bar */}
+            <div
+              className="absolute top-4 left-0 bottom-4 w-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"
+              style={{ background: color }}
+            />
+
+            <h4 className="font-bold text-[14.5px] mb-2 leading-snug" style={{ color: "hsl(222 55% 13%)" }}>{step.title}</h4>
+            <p className="text-[13px] leading-[1.76]" style={{ color: "hsl(222 20% 48%)" }}>{step.desc}</p>
+
+            {/* Step # watermark */}
+            <div
+              className="absolute bottom-3 right-4 text-[3rem] font-black leading-none select-none pointer-events-none opacity-[0.05]"
+              style={{ color }}
+            >
+              {i + 1}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -515,18 +593,7 @@ export default function ServiceDetailPage() {
             <h2 className="font-serif text-4xl md:text-5xl font-bold" style={{ color: TEXT }}>Our Process</h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
-            {service.process.map((step, i) => (
-              <ProcessCard
-                key={i}
-                step={i + 1}
-                title={step.title}
-                desc={step.desc}
-                color={meta.color}
-                index={i}
-              />
-            ))}
-          </div>
+          <ProcessTimeline steps={service.process} color={meta.color} />
         </div>
       </section>
 
