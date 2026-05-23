@@ -1,51 +1,52 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import {
-  Calculator, LineChart, Building2, Scale, ShieldCheck, PiggyBank, ArrowUpRight,
+  Calculator, LineChart, Scale, ArrowUpRight,
+  Rocket, Award, Compass,
 } from "lucide-react";
 
 const services = [
   {
-    title: "Taxation",
-    shortDesc: "End-to-end tax strategy",
-    description: "Income Tax filing, GST registration & returns, TDS compliance, and advanced tax planning strategies to minimise liability and maximise savings.",
-    icon: Calculator,
-    tag: "Most Popular",
+    title: "Startup",
+    shortDesc: "Company & LLP Incorporation",
+    description: "End-to-end support to incorporate your Private Limited, LLP, OPC, or Partnership. We handle name approvals, DIN, DSC, PAN, TAN, and all setup compliance.",
+    icon: Rocket,
+    tag: "Popular",
   },
   {
-    title: "Audit & Assurance",
-    shortDesc: "Complete transparency",
-    description: "Statutory audit, internal audit, and tax audit services ensuring complete regulatory transparency and stakeholder confidence.",
-    icon: ShieldCheck,
-    tag: null,
+    title: "Licence",
+    shortDesc: "Registrations & Certificates",
+    description: "Obtain critical business licenses and tax registrations required to operate legally. Fast-tracked applications with error-free drafting and documentation.",
+    icon: Award,
+    tag: "Essential",
   },
   {
-    title: "Business Advisory",
-    shortDesc: "Virtual CFO & strategy",
-    description: "Virtual CFO services, financial planning, investment advice, and comprehensive MIS reporting to steer smarter business decisions.",
-    icon: LineChart,
-    tag: "Premium",
-  },
-  {
-    title: "Company Registration",
-    shortDesc: "Seamless incorporation",
-    description: "Pvt Ltd, LLP, OPC, and non-profit incorporation handled end-to-end — from DIN to compliance — with zero friction.",
-    icon: Building2,
-    tag: null,
-  },
-  {
-    title: "Legal Compliance",
-    shortDesc: "ROC, FEMA & more",
-    description: "ROC filings, FEMA compliance, RBI regulations, and full secretarial services to keep your company legally spotless.",
+    title: "ROC",
+    shortDesc: "MCA Compliance & ROC Filings",
+    description: "Ensure compliance with the Ministry of Corporate Affairs (MCA). Annual filings, secretarial audits, change of directors, capital increases, and ROC notices.",
     icon: Scale,
     tag: null,
   },
   {
-    title: "Payroll Management",
-    shortDesc: "Accurate & compliant",
-    description: "Accurate salary processing, PF/ESI compliance, employee tax structuring, and complete payroll outsourcing solutions.",
-    icon: PiggyBank,
+    title: "Tax & Payroll",
+    shortDesc: "Income Tax, GST & Salaries",
+    description: "Complete direct & indirect tax management coupled with outsourced payroll processing. Maximize tax optimization and pay your employees seamlessly.",
+    icon: Calculator,
+    tag: "Most Popular",
+  },
+  {
+    title: "Miscellaneous Registration",
+    shortDesc: "Trademarks, ISO & Certifications",
+    description: "Protect your brand identity and get certified. Intellectual property filing, quality certifications, and specific registrations for tenders or scaling.",
+    icon: Compass,
     tag: null,
+  },
+  {
+    title: "OTHER Services",
+    shortDesc: "Audit, CFO Advisory & Finance",
+    description: "Statutory audit, fractional CFO leadership, business valuation, and capital raising advisory. Senior partner attention to solve your complex financial needs.",
+    icon: LineChart,
+    tag: "Premium",
   },
 ];
 

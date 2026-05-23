@@ -19,25 +19,25 @@ const reachMethods = [
   {
     icon: Phone,
     label: "Call Us",
-    primary: "+91 (22) 2345-6789",
-    secondary: "+91 98765 43210",
+    primary: "+011-49847956",
+    secondary: "Direct Partner Line",
     tag: "Mon–Sat · 9AM–7PM",
     color: "hsl(38 88% 46%)",
     bg: "hsl(38 88% 46% / 0.07)",
     border: "hsl(38 88% 46% / 0.2)",
-    action: "tel:+912223456789",
+    action: "tel:+011-49847956",
     cta: "Call Now",
   },
   {
     icon: Mail,
     label: "Email Us",
-    primary: "consult@themaxworthglobal.com",
-    secondary: "info@themaxworthglobal.com",
+    primary: "maxworthglobal@zohomail.in",
+    secondary: "Response within 2h",
     tag: "Reply within 2 hours",
     color: "hsl(210 70% 38%)",
     bg: "hsl(210 70% 38% / 0.07)",
     border: "hsl(210 70% 38% / 0.2)",
-    action: "mailto:consult@themaxworthglobal.com",
+    action: "mailto:maxworthglobal@zohomail.in",
     cta: "Send Email",
   },
   {
@@ -67,13 +67,13 @@ const reachMethods = [
   {
     icon: MessageSquare,
     label: "WhatsApp",
-    primary: "+91 98765 43210",
+    primary: "+011-49847956",
     secondary: "Quick queries & updates",
     tag: "Usually responds fast",
     color: "hsl(142 60% 36%)",
     bg: "hsl(142 60% 36% / 0.07)",
     border: "hsl(142 60% 36% / 0.2)",
-    action: "https://wa.me/919876543210",
+    action: "https://wa.me/911149847956",
     cta: "Message Now",
   },
   {
@@ -91,9 +91,8 @@ const reachMethods = [
 ];
 
 const services = [
-  "Taxation", "Audit & Assurance", "Business Advisory",
-  "Company Registration", "Legal Compliance", "Payroll Management",
-  "Virtual CFO", "Transfer Pricing",
+  "Startup", "Licence", "ROC", "Tax & Payroll",
+  "Miscellaneous Registration", "OTHER Services"
 ];
 
 const trustBadges = [
@@ -347,7 +346,7 @@ export default function ContactPage() {
                   <Send className="relative z-10 w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </button>
                 <a
-                  href="tel:+912223456789"
+                  href="tel:+011-49847956"
                   className="group flex items-center gap-2 h-12 px-6 border border-border/80 hover:border-gold/50 text-foreground text-[11px] font-bold uppercase tracking-[0.14em] transition-all"
                 >
                   <Phone className="w-3.5 h-3.5 text-gold" />
@@ -783,8 +782,8 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {[
-              { label: "Phone", value: "+91 (22) 2345-6789", icon: Phone },
-              { label: "Email", value: "consult@themaxworthglobal.com", icon: Mail },
+              { label: "Phone", value: "+011-49847956", icon: Phone },
+              { label: "Email", value: "maxworthglobal@zohomail.in", icon: Mail },
               { label: "Hours", value: "Mon–Sat 9AM–7PM", icon: Clock },
               { label: "Social", value: "@MaxworthGlobal", icon: Twitter },
             ].map((item, i) => {

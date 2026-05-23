@@ -90,7 +90,7 @@ const team = [
     quote: "Precision is our craft; trust is our currency.",
     image: imgPartner1,
     linkedin: "#",
-    email: "rakesh@maxworth.global"
+    email: "maxworthglobal@zohomail.in"
   },
   {
     name: "Priya Sharma",
@@ -100,7 +100,7 @@ const team = [
     quote: "We don't just file the past; we shape your financial future.",
     image: imgPartner2,
     linkedin: "#",
-    email: "priya@maxworth.global"
+    email: "maxworthglobal@zohomail.in"
   },
   {
     name: "Vikram Malhotra",
@@ -110,7 +110,7 @@ const team = [
     quote: "Governance is not about restricting speed; it is about building safe brakes.",
     image: imgPartner3,
     linkedin: "#",
-    email: "vikram@maxworth.global"
+    email: "maxworthglobal@zohomail.in"
   }
 ];
 
@@ -488,22 +488,22 @@ export default function AboutPage() {
               { text: "500+ Corporate Clients",  gold: false },
               { text: "₹50B+ Portfolio Audited", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
-              { text: "Audit & Assurance",       gold: true  },
-              { text: "Direct Tax Advisory",     gold: false },
-              { text: "Virtual CFO Services",    gold: true  },
-              { text: "Transfer Pricing",        gold: false },
-              { text: "Company Registration",    gold: true  },
+              { text: "Audit & Virtual CFO",     gold: true  },
+              { text: "Tax & Payroll Setup",     gold: false },
+              { text: "Startup Setup",           gold: true  },
+              { text: "ROC Compliance",          gold: false },
+              { text: "Licencing & Certificates", gold: true  },
             ] as const).concat(([
               { text: "Trusted Since 2002",     gold: false },
               { text: "ICAI Registered",         gold: true  },
               { text: "500+ Corporate Clients",  gold: false },
               { text: "₹50B+ Portfolio Audited", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
-              { text: "Audit & Assurance",       gold: true  },
-              { text: "Direct Tax Advisory",     gold: false },
-              { text: "Virtual CFO Services",    gold: true  },
-              { text: "Transfer Pricing",        gold: false },
-              { text: "Company Registration",    gold: true  },
+              { text: "Audit & Virtual CFO",     gold: true  },
+              { text: "Tax & Payroll Setup",     gold: false },
+              { text: "Startup Setup",           gold: true  },
+              { text: "ROC Compliance",          gold: false },
+              { text: "Licencing & Certificates", gold: true  },
             ] as const)).map((item, i) => (
               <span key={i} className="inline-flex items-center gap-5 mx-5 shrink-0">
                 <span

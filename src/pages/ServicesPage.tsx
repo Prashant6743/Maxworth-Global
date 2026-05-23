@@ -2,8 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
-  Calculator, ShieldCheck, LineChart, Building2, Scale, PiggyBank,
+  Calculator, LineChart, Scale,
   ArrowUpRight, ArrowRight, Phone, Mail,
+  Rocket, Award, Compass,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -11,12 +12,114 @@ import { Footer } from "@/components/Footer";
 import img11 from "@/Stock_img/2.png";
 
 const services = [
-  { id: "taxation", icon: Calculator, color: "hsl(38 88% 46%)", num: "01", title: "Taxation", tagline: "Smart tax planning that saves you more", description: "We go beyond compliance. Our tax professionals craft personalised strategies that dramatically reduce liability while keeping you fully protected under every regulation.", features: ["Income Tax Return filing (ITR 1–7)", "GST registration, returns & reconciliation", "TDS / TCS computation & filing", "Advance tax planning & optimisation", "Tax notices & litigation support", "International taxation & DTAA advisory"], stat: "₹2B+ Tax Savings" },
-  { id: "audit", icon: ShieldCheck, color: "hsl(222 55% 40%)", num: "02", title: "Audit & Assurance", tagline: "Complete transparency, zero surprises", description: "Our audit practice goes beyond a certificate — it provides stakeholders with genuine confidence, combining rigorous methodology with practical business insight.", features: ["Statutory audit under Companies Act", "Tax audit under Income Tax Act", "Internal audit & risk assessment", "Concurrent audit for banks & NBFCs", "Forensic audit & fraud investigation", "Due diligence for M&A transactions"], stat: "500+ Audits Done" },
-  { id: "advisory", icon: LineChart, color: "hsl(210 70% 42%)", num: "03", title: "Business Advisory", tagline: "Your virtual CFO, always on call", description: "Access the strategic financial leadership of a full-time CFO without the overhead. We partner with founders and CEOs to drive growth through data-led insights.", features: ["Virtual CFO & fractional finance leadership", "Financial modelling & projections", "Budget planning & variance analysis", "MIS reporting & dashboards", "Investor readiness & pitch decks", "Business valuation & feasibility studies"], stat: "120+ Businesses Scaled" },
-  { id: "registration", icon: Building2, color: "hsl(155 55% 35%)", num: "04", title: "Company Registration", tagline: "From idea to incorporation in days", description: "We handle every step of your business formation — from selecting the right structure to obtaining all post-incorporation registrations so you can start trading fast.", features: ["Private Limited, LLP & OPC incorporation", "Section 8 (NGO) & Trust registration", "Import Export Code (IEC) registration", "MSME / Udyam registration", "Professional Tax & Shops Act registration", "Post-incorporation compliance calendar"], stat: "300+ Companies Formed" },
-  { id: "compliance", icon: Scale, color: "hsl(280 50% 42%)", num: "05", title: "Legal Compliance", tagline: "Stay compliant, stay protected", description: "Navigating India's regulatory landscape is complex. Our compliance team ensures your business never misses a deadline or exposes itself to unnecessary risk.", features: ["Annual ROC filings & secretarial records", "FEMA & RBI compliance", "Board meeting & AGM management", "SEBI compliance for listed entities", "Labour law & PF/ESI registrations", "Secretarial audit (Form MR-3)"], stat: "99% On-time Filing" },
-  { id: "payroll", icon: PiggyBank, color: "hsl(10 80% 46%)", num: "06", title: "Payroll Management", tagline: "Accurate payroll, happy employees", description: "Outsource your entire payroll function to us. Every employee paid accurately, on time, and in full compliance with all statutory requirements.", features: ["Monthly payroll processing & payslips", "PF, ESI, PT & LWF compliance", "Form 16 & TDS on salary management", "Full & final settlement processing", "Employee CTC structuring for tax savings", "HR payroll software integration"], stat: "5000+ Employees Managed" },
+  {
+    id: "startup",
+    icon: Rocket,
+    color: "hsl(155 55% 35%)",
+    num: "01",
+    title: "Startup",
+    tagline: "From idea to incorporation in days",
+    description: "End-to-end support to incorporate your Private Limited, LLP, OPC, or Partnership. We handle name approvals, DIN, DSC, PAN, TAN, and all setup compliance.",
+    features: [
+      "Pvt Ltd & LLP Incorporation",
+      "OPC & Partnership Registration",
+      "Section 8 (NGO) & Trust Registration",
+      "Startup India Recognition (DPIIT)",
+      "Shareholders Agreement & Drafting",
+      "Co-founders Agreement Consultancy"
+    ],
+    stat: "300+ Startups Setup"
+  },
+  {
+    id: "licence",
+    icon: Award,
+    color: "hsl(38 88% 46%)",
+    num: "02",
+    title: "Licence",
+    tagline: "Registrations & Certifications",
+    description: "Obtain critical business licenses and tax registrations required to operate legally. Fast-tracked applications with error-free drafting and documentation.",
+    features: [
+      "GST Registration & Amendments",
+      "MSME / Udyam Registration",
+      "FSSAI (Food Licence) Application",
+      "Import Export Code (IEC) Registration",
+      "Professional Tax & Shops Act",
+      "Drug License & Trade License"
+    ],
+    stat: "1000+ Licenses Issued"
+  },
+  {
+    id: "roc",
+    icon: Scale,
+    color: "hsl(280 50% 42%)",
+    num: "03",
+    title: "ROC",
+    tagline: "Corporate Compliance & MCA Filings",
+    description: "Ensure compliance with the Ministry of Corporate Affairs (MCA). Annual filings, secretarial audits, change of directors, capital increases, and ROC notices.",
+    features: [
+      "Annual Return Filings (AOC-4 & MGT-7)",
+      "Director Addition & Resignation (DIR-12)",
+      "Registered Office Address Change",
+      "Increase in Authorized Capital",
+      "LLP Form 8 & Form 11 Filings",
+      "Company Winding Up & Strike-off"
+    ],
+    stat: "99% Filings On-Time"
+  },
+  {
+    id: "tax-payroll",
+    icon: Calculator,
+    color: "hsl(222 55% 40%)",
+    num: "04",
+    title: "Tax & Payroll",
+    tagline: "Income Tax, GST & Salaries",
+    description: "Complete direct & indirect tax management coupled with outsourced payroll processing. Maximize tax optimization and pay your employees seamlessly.",
+    features: [
+      "Income Tax Returns (ITR 1-7)",
+      "GST Returns & Reconciliation",
+      "TDS Computation & Returns",
+      "PF, ESI & PT Compliance",
+      "Monthly Salary Processing & Payslips",
+      "Tax Planning & Audit Support"
+    ],
+    stat: "₹2B+ Tax Optimised"
+  },
+  {
+    id: "misc-reg",
+    icon: Compass,
+    color: "hsl(210 70% 42%)",
+    num: "05",
+    title: "Miscellaneous Registration",
+    tagline: "Trademarks, ISO & Certifications",
+    description: "Protect your brand identity and get certified. Intellectual property filing, quality certifications, and specific registrations for tenders or scaling.",
+    features: [
+      "Trademark Registration & Class Search",
+      "ISO Certification (9001, 27001, etc.)",
+      "Copyright & Patent Filing",
+      "Geographical Indication (GI) Registrations",
+      "APEDA & RCMC Certifications",
+      "GEM Portal Registration"
+    ],
+    stat: "400+ Brands Protected"
+  },
+  {
+    id: "other",
+    icon: LineChart,
+    color: "hsl(10 80% 46%)",
+    num: "06",
+    title: "OTHER Services",
+    tagline: "Audit, CFO Advisory & Finance",
+    description: "Statutory audit, fractional CFO leadership, business valuation, and capital raising advisory. Senior partner attention to solve your complex financial needs.",
+    features: [
+      "Statutory & Internal Audits",
+      "Virtual CFO & Strategy",
+      "Business Valuation & Pitch Decks",
+      "TDS & GST Assessment Support",
+      "FEMA & RBI Regulatory Advisory",
+      "Bank Loan & Project Reports"
+    ],
+    stat: "₹5B+ Funding Advisory"
+  }
 ];
 
 const steps = [
@@ -170,6 +273,24 @@ export default function ServicesPage() {
       behavior: "smooth"
     });
   };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash) {
+        const idx = services.findIndex(s => s.id === hash);
+        if (idx !== -1) {
+          // Small timeout to allow component mounting and layout stabilization
+          setTimeout(() => {
+            scrollToService(idx);
+          }, 150);
+        }
+      }
+    };
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -767,21 +888,21 @@ export default function ServicesPage() {
               </motion.button>
 
               <a
-                href="tel:+912223456789"
+                href="tel:+011-49847956"
                 className="flex items-center gap-3 h-16 px-8 font-medium text-sm text-white/70 hover:text-white transition-colors"
                 style={{ border: "1px solid rgba(255,255,255,0.12)" }}
               >
                 <Phone className="w-4 h-4 shrink-0" style={{ color: "hsl(38 88% 55%)" }} />
-                +91 (22) 2345-6789
+                +011-49847956
               </a>
 
               <a
-                href="mailto:consult@themaxworthglobal.com"
+                href="mailto:maxworthglobal@zohomail.in"
                 className="flex items-center gap-3 h-16 px-8 font-medium text-sm text-white/70 hover:text-white transition-colors"
                 style={{ border: "1px solid rgba(255,255,255,0.12)" }}
               >
                 <Mail className="w-4 h-4 shrink-0" style={{ color: "hsl(38 88% 55%)" }} />
-                consult@themaxworthglobal.com
+                maxworthglobal@zohomail.in
               </a>
             </motion.div>
           </div>

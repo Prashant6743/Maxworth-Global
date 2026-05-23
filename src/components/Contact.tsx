@@ -11,12 +11,12 @@ const contactDetails = [
   {
     icon: Phone,
     label: "Phone",
-    lines: ["+91 (22) 2345-6789", "+91 98765 43210"],
+    lines: ["+011-49847956"],
   },
   {
     icon: Mail,
     label: "Email",
-    lines: ["consult@themaxworthglobal.com", "info@themaxworthglobal.com"],
+    lines: ["maxworthglobal@zohomail.in"],
   },
   {
     icon: Clock,
@@ -25,7 +25,7 @@ const contactDetails = [
   },
 ];
 
-const services = ["Taxation", "Audit & Assurance", "Business Advisory", "Company Registration", "Legal Compliance", "Payroll Management"];
+const services = ["Startup", "Licence", "ROC", "Tax & Payroll", "Miscellaneous Registration", "OTHER Services"];
 
 export function Contact() {
   const ref = useRef(null);

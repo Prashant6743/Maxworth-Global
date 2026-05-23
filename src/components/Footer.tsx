@@ -11,12 +11,12 @@ const links = {
     { name: "Contact", href: "/contact" },
   ],
   Services: [
-    { name: "Taxation", href: "/services#taxation" },
-    { name: "Audit & Assurance", href: "/services#audit" },
-    { name: "Business Advisory", href: "/services#advisory" },
-    { name: "Company Registration", href: "/services#registration" },
-    { name: "Legal Compliance", href: "/services#compliance" },
-    { name: "Payroll Management", href: "/services#payroll" },
+    { name: "Startup", href: "/services#startup" },
+    { name: "Licence", href: "/services#licence" },
+    { name: "ROC", href: "/services#roc" },
+    { name: "Tax & Payroll", href: "/services#tax-payroll" },
+    { name: "Miscellaneous Registration", href: "/services#misc-reg" },
+    { name: "OTHER Services", href: "/services#other" },
   ],
 };
 
@@ -88,7 +88,7 @@ export function Footer() {
           {/* Brand col — span 2 */}
           <div className="lg:col-span-2 pr-8">
             <div className="flex items-center gap-3 mb-6">
-              <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-12 w-auto object-contain" />
+              <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-16 w-auto object-contain" />
               <div className="flex flex-col">
                 <span
                   className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block"
@@ -96,7 +96,7 @@ export function Footer() {
                   The Maxworth Global
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.22em] text-white/40 mt-1.5 block font-semibold">
-                  Chartered Accountants
+                  Global LLP
                 </span>
               </div>
             </div>
@@ -142,10 +142,10 @@ export function Footer() {
                 123 Financial District<br />Suite 400, Mumbai<br />Maharashtra 400001
               </li>
               <li>
-                <a href="tel:+912223456789" className="hover:text-gold transition-colors">+91 (22) 2345-6789</a>
+                <a href="tel:+011-49847956" className="hover:text-gold transition-colors">+011-49847956</a>
               </li>
               <li>
-                <a href="mailto:consult@themaxworthglobal.com" className="hover:text-gold transition-colors">consult@themaxworthglobal.com</a>
+                <a href="mailto:maxworthglobal@zohomail.in" className="hover:text-gold transition-colors">maxworthglobal@zohomail.in</a>
               </li>
               <li className="text-white/40">Mon–Sat: 9 AM – 7 PM</li>
             </ul>

@@ -2,63 +2,109 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
-  Menu, X, ArrowUpRight, ChevronDown,
-  Calculator, ShieldCheck, LineChart,
-  Building2, Scale, PiggyBank,
+  Menu, X, ArrowUpRight, ChevronDown, ChevronRight,
+  Calculator, LineChart, Scale,
+  Rocket, Award, Compass,
 } from "lucide-react";
 import logoImg from "@/assets/Logo.png";
 
 // ─── Services mega-menu data ──────────────────────────────────────────────────
 const serviceItems = [
   {
-    icon: Calculator,
-    title: "Taxation",
-    desc: "Income Tax, GST returns & advanced tax planning",
-    color: "hsl(222 55% 18%)",
-    id: "taxation",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Audit & Assurance",
-    desc: "Statutory, internal & tax audits",
-    color: "hsl(38 88% 46%)",
-    id: "audit",
-  },
-  {
-    icon: LineChart,
-    title: "Business Advisory",
-    desc: "Virtual CFO, financial planning & MIS reports",
-    color: "hsl(210 65% 40%)",
-    id: "advisory",
-  },
-  {
-    icon: Building2,
-    title: "Company Registration",
-    desc: "Pvt Ltd, LLP, OPC incorporation end-to-end",
+    icon: Rocket,
+    title: "Startup",
+    desc: "Pvt Ltd, LLP, Partnership & NGO incorporation",
     color: "hsl(155 50% 38%)",
-    id: "registration",
+    id: "startup",
+    subItems: [
+      { name: "Microfinance Company", id: "microfinance" },
+      { name: "Public Limited Company", id: "public-ltd" },
+      { name: "Startup India Registration", id: "startup-india" },
+      { name: "One Person Company", id: "opc" },
+      { name: "Nidhi Company Registration", id: "nidhi" },
+      { name: "Farmer Producer Company", id: "producer-co" },
+      { name: "Partnership Firm Registration", id: "partnership" },
+      { name: "Private Ltd. Company Registration", id: "pvt-ltd" },
+      { name: "Sole Proprietorship", id: "sole-prop" },
+      { name: "LLP Registration", id: "llp" },
+    ]
+  },
+  {
+    icon: Award,
+    title: "Licence",
+    desc: "GST, MSME, FSSAI, IEC & trade licenses",
+    color: "hsl(38 88% 46%)",
+    id: "licence",
+    subItems: [
+      { name: "GST Registration", id: "gst" },
+      { name: "MSME / Udyam", id: "msme" },
+      { name: "FSSAI Food Licence", id: "fssai" },
+      { name: "Import Export Code (IEC)", id: "iec" },
+      { name: "Shop & Establishment (Shops Act)", id: "shops" },
+      { name: "Professional Tax (PT)", id: "pt" }
+    ]
   },
   {
     icon: Scale,
-    title: "Legal Compliance",
-    desc: "ROC, FEMA, RBI & full secretarial services",
+    title: "ROC",
+    desc: "MCA filings, secretarial audit & directorship changes",
     color: "hsl(280 45% 45%)",
-    id: "compliance",
+    id: "roc",
+    subItems: [
+      { name: "MCA Annual Returns", id: "mca" },
+      { name: "Director KYC & Changes", id: "dir" },
+      { name: "Increase in Share Capital", id: "capital" },
+      { name: "Change in Company Address", id: "address" },
+      { name: "LLP Annual Filing", id: "llp-filing" },
+      { name: "Strike Off / Winding Up", id: "strike" }
+    ]
   },
   {
-    icon: PiggyBank,
-    title: "Payroll Management",
-    desc: "Payroll processing, PF/ESI & tax structuring",
+    icon: Calculator,
+    title: "Tax & Payroll",
+    desc: "Income Tax, GST returns, TDS & salary management",
+    color: "hsl(222 55% 18%)",
+    id: "tax-payroll",
+    subItems: [
+      { name: "Income Tax Returns (ITR)", id: "itr" },
+      { name: "GST Returns & Filings", id: "gst-filings" },
+      { name: "TDS Returns & Filing", id: "tds" },
+      { name: "PF & ESI Registration & Filing", id: "pf-esi" },
+      { name: "Salary Processing & Payroll", id: "payroll-proc" },
+      { name: "Tax Audit Support", id: "tax-audit" }
+    ]
+  },
+  {
+    icon: Compass,
+    title: "Miscellaneous Registration",
+    desc: "Trademarks, ISO & DPIIT certifications",
+    color: "hsl(210 65% 40%)",
+    id: "misc-reg",
+    subItems: [
+      { name: "Trademark Registration", id: "trademark" },
+      { name: "ISO Certification", id: "iso" },
+      { name: "Copyright Filing", id: "copyright" },
+      { name: "Patent Search & Filing", id: "patent" },
+      { name: "GeM Portal Registration", id: "gem" },
+      { name: "DPIIT Startup Certificate", id: "dpiit" }
+    ]
+  },
+  {
+    icon: LineChart,
+    title: "OTHER Services",
+    desc: "Statutory audits, virtual CFO & finance advisory",
     color: "hsl(10 75% 48%)",
-    id: "payroll",
+    id: "other",
+    subItems: [
+      { name: "Statutory & Internal Audit", id: "audit-assurance" },
+      { name: "Virtual CFO Services", id: "cfo" },
+      { name: "Pitch Deck & Financial Models", id: "pitch" },
+      { name: "Business Valuations", id: "valuation" },
+      { name: "Bank Project Reports", id: "project-reports" },
+      { name: "FEMA & RBI Advisory", id: "fema" }
+    ]
   },
 ];
-
-const HIGHLIGHT_SERVICE = {
-  title: "Not sure where to start?",
-  desc: "Book a free 30-minute discovery call with our senior partners. We'll identify the right services for your business.",
-  cta: "Schedule Free Call",
-};
 
 // ─── Nav links (Services gets a hasDropdown flag) ─────────────────────────────
 const navLinks = [
@@ -69,14 +115,13 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-
-
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Home");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [hoveredCategory, setHoveredCategory] = useState<string>("Startup");
   const dropdownRef = useRef<HTMLLIElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [location, navigate] = useLocation();
@@ -175,7 +220,7 @@ export function Navbar() {
 
           {/* Logo */}
           <button onClick={() => scrollTo("#home", "Home")} className="flex items-center gap-3 group shrink-0 text-left">
-            <img src={logoImg} alt="The Maxworth Global Logo" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+            <img src={logoImg} alt="The Maxworth Global Logo" className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             <div className="flex flex-col">
               <span
                 className="font-serif font-bold text-[1.3rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold"
@@ -184,7 +229,7 @@ export function Navbar() {
                 The Maxworth Global
               </span>
               <span className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground mt-[3.5px] font-semibold">
-                Chartered Accountants
+                Global LLP
               </span>
             </div>
           </button>
@@ -231,7 +276,7 @@ export function Navbar() {
                           onMouseEnter={handleServiceMouseEnter}
                           onMouseLeave={handleServiceMouseLeave}
                           className="absolute top-[calc(100%+18px)] left-1/2 -translate-x-1/2 z-50"
-                          style={{ width: "680px" }}
+                          style={{ width: "720px" }}
                         >
                           {/* Dropdown arrow */}
                           <div
@@ -242,93 +287,226 @@ export function Navbar() {
                           <div
                             className="bg-white rounded-sm overflow-hidden"
                             style={{
-                              boxShadow: "0 24px 64px -12px rgba(15,27,58,0.18), 0 0 0 1px rgba(220,220,230,0.5)",
+                              boxShadow: "0 24px 64px -12px rgba(15,27,58,0.22), 0 0 0 1px rgba(210,210,225,0.6)",
                             }}
                           >
                             {/* Top gold accent */}
                             <div
-                              className="h-[3px]"
+                              className="h-[3px] w-full"
                               style={{ background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))" }}
                             />
 
-                            <div className="grid grid-cols-3 gap-0">
-                              {/* Left: 6 services in 2-col grid */}
-                              <div className="col-span-2 p-6 grid grid-cols-2 gap-1">
-                                {serviceItems.map((svc, i) => {
-                                  const Icon = svc.icon;
+                            {/* Two-column body */}
+                            <div style={{ display: "flex", height: "auto" }}>
+
+                              {/* ── Left column: category list ── */}
+                              <div
+                                style={{
+                                  width: "240px",
+                                  flexShrink: 0,
+                                  borderRight: "1px solid rgba(0,0,0,0.07)",
+                                  paddingTop: "10px",
+                                  paddingBottom: "10px",
+                                  background: "#fff",
+                                }}
+                              >
+                                {serviceItems.map((svc) => {
+                                  const isActive = hoveredCategory === svc.title;
                                   return (
-                                    <motion.button
+                                    <button
                                       key={svc.title}
-                                      initial={{ opacity: 0, y: 6 }}
-                                      animate={{ opacity: 1, y: 0 }}
-                                      transition={{ delay: i * 0.04 }}
-                                      onClick={() => scrollTo(`/services#${svc.id}`, "Services")}
-                                      className="group/item flex items-start gap-3 p-3.5 rounded-sm hover:bg-slate-50 transition-all duration-200 text-left"
+                                      onMouseEnter={() => setHoveredCategory(svc.title)}
+                                      onClick={() => { setDropdownOpen(false); navigate(`/services#${svc.id}`); }}
+                                      style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                        padding: "12px 20px",
+                                        textAlign: "left",
+                                        cursor: "pointer",
+                                        background: isActive ? "hsl(210 30% 97%)" : "transparent",
+                                        transition: "all 0.15s ease",
+                                        borderLeft: isActive ? "3px solid hsl(38 88% 48%)" : "3px solid transparent",
+                                      }}
                                     >
-                                      <div
-                                        className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center mt-0.5 transition-transform duration-200 group-hover/item:scale-110"
-                                        style={{ background: `${svc.color}14` }}
+                                      <span
+                                        style={{
+                                          fontSize: "13px",
+                                          fontWeight: isActive ? 700 : 500,
+                                          color: isActive ? "hsl(222 55% 18%)" : "hsl(222 20% 40%)",
+                                          letterSpacing: "0.01em",
+                                          transition: "color 0.15s ease",
+                                        }}
                                       >
-                                        <Icon className="w-4 h-4" style={{ color: svc.color }} />
-                                      </div>
-                                      <div>
-                                        <p className="text-[12px] font-bold text-foreground group-hover/item:text-primary transition-colors leading-tight">
-                                          {svc.title}
-                                        </p>
-                                        <p className="text-[11px] text-muted-foreground font-light leading-snug mt-0.5">
-                                          {svc.desc}
-                                        </p>
-                                      </div>
-                                    </motion.button>
+                                        {svc.title}
+                                      </span>
+                                      <ChevronRight
+                                        style={{
+                                          width: 14,
+                                          height: 14,
+                                          color: isActive ? "hsl(38 88% 48%)" : "hsl(222 20% 65%)",
+                                          flexShrink: 0,
+                                          transition: "color 0.15s ease",
+                                        }}
+                                      />
+                                    </button>
                                   );
                                 })}
                               </div>
 
-                              {/* Right: highlight CTA panel */}
+                              {/* ── Right column: sub-services ── */}
                               <div
-                                className="col-span-1 flex flex-col justify-between p-6"
-                                style={{ background: "hsl(222 55% 14%)" }}
+                                style={{
+                                  flex: 1,
+                                  padding: "18px 22px",
+                                  background: "hsl(210 30% 98%)",
+                                  minHeight: "300px",
+                                  overflowY: "auto",
+                                  maxHeight: "400px",
+                                }}
                               >
-                                <div>
-                                  <p
-                                    className="text-[9px] uppercase tracking-[0.22em] font-bold mb-3"
-                                    style={{ color: "hsl(38 88% 55%)" }}
-                                  >
-                                    Free Consultation
-                                  </p>
-                                  <h4 className="font-serif font-bold text-white text-[15px] leading-snug mb-3">
-                                    {HIGHLIGHT_SERVICE.title}
-                                  </h4>
-                                  <p className="text-white/55 text-[11px] font-light leading-[1.7]">
-                                    {HIGHLIGHT_SERVICE.desc}
-                                  </p>
-                                </div>
+                                {/* Category header */}
+                                {(() => {
+                                  const activeService = serviceItems.find(item => item.title === hoveredCategory) || serviceItems[0];
+                                  return (
+                                    <>
+                                      <div
+                                        style={{
+                                          marginBottom: "14px",
+                                          paddingBottom: "10px",
+                                          borderBottom: "1px solid rgba(0,0,0,0.07)",
+                                        }}
+                                      >
+                                        <span
+                                          style={{
+                                            fontSize: "9px",
+                                            textTransform: "uppercase",
+                                            letterSpacing: "0.22em",
+                                            fontWeight: 700,
+                                            color: "hsl(38 88% 48%)",
+                                          }}
+                                        >
+                                          {activeService.title}
+                                        </span>
+                                        <p
+                                          style={{
+                                            fontSize: "11px",
+                                            color: "hsl(222 20% 55%)",
+                                            marginTop: "2px",
+                                            fontWeight: 400,
+                                          }}
+                                        >
+                                          {activeService.desc}
+                                        </p>
+                                      </div>
 
-                                <button
-                                  onClick={() => scrollTo("#contact", "Contact")}
-                                  className="group/cta mt-6 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] w-full justify-between px-4 py-3 transition-all"
-                                  style={{
-                                    background: "hsl(38 88% 48% / 0.12)",
-                                    border: "1px solid hsl(38 88% 48% / 0.3)",
-                                    color: "hsl(38 88% 58%)",
-                                  }}
-                                >
-                                  <span>{HIGHLIGHT_SERVICE.cta}</span>
-                                  <ArrowUpRight className="w-3.5 h-3.5 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform" />
-                                </button>
+                                      {/* Sub-items list */}
+                                      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                                        {activeService.subItems?.map((sub) => (
+                                          <button
+                                            key={sub.name}
+                                            onClick={() => {
+                                              setDropdownOpen(false);
+                                              navigate(`/services#${activeService.id}`);
+                                            }}
+                                            className="group/sub"
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              gap: "10px",
+                                              textAlign: "left",
+                                              cursor: "pointer",
+                                              background: "none",
+                                              border: "none",
+                                              padding: "5px 0",
+                                              width: "100%",
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              const el = e.currentTarget;
+                                              el.style.paddingLeft = "4px";
+                                              const dot = el.querySelector(".sub-dot") as HTMLElement;
+                                              const label = el.querySelector(".sub-label") as HTMLElement;
+                                              if (dot) { dot.style.borderColor = "hsl(222 55% 22%)"; dot.style.background = "hsl(38 88% 55%)"; }
+                                              if (label) label.style.color = "hsl(222 55% 18%)";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              const el = e.currentTarget;
+                                              el.style.paddingLeft = "0px";
+                                              const dot = el.querySelector(".sub-dot") as HTMLElement;
+                                              const label = el.querySelector(".sub-label") as HTMLElement;
+                                              if (dot) { dot.style.borderColor = "rgba(30,50,100,0.25)"; dot.style.background = "transparent"; }
+                                              if (label) label.style.color = "hsl(222 20% 45%)";
+                                            }}
+                                          >
+                                            {/* Hollow circle bullet */}
+                                            <span
+                                              className="sub-dot"
+                                              style={{
+                                                width: "7px",
+                                                height: "7px",
+                                                borderRadius: "50%",
+                                                border: "1.5px solid rgba(30,50,100,0.25)",
+                                                flexShrink: 0,
+                                                transition: "all 0.15s ease",
+                                                background: "transparent",
+                                              }}
+                                            />
+                                            <span
+                                              className="sub-label"
+                                              style={{
+                                                fontSize: "12.5px",
+                                                fontWeight: 500,
+                                                color: "hsl(222 20% 45%)",
+                                                letterSpacing: "0.01em",
+                                                lineHeight: 1.4,
+                                                transition: "color 0.15s ease",
+                                              }}
+                                            >
+                                              {sub.name}
+                                            </span>
+                                          </button>
+                                        ))}
+                                      </div>
+                                    </>
+                                  );
+                                })()}
                               </div>
                             </div>
 
                             {/* Bottom bar */}
-                            <div className="px-6 py-3 border-t border-border/60 flex items-center justify-between bg-slate-50/60">
-                              <p className="text-[10px] text-muted-foreground font-light">
-                                All services available for startups, SMEs &amp; enterprises
+                            <div
+                              style={{
+                                padding: "10px 20px",
+                                borderTop: "1px solid rgba(0,0,0,0.07)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                background: "hsl(210 20% 98%)",
+                              }}
+                            >
+                              <p style={{ fontSize: "10px", color: "hsl(222 20% 60%)", fontWeight: 300 }}>
+                                All services for startups, SMEs &amp; enterprises
                               </p>
                               <button
                                 onClick={() => { setDropdownOpen(false); navigate("/services"); }}
-                                className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary hover:text-gold transition-colors flex items-center gap-1"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "4px",
+                                  fontSize: "10px",
+                                  fontWeight: 700,
+                                  textTransform: "uppercase",
+                                  letterSpacing: "0.15em",
+                                  color: "hsl(222 55% 22%)",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                }}
+                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "hsl(38 88% 46%)"; }}
+                                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "hsl(222 55% 22%)"; }}
                               >
-                                View All Services <ArrowUpRight className="w-3 h-3" />
+                                View All <ArrowUpRight style={{ width: 12, height: 12 }} />
                               </button>
                             </div>
                           </div>
@@ -392,7 +570,7 @@ export function Navbar() {
             {/* Top bar */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
               <div className="flex items-center gap-2">
-                <img src={logoImg} alt="The Maxworth Global Logo" className="h-8 w-auto object-contain" />
+                <img src={logoImg} alt="The Maxworth Global Logo" className="h-12 w-auto object-contain" />
                 <span className="font-serif font-bold text-lg text-primary">The Maxworth Global</span>
               </div>
               <button onClick={() => setMobileOpen(false)} className="p-2 text-foreground" aria-label="Close menu">
