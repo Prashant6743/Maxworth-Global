@@ -39,12 +39,11 @@ const services = [
     tagline: "Registrations & Certifications",
     description: "Obtain critical business licenses and tax registrations required to operate legally. Fast-tracked applications with error-free drafting and documentation.",
     features: [
-      "GST Registration & Amendments",
-      "MSME / Udyam Registration",
-      "FSSAI (Food Licence) Application",
-      "Import Export Code (IEC) Registration",
-      "Professional Tax & Shops Act",
-      "Drug License & Trade License"
+      "Import Export Code Registration",
+      "FCRA Licence",
+      "MSME Licence",
+      "FSSAI Registration and Licence",
+      "Trademark"
     ],
     stat: "1000+ Licenses Issued"
   },
@@ -57,12 +56,11 @@ const services = [
     tagline: "Corporate Compliance & MCA Filings",
     description: "Ensure compliance with the Ministry of Corporate Affairs (MCA). Annual filings, secretarial audits, change of directors, capital increases, and ROC notices.",
     features: [
-      "Annual Return Filings (AOC-4 & MGT-7)",
-      "Director Addition & Resignation (DIR-12)",
-      "Registered Office Address Change",
-      "Increase in Authorized Capital",
-      "LLP Form 8 & Form 11 Filings",
-      "Company Winding Up & Strike-off"
+      "Share Valuation",
+      "ROC Search Report",
+      "All Compliance Related to ROC & MCA",
+      "Companies Secretarial Work",
+      "Corporate Restructuring"
     ],
     stat: "99% Filings On-Time"
   },
@@ -75,12 +73,15 @@ const services = [
     tagline: "Income Tax, GST & Salaries",
     description: "Complete direct & indirect tax management coupled with outsourced payroll processing. Maximize tax optimization and pay your employees seamlessly.",
     features: [
-      "Income Tax Returns (ITR 1-7)",
-      "GST Returns & Reconciliation",
-      "TDS Computation & Returns",
-      "PF, ESI & PT Compliance",
-      "Monthly Salary Processing & Payslips",
-      "Tax Planning & Audit Support"
+      "VAT",
+      "Custom Tax",
+      "GST Registration",
+      "Domestic Tax Compliances",
+      "80G / 12A",
+      "Income Tax",
+      "Indirect Tax",
+      "Direct Tax",
+      "Tax Consultancy"
     ],
     stat: "₹2B+ Tax Optimised"
   },
@@ -93,12 +94,10 @@ const services = [
     tagline: "Trademarks, ISO & Certifications",
     description: "Protect your brand identity and get certified. Intellectual property filing, quality certifications, and specific registrations for tenders or scaling.",
     features: [
-      "Trademark Registration & Class Search",
-      "ISO Certification (9001, 27001, etc.)",
-      "Copyright & Patent Filing",
-      "Geographical Indication (GI) Registrations",
-      "APEDA & RCMC Certifications",
-      "GEM Portal Registration"
+      "Section 8 Company Registration",
+      "Partnership Deed Registration",
+      "NGO & Trust",
+      "Society"
     ],
     stat: "400+ Brands Protected"
   },
@@ -111,12 +110,10 @@ const services = [
     tagline: "Audit, CFO Advisory & Finance",
     description: "Statutory audit, fractional CFO leadership, business valuation, and capital raising advisory. Senior partner attention to solve your complex financial needs.",
     features: [
-      "Statutory & Internal Audits",
-      "Virtual CFO & Strategy",
-      "Business Valuation & Pitch Decks",
-      "TDS & GST Assessment Support",
-      "FEMA & RBI Regulatory Advisory",
-      "Bank Loan & Project Reports"
+      "International Trade",
+      "CSR Complains",
+      "FEMA Complaines",
+      "Business Consulting"
     ],
     stat: "₹5B+ Funding Advisory"
   }
