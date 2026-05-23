@@ -494,19 +494,27 @@ export default function ServicesPage() {
                       {services[activeServiceIndex]?.description}
                     </p>
 
-                    {/* Stat */}
-                    <div className="flex items-center gap-4 pt-4 border-t" style={{ borderColor: `${services[activeServiceIndex]?.color}20` }}>
+                    {/* Actions */}
+                    <div className="flex items-center gap-3 pt-4 border-t flex-wrap" style={{ borderColor: `${services[activeServiceIndex]?.color}20` }}>
                       <div>
                         <span className="text-[9px] uppercase tracking-[0.2em] text-white/30 block mb-0.5">Key Metric</span>
                         <span className="font-serif font-black text-xl text-white">{services[activeServiceIndex]?.stat}</span>
                       </div>
-                      <button
-                        onClick={() => document.getElementById("contact-cta")?.scrollIntoView({ behavior: "smooth" })}
-                        className="ml-auto flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-lg border transition-all duration-300 hover:scale-105"
-                        style={{ borderColor: services[activeServiceIndex]?.color, color: services[activeServiceIndex]?.color, background: `${services[activeServiceIndex]?.color}10` }}
-                      >
-                        Enquire <ArrowUpRight className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="ml-auto flex gap-2">
+                        <button
+                          onClick={() => navigate(`/services/${services[activeServiceIndex]?.id}/${services[activeServiceIndex]?.id === "startup" ? "pvt-ltd" : services[activeServiceIndex]?.id === "licence" ? "iec" : services[activeServiceIndex]?.id === "roc" ? "share-valuation" : services[activeServiceIndex]?.id === "tax-payroll" ? "gst" : services[activeServiceIndex]?.id === "misc-reg" ? "section-8" : "international-trade"}`)}
+                          className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-lg border transition-all duration-300 hover:scale-105"
+                          style={{ borderColor: services[activeServiceIndex]?.color, color: services[activeServiceIndex]?.color, background: `${services[activeServiceIndex]?.color}10` }}
+                        >
+                          View <ArrowUpRight className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => document.getElementById("contact-cta")?.scrollIntoView({ behavior: "smooth" })}
+                          className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-lg bg-white/8 text-white/60 border border-white/10 hover:text-white transition-all duration-300"
+                        >
+                          Enquire
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>

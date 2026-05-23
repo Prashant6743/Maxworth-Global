@@ -316,7 +316,7 @@ export function Navbar() {
                                   onClick={() => {
                                     setDropdownOpen(false);
                                     setHoveredCategory(null);
-                                    navigate(`/services#${svc.id}`);
+                                    navigate(`/services`);
                                   }}
                                   style={{
                                     width: "100%",
@@ -392,7 +392,7 @@ export function Navbar() {
                                         onClick={() => {
                                           setDropdownOpen(false);
                                           setHoveredCategory(null);
-                                          navigate(`/services#${active.id}`);
+                                          navigate(`/services/${active.id}/${sub.id}`);
                                         }}
                                         style={{
                                           display: "flex",
@@ -560,7 +560,7 @@ export function Navbar() {
                               return (
                                 <button
                                   key={svc.title}
-                                  onClick={() => scrollTo(`/services#${svc.id}`, "Services")}
+                                  onClick={() => scrollTo(`/services`, "Services")}
                                   className="flex items-center gap-3 py-2.5 px-3 rounded-sm hover:bg-slate-50 text-left transition-colors group/ms"
                                 >
                                   <div
