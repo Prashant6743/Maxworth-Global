@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import logoImg from "@/assets/Logo.png";
 
-// ─── Services mega-menu data ──────────────────────────────────────────────────
+// ─── Services flyout data ──────────────────────────────────────────────────
 const serviceItems = [
   {
     icon: Rocket,
@@ -27,7 +27,7 @@ const serviceItems = [
       { name: "Private Ltd. Company Registration", id: "pvt-ltd" },
       { name: "Sole Proprietorship", id: "sole-prop" },
       { name: "LLP Registration", id: "llp" },
-    ]
+    ],
   },
   {
     icon: Award,
@@ -41,8 +41,8 @@ const serviceItems = [
       { name: "FSSAI Food Licence", id: "fssai" },
       { name: "Import Export Code (IEC)", id: "iec" },
       { name: "Shop & Establishment (Shops Act)", id: "shops" },
-      { name: "Professional Tax (PT)", id: "pt" }
-    ]
+      { name: "Professional Tax (PT)", id: "pt" },
+    ],
   },
   {
     icon: Scale,
@@ -56,8 +56,8 @@ const serviceItems = [
       { name: "Increase in Share Capital", id: "capital" },
       { name: "Change in Company Address", id: "address" },
       { name: "LLP Annual Filing", id: "llp-filing" },
-      { name: "Strike Off / Winding Up", id: "strike" }
-    ]
+      { name: "Strike Off / Winding Up", id: "strike" },
+    ],
   },
   {
     icon: Calculator,
@@ -71,8 +71,8 @@ const serviceItems = [
       { name: "TDS Returns & Filing", id: "tds" },
       { name: "PF & ESI Registration & Filing", id: "pf-esi" },
       { name: "Salary Processing & Payroll", id: "payroll-proc" },
-      { name: "Tax Audit Support", id: "tax-audit" }
-    ]
+      { name: "Tax Audit Support", id: "tax-audit" },
+    ],
   },
   {
     icon: Compass,
@@ -86,8 +86,8 @@ const serviceItems = [
       { name: "Copyright Filing", id: "copyright" },
       { name: "Patent Search & Filing", id: "patent" },
       { name: "GeM Portal Registration", id: "gem" },
-      { name: "DPIIT Startup Certificate", id: "dpiit" }
-    ]
+      { name: "DPIIT Startup Certificate", id: "dpiit" },
+    ],
   },
   {
     icon: LineChart,
@@ -101,12 +101,12 @@ const serviceItems = [
       { name: "Pitch Deck & Financial Models", id: "pitch" },
       { name: "Business Valuations", id: "valuation" },
       { name: "Bank Project Reports", id: "project-reports" },
-      { name: "FEMA & RBI Advisory", id: "fema" }
-    ]
+      { name: "FEMA & RBI Advisory", id: "fema" },
+    ],
   },
 ];
 
-// ─── Nav links (Services gets a hasDropdown flag) ─────────────────────────────
+// ─── Nav links ─────────────────────────────────────────────────────────────
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
@@ -121,7 +121,7 @@ export function Navbar() {
   const [activeLink, setActiveLink] = useState("Home");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [hoveredCategory, setHoveredCategory] = useState<string>("Startup");
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [location, navigate] = useLocation();
@@ -137,6 +137,7 @@ export function Navbar() {
     const handleClick = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
+        setHoveredCategory(null);
       }
     };
     document.addEventListener("mousedown", handleClick);
@@ -146,14 +147,14 @@ export function Navbar() {
   const scrollTo = (href: string, name: string) => {
     setMobileOpen(false);
     setDropdownOpen(false);
+    setHoveredCategory(null);
     setActiveLink(name);
-    
+
     const hashIndex = href.indexOf("#");
     const path = hashIndex !== -1 ? href.substring(0, hashIndex) : href;
     const hash = hashIndex !== -1 ? href.substring(hashIndex) : "";
-    
+
     if (path && path !== "/") {
-      // It's a full page route like /about or /services
       if (location === path) {
         if (hash) {
           const el = document.querySelector(hash);
@@ -171,7 +172,6 @@ export function Navbar() {
         }
       }
     } else {
-      // Home page or home page anchor (e.g., "/" or "#why-us")
       const targetHash = hash || "#home";
       if (location !== "/") {
         navigate("/");
@@ -192,7 +192,10 @@ export function Navbar() {
   };
 
   const handleServiceMouseLeave = () => {
-    closeTimer.current = setTimeout(() => setDropdownOpen(false), 180);
+    closeTimer.current = setTimeout(() => {
+      setDropdownOpen(false);
+      setHoveredCategory(null);
+    }, 180);
   };
 
   return (
@@ -239,7 +242,7 @@ export function Navbar() {
             <ul className="flex items-center gap-8">
               {navLinks.map((link) =>
                 link.hasDropdown ? (
-                  // ─── Services with mega-dropdown ──────────────────────────
+                  // ─── Services with cascading flyout ───────────────────────
                   <li
                     key={link.name}
                     ref={dropdownRef}
@@ -265,251 +268,199 @@ export function Navbar() {
                       />
                     </button>
 
-                    {/* Mega dropdown */}
+                    {/* ── Cascading Flyout ── */}
                     <AnimatePresence>
                       {dropdownOpen && (
                         <motion.div
-                          initial={{ opacity: 0, y: 12, scale: 0.97 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 6 }}
+                          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                           onMouseEnter={handleServiceMouseEnter}
                           onMouseLeave={handleServiceMouseLeave}
-                          className="absolute top-[calc(100%+18px)] left-1/2 -translate-x-1/2 z-50"
-                          style={{ width: "720px" }}
+                          className="absolute top-[calc(100%+14px)] left-0 z-50"
+                          style={{ display: "flex", alignItems: "flex-start", gap: "4px" }}
                         >
-                          {/* Dropdown arrow */}
+                          {/* Caret */}
                           <div
-                            className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-white border-t border-l border-border/60"
-                            style={{ zIndex: -1 }}
+                            className="absolute -top-[7px] left-6 w-3.5 h-3.5 rotate-45 bg-white"
+                            style={{
+                              boxShadow: "-1px -1px 0 0 rgba(200,205,220,0.6)",
+                              zIndex: 1,
+                            }}
                           />
 
+                          {/* ── Panel 1: Category list ── */}
                           <div
-                            className="bg-white rounded-sm overflow-hidden"
+                            className="bg-white relative"
                             style={{
-                              boxShadow: "0 24px 64px -12px rgba(15,27,58,0.22), 0 0 0 1px rgba(210,210,225,0.6)",
+                              width: "230px",
+                              borderRadius: "6px",
+                              boxShadow: "0 8px 32px -4px rgba(15,27,58,0.18), 0 0 0 1px rgba(200,205,220,0.6)",
+                              paddingTop: "4px",
+                              paddingBottom: "8px",
+                              overflow: "hidden",
                             }}
                           >
-                            {/* Top gold accent */}
-                            <div
-                              className="h-[3px] w-full"
-                              style={{ background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))" }}
-                            />
-
-                            {/* Two-column body */}
-                            <div style={{ display: "flex", height: "auto" }}>
-
-                              {/* ── Left column: category list ── */}
-                              <div
-                                style={{
-                                  width: "240px",
-                                  flexShrink: 0,
-                                  borderRight: "1px solid rgba(0,0,0,0.07)",
-                                  paddingTop: "10px",
-                                  paddingBottom: "10px",
-                                  background: "#fff",
-                                }}
-                              >
-                                {serviceItems.map((svc) => {
-                                  const isActive = hoveredCategory === svc.title;
-                                  return (
-                                    <button
-                                      key={svc.title}
-                                      onMouseEnter={() => setHoveredCategory(svc.title)}
-                                      onClick={() => { setDropdownOpen(false); navigate(`/services#${svc.id}`); }}
-                                      style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                        padding: "12px 20px",
-                                        textAlign: "left",
-                                        cursor: "pointer",
-                                        background: isActive ? "hsl(210 30% 97%)" : "transparent",
-                                        transition: "all 0.15s ease",
-                                        borderLeft: isActive ? "3px solid hsl(38 88% 48%)" : "3px solid transparent",
-                                      }}
-                                    >
-                                      <span
-                                        style={{
-                                          fontSize: "13px",
-                                          fontWeight: isActive ? 700 : 500,
-                                          color: isActive ? "hsl(222 55% 18%)" : "hsl(222 20% 40%)",
-                                          letterSpacing: "0.01em",
-                                          transition: "color 0.15s ease",
-                                        }}
-                                      >
-                                        {svc.title}
-                                      </span>
-                                      <ChevronRight
-                                        style={{
-                                          width: 14,
-                                          height: 14,
-                                          color: isActive ? "hsl(38 88% 48%)" : "hsl(222 20% 65%)",
-                                          flexShrink: 0,
-                                          transition: "color 0.15s ease",
-                                        }}
-                                      />
-                                    </button>
-                                  );
-                                })}
-                              </div>
-
-                              {/* ── Right column: sub-services ── */}
-                              <div
-                                style={{
-                                  flex: 1,
-                                  padding: "18px 22px",
-                                  background: "hsl(210 30% 98%)",
-                                  minHeight: "300px",
-                                  overflowY: "auto",
-                                  maxHeight: "400px",
-                                }}
-                              >
-                                {/* Category header */}
-                                {(() => {
-                                  const activeService = serviceItems.find(item => item.title === hoveredCategory) || serviceItems[0];
-                                  return (
-                                    <>
-                                      <div
-                                        style={{
-                                          marginBottom: "14px",
-                                          paddingBottom: "10px",
-                                          borderBottom: "1px solid rgba(0,0,0,0.07)",
-                                        }}
-                                      >
-                                        <span
-                                          style={{
-                                            fontSize: "9px",
-                                            textTransform: "uppercase",
-                                            letterSpacing: "0.22em",
-                                            fontWeight: 700,
-                                            color: "hsl(38 88% 48%)",
-                                          }}
-                                        >
-                                          {activeService.title}
-                                        </span>
-                                        <p
-                                          style={{
-                                            fontSize: "11px",
-                                            color: "hsl(222 20% 55%)",
-                                            marginTop: "2px",
-                                            fontWeight: 400,
-                                          }}
-                                        >
-                                          {activeService.desc}
-                                        </p>
-                                      </div>
-
-                                      {/* Sub-items list */}
-                                      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                                        {activeService.subItems?.map((sub) => (
-                                          <button
-                                            key={sub.name}
-                                            onClick={() => {
-                                              setDropdownOpen(false);
-                                              navigate(`/services#${activeService.id}`);
-                                            }}
-                                            className="group/sub"
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                              gap: "10px",
-                                              textAlign: "left",
-                                              cursor: "pointer",
-                                              background: "none",
-                                              border: "none",
-                                              padding: "5px 0",
-                                              width: "100%",
-                                            }}
-                                            onMouseEnter={(e) => {
-                                              const el = e.currentTarget;
-                                              el.style.paddingLeft = "4px";
-                                              const dot = el.querySelector(".sub-dot") as HTMLElement;
-                                              const label = el.querySelector(".sub-label") as HTMLElement;
-                                              if (dot) { dot.style.borderColor = "hsl(222 55% 22%)"; dot.style.background = "hsl(38 88% 55%)"; }
-                                              if (label) label.style.color = "hsl(222 55% 18%)";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              const el = e.currentTarget;
-                                              el.style.paddingLeft = "0px";
-                                              const dot = el.querySelector(".sub-dot") as HTMLElement;
-                                              const label = el.querySelector(".sub-label") as HTMLElement;
-                                              if (dot) { dot.style.borderColor = "rgba(30,50,100,0.25)"; dot.style.background = "transparent"; }
-                                              if (label) label.style.color = "hsl(222 20% 45%)";
-                                            }}
-                                          >
-                                            {/* Hollow circle bullet */}
-                                            <span
-                                              className="sub-dot"
-                                              style={{
-                                                width: "7px",
-                                                height: "7px",
-                                                borderRadius: "50%",
-                                                border: "1.5px solid rgba(30,50,100,0.25)",
-                                                flexShrink: 0,
-                                                transition: "all 0.15s ease",
-                                                background: "transparent",
-                                              }}
-                                            />
-                                            <span
-                                              className="sub-label"
-                                              style={{
-                                                fontSize: "12.5px",
-                                                fontWeight: 500,
-                                                color: "hsl(222 20% 45%)",
-                                                letterSpacing: "0.01em",
-                                                lineHeight: 1.4,
-                                                transition: "color 0.15s ease",
-                                              }}
-                                            >
-                                              {sub.name}
-                                            </span>
-                                          </button>
-                                        ))}
-                                      </div>
-                                    </>
-                                  );
-                                })()}
-                              </div>
-                            </div>
-
-                            {/* Bottom bar */}
+                            {/* Gold top bar */}
                             <div
                               style={{
-                                padding: "10px 20px",
-                                borderTop: "1px solid rgba(0,0,0,0.07)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                background: "hsl(210 20% 98%)",
+                                height: "3px",
+                                background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))",
+                                marginBottom: "4px",
                               }}
-                            >
-                              <p style={{ fontSize: "10px", color: "hsl(222 20% 60%)", fontWeight: 300 }}>
-                                All services for startups, SMEs &amp; enterprises
-                              </p>
-                              <button
-                                onClick={() => { setDropdownOpen(false); navigate("/services"); }}
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "4px",
-                                  fontSize: "10px",
-                                  fontWeight: 700,
-                                  textTransform: "uppercase",
-                                  letterSpacing: "0.15em",
-                                  color: "hsl(222 55% 22%)",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "hsl(38 88% 46%)"; }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "hsl(222 55% 22%)"; }}
-                              >
-                                View All <ArrowUpRight style={{ width: 12, height: 12 }} />
-                              </button>
-                            </div>
+                            />
+                            {serviceItems.map((svc) => {
+                              const isActive = hoveredCategory === svc.title;
+                              return (
+                                <button
+                                  key={svc.title}
+                                  onMouseEnter={() => setHoveredCategory(svc.title)}
+                                  onClick={() => {
+                                    setDropdownOpen(false);
+                                    setHoveredCategory(null);
+                                    navigate(`/services#${svc.id}`);
+                                  }}
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    padding: "11px 18px",
+                                    textAlign: "left",
+                                    cursor: "pointer",
+                                    background: isActive ? "hsl(38 50% 96%)" : "transparent",
+                                    border: "none",
+                                    outline: "none",
+                                    transition: "background 0.12s ease",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      fontSize: "14px",
+                                      fontWeight: isActive ? 600 : 400,
+                                      color: isActive ? "hsl(222 55% 14%)" : "hsl(222 15% 38%)",
+                                      letterSpacing: "0.01em",
+                                      transition: "color 0.12s, font-weight 0.12s",
+                                    }}
+                                  >
+                                    {svc.title}
+                                  </span>
+                                  <ChevronRight
+                                    style={{
+                                      width: 13,
+                                      height: 13,
+                                      color: isActive ? "hsl(38 88% 46%)" : "hsl(222 15% 62%)",
+                                      flexShrink: 0,
+                                      transition: "color 0.12s",
+                                    }}
+                                  />
+                                </button>
+                              );
+                            })}
                           </div>
+
+                          {/* ── Panel 2: Sub-items flyout ── */}
+                          <AnimatePresence mode="wait">
+                            {hoveredCategory && (() => {
+                              const active = serviceItems.find((s) => s.title === hoveredCategory);
+                              if (!active?.subItems?.length) return null;
+                              return (
+                                <motion.div
+                                  key={hoveredCategory}
+                                  initial={{ opacity: 0, x: -6 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -4 }}
+                                  transition={{ duration: 0.14, ease: "easeOut" }}
+                                  style={{
+                                    width: "270px",
+                                    background: "#fff",
+                                    borderRadius: "6px",
+                                    boxShadow: "0 8px 32px -4px rgba(15,27,58,0.18), 0 0 0 1px rgba(200,205,220,0.6)",
+                                    overflow: "hidden",
+                                    flexShrink: 0,
+                                  }}
+                                >
+                                  {/* Gold top bar */}
+                                  <div
+                                    style={{
+                                      height: "3px",
+                                      background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))",
+                                    }}
+                                  />
+                                  <div style={{ padding: "12px 6px 12px 6px" }}>
+                                    {active.subItems.map((sub) => (
+                                      <button
+                                        key={sub.name}
+                                        onClick={() => {
+                                          setDropdownOpen(false);
+                                          setHoveredCategory(null);
+                                          navigate(`/services#${active.id}`);
+                                        }}
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          gap: "12px",
+                                          width: "100%",
+                                          padding: "9px 14px",
+                                          textAlign: "left",
+                                          cursor: "pointer",
+                                          background: "none",
+                                          border: "none",
+                                          outline: "none",
+                                          borderRadius: "4px",
+                                          transition: "background 0.1s ease",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          const btn = e.currentTarget as HTMLButtonElement;
+                                          btn.style.background = "hsl(38 50% 96%)";
+                                          const dot = btn.querySelector(".fd") as HTMLElement;
+                                          const lbl = btn.querySelector(".fl") as HTMLElement;
+                                          if (dot) dot.style.borderColor = "hsl(38 88% 46%)";
+                                          if (lbl) { lbl.style.color = "hsl(222 55% 14%)"; lbl.style.fontWeight = "600"; }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          const btn = e.currentTarget as HTMLButtonElement;
+                                          btn.style.background = "none";
+                                          const dot = btn.querySelector(".fd") as HTMLElement;
+                                          const lbl = btn.querySelector(".fl") as HTMLElement;
+                                          if (dot) dot.style.borderColor = "hsl(222 15% 68%)";
+                                          if (lbl) { lbl.style.color = "hsl(222 15% 38%)"; lbl.style.fontWeight = "400"; }
+                                        }}
+                                      >
+                                        {/* Hollow circle bullet — matches reference */}
+                                        <span
+                                          className="fd"
+                                          style={{
+                                            width: "8px",
+                                            height: "8px",
+                                            borderRadius: "50%",
+                                            border: "1.5px solid hsl(222 15% 68%)",
+                                            flexShrink: 0,
+                                            display: "inline-block",
+                                            transition: "border-color 0.12s ease",
+                                          }}
+                                        />
+                                        <span
+                                          className="fl"
+                                          style={{
+                                            fontSize: "13.5px",
+                                            fontWeight: 400,
+                                            color: "hsl(222 15% 38%)",
+                                            letterSpacing: "0.01em",
+                                            lineHeight: 1.4,
+                                            transition: "color 0.12s ease, font-weight 0.12s ease",
+                                          }}
+                                        >
+                                          {sub.name}
+                                        </span>
+                                      </button>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              );
+                            })()}
+                          </AnimatePresence>
                         </motion.div>
                       )}
                     </AnimatePresence>
