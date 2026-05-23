@@ -6,6 +6,7 @@ import {
   Calculator, ShieldCheck, LineChart,
   Building2, Scale, PiggyBank,
 } from "lucide-react";
+import logoImg from "@/assets/Logo.png";
 
 // ─── Services mega-menu data ──────────────────────────────────────────────────
 const serviceItems = [
@@ -173,16 +174,19 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
 
           {/* Logo */}
-          <button onClick={() => scrollTo("#home", "Home")} className="flex flex-col group shrink-0">
-            <span
-              className="font-serif font-bold text-[1.4rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold"
-              style={{ transition: "color 0.3s" }}
-            >
-              The Maxworth Global
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground mt-[3px] font-medium">
-              Chartered Accountants
-            </span>
+          <button onClick={() => scrollTo("#home", "Home")} className="flex items-center gap-3 group shrink-0 text-left">
+            <img src={logoImg} alt="The Maxworth Global Logo" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+            <div className="flex flex-col">
+              <span
+                className="font-serif font-bold text-[1.3rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold"
+                style={{ transition: "color 0.3s" }}
+              >
+                The Maxworth Global
+              </span>
+              <span className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground mt-[3.5px] font-semibold">
+                Chartered Accountants
+              </span>
+            </div>
           </button>
 
           {/* Desktop Nav */}
@@ -387,7 +391,10 @@ export function Navbar() {
           >
             {/* Top bar */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
-              <span className="font-serif font-bold text-xl text-primary">The Maxworth Global</span>
+              <div className="flex items-center gap-2">
+                <img src={logoImg} alt="The Maxworth Global Logo" className="h-8 w-auto object-contain" />
+                <span className="font-serif font-bold text-lg text-primary">The Maxworth Global</span>
+              </div>
               <button onClick={() => setMobileOpen(false)} className="p-2 text-foreground" aria-label="Close menu">
                 <X className="w-6 h-6" />
               </button>

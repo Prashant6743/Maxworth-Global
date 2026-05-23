@@ -1,5 +1,6 @@
 import { useLocation } from "wouter";
 import { ArrowUpRight } from "lucide-react";
+import logoDarkImg from "@/assets/logo_dark.png";
 
 const links = {
   Explore: [
@@ -86,15 +87,18 @@ export function Footer() {
 
           {/* Brand col — span 2 */}
           <div className="lg:col-span-2 pr-8">
-            <div className="mb-6">
-              <span
-                className="font-serif font-bold text-[1.5rem] tracking-tight text-white leading-none block"
-              >
-                The Maxworth Global
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.22em] text-white/40 mt-1.5 block font-medium">
-                Chartered Accountants
-              </span>
+            <div className="flex items-center gap-3 mb-6">
+              <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-12 w-auto object-contain" />
+              <div className="flex flex-col">
+                <span
+                  className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block"
+                >
+                  The Maxworth Global
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.22em] text-white/40 mt-1.5 block font-semibold">
+                  Chartered Accountants
+                </span>
+              </div>
             </div>
 
             <p className="text-white/60 text-sm font-light leading-[1.85] max-w-xs mb-8">
