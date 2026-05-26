@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import {
@@ -196,6 +197,10 @@ export default function AboutPage() {
 
   return (
     <main ref={containerRef} className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
+      <Helmet>
+        <title>About Us | The Maxworth Global</title>
+        <link rel="canonical" href="https://www.themaxworthglobal.com/about" />
+      </Helmet>
       <Navbar />
 
       {/* ─── HERO SECTION WITH 3D PARALLAX DECK (LITE THEME) ───────────────────── */}
@@ -753,7 +758,7 @@ export default function AboutPage() {
             <div className="w-12 h-[2px] bg-gold mx-auto mt-6" />
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {team.map((partner, i) => (
               <motion.div
                 key={i}
@@ -774,20 +779,21 @@ export default function AboutPage() {
                 <div className="absolute inset-0 border border-white/5 rounded-lg pointer-events-none z-20 group-hover:border-gold/30 transition-colors" />
 
                 {/* Team member portrait box */}
-                <div className="relative h-[320px] overflow-hidden bg-slate-950">
+                <div className="relative h-[380px] overflow-hidden bg-slate-950">
                   {/* Portrait photo */}
                   <img 
                     src={partner.image} 
                     alt={partner.name} 
                     className="w-full h-full object-cover grayscale brightness-[0.9] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[600ms] ease-out"
+                    style={{ objectPosition: "center top" }}
                   />
                   {/* Subtle dark gradient overlay over photo */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c122b] via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c122b] via-[#0c122b]/40 to-transparent opacity-90" />
                   
                   {/* Name overlay */}
                   <div className="absolute bottom-5 left-6 right-6">
-                    <p className="font-serif text-xl text-white font-bold tracking-wide">{partner.name}</p>
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-gold font-bold mt-1">{partner.credentials}</p>
+                    <p className="font-serif text-2xl text-white font-bold tracking-wide">{partner.name}</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-gold font-bold mt-1.5">{partner.credentials}</p>
                     <p className="text-[11px] text-white/50 font-light mt-0.5">{partner.role}</p>
                   </div>
                 </div>

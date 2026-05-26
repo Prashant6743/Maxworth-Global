@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PremiumMap } from "@/components/PremiumMap";
@@ -11,7 +12,7 @@ import {
 } from "lucide-react";
 
 // ─── Generated Assets ───────────────────────────────────────────────────────────
-import imgHero   from "@/assets/contact_hero.png";
+import imgContactBg from "@/assets/contactm.png";
 import imgForm   from "@/assets/contact_form.png";
 
 // ─── Data ───────────────────────────────────────────────────────────────────────
@@ -208,22 +209,15 @@ export default function ContactPage() {
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY       = useTransform(heroScroll, [0, 1], [0, 70]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
+  
+  const { scrollYProgress: pageScroll } = useScroll();
 
   const [submitted, setSubmitted]         = useState(false);
   const [focused, setFocused]             = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState("");
 
-  // Mouse parallax for hero image
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const springX = useSpring(mouse.x, { stiffness: 50, damping: 18 });
-  const springY = useSpring(mouse.y, { stiffness: 50, damping: 18 });
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    const h = (e: MouseEvent) =>
-      setMouse({ x: (e.clientX / window.innerWidth - 0.5) * 16, y: (e.clientY / window.innerHeight - 0.5) * 10 });
-    window.addEventListener("mousemove", h);
-    return () => window.removeEventListener("mousemove", h);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -234,35 +228,88 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
+      <Helmet>
+        <title>Contact Us | The Maxworth Global</title>
+        <link rel="canonical" href="https://www.themaxworthglobal.com/contact" />
+      </Helmet>
+      {/* ── Page Scroll Progress Animation ── */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[3px] z-[100] origin-left"
+        style={{ scaleX: pageScroll, background: "linear-gradient(90deg, hsl(38 88% 44%), hsl(38 88% 62%))" }}
+      />
+
       <Navbar />
 
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* HERO — SPLIT LAYOUT: Left text  |  Right floating graphic              */}
+      {/* HERO — PREMIUM SLANTED BACKDROP DESIGN */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
         className="relative min-h-[88vh] flex items-center pt-28 pb-16 overflow-hidden bg-background"
       >
-        {/* Animated mesh blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Mobile background: full-screen image overlay with high opacity fade */}
+        <div className="absolute inset-0 lg:hidden z-0 select-none pointer-events-none opacity-[0.09]">
+          <img
+            src={imgContactBg}
+            alt="Executive Office Background Mobile"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-background/90" />
+        </div>
+
+        {/* Desktop Slanted split background panel */}
+        <div className="absolute top-28 bottom-0 right-0 w-[55%] hidden lg:block z-10 select-none pointer-events-none">
+          {/* Slanted image container */}
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{
+              clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0% 100%)",
+            }}
+          >
+            {/* Parallax image scroll */}
+            <motion.div style={{ y: heroY }} className="w-full h-full">
+              <img
+                src={imgContactBg}
+                alt="Maxworth Executive Office Backdrop"
+                className="w-full h-full object-cover object-center scale-110 filter brightness-[0.76] saturate-[0.88] contrast-[1.02]"
+              />
+            </motion.div>
+          </div>
+
+          {/* Accent Gold Slanted Border Line matching the exact polygon edge */}
+          <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <line
+              x1="22"
+              y1="0"
+              x2="0"
+              y2="100"
+              stroke="hsl(38, 88%, 48%)"
+              strokeWidth="0.5"
+              strokeOpacity="0.45"
+            />
+          </svg>
+        </div>
+
+        {/* Animated mesh background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <motion.div className="absolute -top-[25%] -left-[20%] w-[70%] h-[70%] rounded-full animate-blob-1"
-            style={{ background: "radial-gradient(circle at 40% 40%, hsl(222 55% 85%/0.5), hsl(210 60% 90%/0.25) 60%, transparent)", filter: "blur(90px)" }} />
+            style={{ background: "radial-gradient(circle at 40% 40%, hsl(222 55% 85%/0.4), hsl(210 60% 90%/0.2) 60%, transparent)", filter: "blur(90px)" }} />
           <motion.div className="absolute -bottom-[20%] -right-[10%] w-[65%] h-[65%] rounded-full animate-blob-2"
-            style={{ background: "radial-gradient(circle at 60% 60%, hsl(38 88% 92%/0.65), hsl(36 60% 88%/0.35) 60%, transparent)", filter: "blur(90px)" }} />
-          <div className="absolute inset-0 dot-grid opacity-[0.45]" />
+            style={{ background: "radial-gradient(circle at 60% 60%, hsl(38 88% 92%/0.5), hsl(36 60% 88%/0.25) 60%, transparent)", filter: "blur(90px)" }} />
+          <div className="absolute inset-0 dot-grid opacity-[0.35]" />
         </div>
 
         {/* Gold top line */}
-        <div className="absolute top-0 left-0 right-0 h-[1px]"
+        <div className="absolute top-0 left-0 right-0 h-[1px] z-10"
           style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 46%/0.35), transparent)" }} />
 
-        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-20 w-full">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
 
-            {/* ── LEFT: Text ── */}
+            {/* ── LEFT: Text Content ── */}
             <motion.div
               style={{ y: heroY, opacity: heroOpacity }}
-              className="lg:col-span-6"
+              className="lg:col-span-6 z-10"
             >
               {/* Eyebrow pill */}
               <motion.div
@@ -355,53 +402,6 @@ export default function ContactPage() {
               </motion.div>
             </motion.div>
 
-            {/* ── RIGHT: Floating Image Graphic ── */}
-            <div className="lg:col-span-6 flex items-center justify-center relative">
-              <motion.div
-                style={{ x: springX, y: springY }}
-                initial={{ opacity: 0, scale: 0.92, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-[520px]"
-              >
-                {/* Decorative gold frame */}
-                <div className="absolute -top-4 -right-4 w-full h-full border border-gold/25 rounded-2xl pointer-events-none" />
-                <div className="absolute -bottom-4 -left-4 w-full h-full border border-border/40 rounded-2xl pointer-events-none" />
-
-                {/* Main illustration */}
-                <div className="relative rounded-2xl overflow-hidden shadow-[0_28px_80px_-16px_rgba(15,27,58,0.18)] bg-white border border-border/40">
-                  <img
-                    src={imgHero}
-                    alt="Financial advisory illustration"
-                    className="w-full h-auto object-cover"
-                  />
-                  {/* Subtle overlay gradient at bottom */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent pointer-events-none" />
-                </div>
-
-                {/* Floating stat card — top left */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20, y: 10 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ delay: 1.1, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
-                  className="absolute -left-10 top-10 glass px-5 py-3.5 shadow-xl border border-border/50"
-                >
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Response Time</p>
-                  <p className="font-serif font-bold text-xl text-primary italic">{"< 2 Hours"}</p>
-                </motion.div>
-
-                {/* Floating stat card — bottom right */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20, y: 10 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ delay: 1.3, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
-                  className="absolute -right-8 bottom-10 glass px-5 py-3.5 shadow-xl border border-gold/25"
-                >
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Satisfaction</p>
-                  <p className="font-serif font-bold text-xl text-primary italic">99.8%</p>
-                </motion.div>
-              </motion.div>
-            </div>
 
           </div>
         </div>

@@ -119,6 +119,7 @@ export function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const [mobileActiveCategory, setMobileActiveCategory] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [location, navigate] = useLocation();
@@ -554,30 +555,78 @@ export function Navbar() {
                           transition={{ duration: 0.3, ease: "easeInOut" }}
                           className="overflow-hidden"
                         >
-                          <div className="pl-4 pb-3 pt-1 border-l-2 border-gold/40 ml-2 flex flex-col gap-1">
+                          <div className="pl-4 pb-3 pt-1 border-l-2 border-gold/40 ml-2 flex flex-col gap-2">
                             {serviceItems.map((svc) => {
                               const Icon = svc.icon;
+                              const isCatActive = mobileActiveCategory === svc.title;
                               return (
-                                <button
-                                  key={svc.title}
-                                  onClick={() => scrollTo(`/services`, "Services")}
-                                  className="flex items-center gap-3 py-2.5 px-3 rounded-sm hover:bg-slate-50 text-left transition-colors group/ms"
-                                >
-                                  <div
-                                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-                                    style={{ background: `${svc.color}14` }}
+                                <div key={svc.title} className="flex flex-col">
+                                  <button
+                                    onClick={() => setMobileActiveCategory(isCatActive ? null : svc.title)}
+                                    className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-50 text-left transition-colors group/ms"
                                   >
-                                    <Icon className="w-3.5 h-3.5" style={{ color: svc.color }} />
-                                  </div>
-                                  <div>
-                                    <p className="text-[13px] font-bold text-foreground group-hover/ms:text-primary transition-colors">
-                                      {svc.title}
-                                    </p>
-                                    <p className="text-[11px] text-muted-foreground font-light leading-snug">
-                                      {svc.desc}
-                                    </p>
-                                  </div>
-                                </button>
+                                    <div className="flex items-center gap-3">
+                                      <div
+                                        className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                                        style={{ background: `${svc.color}14` }}
+                                      >
+                                        <Icon className="w-3.5 h-3.5" style={{ color: svc.color }} />
+                                      </div>
+                                      <div>
+                                        <p className="text-[13px] font-bold text-foreground group-hover/ms:text-primary transition-colors">
+                                          {svc.title}
+                                        </p>
+                                        <p className="text-[11px] text-muted-foreground font-light leading-snug">
+                                          {svc.desc}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <motion.span
+                                      animate={{ rotate: isCatActive ? 180 : 0 }}
+                                      transition={{ duration: 0.2 }}
+                                      className="text-muted-foreground/60 mr-1"
+                                    >
+                                      <ChevronDown className="w-4 h-4" />
+                                    </motion.span>
+                                  </button>
+
+                                  <AnimatePresence initial={false}>
+                                    {isCatActive && (
+                                      <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.25, ease: "easeInOut" }}
+                                        className="overflow-hidden pl-11 pr-2 flex flex-col gap-2.5 mt-1.5 mb-2"
+                                      >
+                                        {svc.subItems.map((sub) => (
+                                          <button
+                                            key={sub.id}
+                                            onClick={() => {
+                                              setMobileOpen(false);
+                                              navigate(`/services/${svc.id}/${sub.id}`);
+                                            }}
+                                            className="py-1.5 text-left rounded-md text-[13px] font-medium text-foreground/75 hover:text-primary hover:bg-slate-50 transition-colors flex items-center gap-2"
+                                          >
+                                            <span className="w-1.5 h-1.5 rounded-full border border-muted-foreground/40 shrink-0" />
+                                            {sub.name}
+                                          </button>
+                                        ))}
+                                        {/* View all option */}
+                                        <button
+                                          onClick={() => {
+                                            setMobileOpen(false);
+                                            navigate(`/services`);
+                                          }}
+                                          className="py-1.5 text-left rounded-md text-[13px] font-semibold text-gold hover:text-amber-600 transition-colors flex items-center gap-1.5"
+                                        >
+                                          <ArrowUpRight className="w-3.5 h-3.5" />
+                                          View All {svc.title} Services
+                                        </button>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
                               );
                             })}
                           </div>

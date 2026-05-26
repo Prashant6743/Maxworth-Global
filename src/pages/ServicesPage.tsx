@@ -6,6 +6,7 @@ import {
   ArrowUpRight, ArrowRight, Phone, Mail,
   Rocket, Award, Compass,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
@@ -290,7 +291,11 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background font-sans text-foreground">
+      <Helmet>
+        <title>Our Services | The Maxworth Global</title>
+        <link rel="canonical" href="https://www.themaxworthglobal.com/services" />
+      </Helmet>
       <Navbar />
 
       {/* ─── HERO: Full-bleed split with image ───────────────────── */}
