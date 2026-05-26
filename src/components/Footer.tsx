@@ -93,16 +93,16 @@ export function Footer() {
                 <span
                   className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block"
                 >
-                  The Maxworth Global
+                  The Maxworth-Global
                 </span>
                 <span className="text-[9px] uppercase tracking-[0.22em] text-white/40 mt-1.5 block font-semibold">
-                  Global LLP
+                  Consultants LLP
                 </span>
               </div>
             </div>
 
             <p className="text-white/60 text-sm font-light leading-[1.85] max-w-xs mb-8">
-              A premier firm committed to delivering financial precision, strategic compliance, and unwavering integrity since 1998.
+              A team of qualified CAs and tax professionals delivering precision-driven financial solutions across India with 15+ years of expertise.
             </p>
 
             {/* CTA */}
@@ -139,7 +139,7 @@ export function Footer() {
             <h4 className="text-[10px] uppercase tracking-[0.22em] text-white/40 font-semibold mb-6">Get In Touch</h4>
             <ul className="space-y-4 text-[13px] font-light text-white/65">
               <li className="leading-[1.7]">
-                123 Financial District<br />Suite 400, Mumbai<br />Maharashtra 400001
+                27, Sunview Apartments<br />Sector-11, Pocket-4, Dwarka<br />New Delhi-110075
               </li>
               <li>
                 <a href="tel:+011-49847956" className="hover:text-gold transition-colors">+011-49847956</a>
@@ -147,7 +147,7 @@ export function Footer() {
               <li>
                 <a href="mailto:maxworthglobal@zohomail.in" className="hover:text-gold transition-colors">maxworthglobal@zohomail.in</a>
               </li>
-              <li className="text-white/40">Mon–Sat: 9 AM – 7 PM</li>
+              <li className="text-white/40">Mon–Sat: 10 AM – 7 PM</li>
             </ul>
           </div>
         </div>
@@ -157,7 +157,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-white/30 font-light tracking-wider">
-          <p>© {new Date().getFullYear()} The Maxworth Global. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} The Maxworth-Global Consultants LLP. All rights reserved.</p>
           <div className="flex gap-6">
             <span className="cursor-pointer hover:text-white/60 transition-colors">Privacy Policy</span>
             <span className="cursor-pointer hover:text-white/60 transition-colors">Terms of Service</span>

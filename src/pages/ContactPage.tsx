@@ -2,16 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { PremiumMap } from "@/components/PremiumMap";
 import {
   MapPin, Phone, Mail, Clock,
   ArrowUpRight, CheckCircle2, Send,
-  MessageSquare, Calendar, Linkedin, Twitter,
+  MessageSquare, Calendar, Linkedin,
   ChevronRight, Shield, Award, Users,
 } from "lucide-react";
 
 // ─── Generated Assets ───────────────────────────────────────────────────────────
 import imgHero   from "@/assets/contact_hero.png";
-import imgCity   from "@/assets/contact_city.png";
 import imgForm   from "@/assets/contact_form.png";
 
 // ─── Data ───────────────────────────────────────────────────────────────────────
@@ -43,13 +43,13 @@ const reachMethods = [
   {
     icon: MapPin,
     label: "Visit Office",
-    primary: "123 Financial District, Suite 400",
-    secondary: "Mumbai, Maharashtra 400001",
+    primary: "27, Sunview Apartments, Sector-11",
+    secondary: "Pocket-4, Dwarka, New Delhi-110075",
     tag: "By appointment",
     color: "hsl(155 55% 35%)",
     bg: "hsl(155 55% 35% / 0.07)",
     border: "hsl(155 55% 35% / 0.2)",
-    action: "https://maps.google.com",
+    action: "https://maps.app.goo.gl/XkLHiRBzZwahZJ1h9",
     cta: "Get Directions",
   },
   {
@@ -96,7 +96,7 @@ const services = [
 ];
 
 const trustBadges = [
-  { icon: Shield, label: "ICAI Certified" },
+  { icon: Shield, label: "MCA Compliant" },
   { icon: Award,  label: "22+ Years" },
   { icon: Users,  label: "500+ Clients" },
 ];
@@ -724,90 +724,149 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* CITY SKYLINE BAND — Office / Location                                  */}
-      {/* ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: "hsl(222 55% 12%)" }}>
+      {/* ══ MODERN MAP SECTION ══ */}
+      <section className="relative w-full overflow-hidden" style={{ minHeight: "520px" }}>
         {/* Gold top accent */}
-        <div className="absolute top-0 left-0 right-0 h-[2px]"
-          style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 46%), transparent)" }} />
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] z-20"
+          style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 48%), transparent)" }}
+        />
 
-        {/* City image with overlay */}
-        <div className="relative h-[320px] md:h-[380px]">
-          <img
-            src={imgCity}
-            alt="Mumbai Financial District"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 40%", filter: "brightness(0.85)" }}
-          />
-          {/* Overlay gradients */}
-          <div className="absolute inset-0"
-            style={{ background: "linear-gradient(to right, hsl(222 55% 12%/0.95) 0%, hsl(222 55% 12%/0.55) 50%, transparent 100%)" }} />
-          <div className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, hsl(222 55% 12%) 0%, transparent 40%)" }} />
+        <div className="flex flex-col lg:flex-row w-full h-full" style={{ minHeight: "520px" }}>
 
-          {/* Content overlay */}
-          <div className="absolute inset-0 flex items-center">
-            <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.8 }}
-                className="max-w-lg"
+          {/* ── LEFT INFO PANEL ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 flex flex-col justify-center px-10 py-14 lg:py-0 lg:w-[38%] shrink-0"
+            style={{ background: "hsl(222 55% 12%)" }}
+          >
+            {/* Radial glow blob */}
+            <div
+              className="absolute -top-20 -left-20 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(38 88% 48% / 0.08), transparent 70%)", filter: "blur(50px)" }}
+            />
+            {/* Corner bracket decorations */}
+            <div className="absolute top-8 right-8 w-14 h-14 pointer-events-none"
+              style={{ borderTop: "1.5px solid hsl(38 88% 48% / 0.3)", borderRight: "1.5px solid hsl(38 88% 48% / 0.3)" }} />
+            <div className="absolute bottom-8 left-8 w-14 h-14 pointer-events-none"
+              style={{ borderBottom: "1.5px solid hsl(38 88% 48% / 0.3)", borderLeft: "1.5px solid hsl(38 88% 48% / 0.3)" }} />
+
+            {/* Label */}
+            <p className="text-[10px] uppercase tracking-[0.26em] font-bold mb-5" style={{ color: "hsl(38 88% 55%)" }}>
+              Find Us
+            </p>
+
+            {/* Animated pin icon + title */}
+            <motion.div
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: "hsl(38 88% 48% / 0.15)", border: "1px solid hsl(38 88% 48% / 0.3)" }}
               >
-                <p className="text-[10px] uppercase tracking-[0.28em] font-semibold text-gold mb-3">Head Office</p>
-                <h3 className="font-serif font-bold text-2xl md:text-3xl text-white leading-tight mb-4">
-                  Mumbai's Financial<br />District, Suite 400
-                </h3>
-                <p className="text-white/60 font-light text-[14px] leading-[1.75] mb-6">
-                  123 Financial District, Suite 400<br />
-                  Mumbai, Maharashtra 400001<br />
-                  Mon – Sat: 9:00 AM – 7:00 PM
-                </p>
-                <a
-                  href="https://maps.google.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-gold hover:text-white transition-colors"
-                >
-                  <MapPin className="w-3.5 h-3.5" />
-                  Get Directions
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </motion.div>
-            </div>
-          </div>
-        </div>
+                <MapPin className="w-5 h-5" style={{ color: "hsl(38 88% 55%)" }} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-white leading-snug">
+                Our Office
+              </h3>
+            </motion.div>
 
-        {/* Info cards below skyline */}
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {/* Gold divider */}
+            <motion.div
+              className="w-10 h-[1.5px] mb-6 origin-left"
+              style={{ background: "linear-gradient(90deg, hsl(38 88% 48%), transparent)" }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+            />
+
+            {/* Address */}
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              <p className="text-white/90 font-light text-[15px] leading-[1.9]">
+                27, Sunview Apartments<br />
+                Sector-11, Pocket-4, Dwarka<br />
+                New Delhi – 110075
+              </p>
+            </motion.div>
+
+            {/* Info rows */}
             {[
-              { label: "Phone", value: "+011-49847956", icon: Phone },
-              { label: "Email", value: "maxworthglobal@zohomail.in", icon: Mail },
-              { label: "Hours", value: "Mon–Sat 9AM–7PM", icon: Clock },
-              { label: "Social", value: "@MaxworthGlobal", icon: Twitter },
-            ].map((item, i) => {
-              const Ic = item.icon;
-              return (
-                <motion.div key={i}
-                  initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex items-start gap-3 p-4 rounded-xl border border-white/8 bg-white/[0.03] backdrop-blur-sm"
+              { icon: Clock, label: "Hours", value: "Mon – Sat: 10:00 AM – 7:00 PM" },
+              { icon: Phone, label: "Phone", value: "+011-49847956" },
+              { icon: Mail, label: "Email", value: "maxworthglobal@zohomail.in" },
+            ].map(({ icon: Icon, label, value }, i) => (
+              <motion.div
+                key={label}
+                className="flex items-start gap-3 mb-5"
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.45 + i * 0.1, duration: 0.45 }}
+              >
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                  style={{ background: "hsl(38 88% 48% / 0.1)", border: "1px solid hsl(38 88% 48% / 0.2)" }}
                 >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: "hsl(38 88% 46%/0.12)", border: "1px solid hsl(38 88% 46%/0.2)" }}>
-                    <Ic className="w-3.5 h-3.5" style={{ color: "hsl(38 88% 56%)" }} />
-                  </div>
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[0.2em] font-semibold text-white/35 mb-1">{item.label}</p>
-                    <p className="text-white/70 text-[12px] font-light leading-[1.6]">{item.value}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
+                  <Icon className="w-3.5 h-3.5" style={{ color: "hsl(38 88% 55%)" }} />
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-white/35 font-semibold mb-0.5">{label}</p>
+                  <p className="text-white/75 text-[13px] font-light">{value}</p>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* CTA button */}
+            <motion.a
+              href="https://maps.app.goo.gl/XkLHiRBzZwahZJ1h9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-4 inline-flex items-center gap-2 self-start font-bold uppercase tracking-[0.14em] text-[11px] px-6 py-3 transition-all"
+              style={{ background: "hsl(38 88% 48%)", color: "hsl(222 55% 12%)" }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.75, duration: 0.45 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              Get Directions
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </motion.a>
+          </motion.div>
+
+          {/* ── RIGHT MAP PANEL ── */}
+          <div className="relative flex-1 min-h-[380px] lg:min-h-0">
+            {/* Gradient bleed from left panel */}
+            <div
+              className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none"
+              style={{ background: "linear-gradient(to right, hsl(222 55% 12%), transparent)" }}
+            />
+            {/* Gradient bleed from right side into map */}
+            <div
+              className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none"
+              style={{ background: "linear-gradient(to left, hsl(222 55% 12%), transparent)" }}
+            />
+            <PremiumMap />
           </div>
         </div>
       </section>
+
 
       <Footer />
     </main>

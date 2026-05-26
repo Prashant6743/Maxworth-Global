@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "wouter";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from "framer-motion";
 import {
   ArrowLeft, ArrowUpRight, CheckCircle2, FileText,
   Phone, Mail, ChevronDown, Shield, Zap, Clock, Star,
@@ -9,7 +9,7 @@ import {
 import { getServiceBySlug, getServicesByCategory } from "@/data/services";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { useState } from "react";
+
 
 // ─── Category meta ──────────────────────────────────────────────────────────
 const categoryMeta: Record<string, { label: string; color: string; dark: string }> = {
@@ -128,132 +128,283 @@ function FAQItem({ q, a, index, color }: { q: string; a: string; index: number; 
 }
 
 // ─── Animated Process Timeline ────────────────────────────────────────────────
+// ─── Web3 Sticky Scroll Process Timeline ─────────────────────────────────────
 function ProcessTimeline({ steps, color }: { steps: { title: string; desc: string }[]; color: string }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 80%", "end 60%"],
+    target: containerRef,
+    offset: ["start start", "end end"],
   });
 
+  // Drive the vertical line fill: scaleY 0→1
+  const lineScaleY = useTransform(scrollYProgress, [0, 0.95], [0, 1]);
+
+  // Update active step as user scrolls
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    const idx = Math.min(Math.floor(v * steps.length), steps.length - 1);
+    setActiveStep(idx);
+  });
+
+
   return (
-    <div ref={ref} className="relative">
-      {/* ── Horizontal connecting line track (desktop) ── */}
-      <div className="hidden lg:block relative mb-0">
-        {/* Grey track */}
+    // Outer: this is the scrollable tall container
+    <div ref={containerRef} style={{ height: `${steps.length * 100}vh`, background: "hsl(222 55% 9%)" }} className="relative">
+
+      {/* Sticky inner viewport — starts below navbar (78px) */}
+      <div
+        className="sticky top-[78px] w-full flex flex-col"
+        style={{ background: "hsl(222 55% 9%)", overflow: "clip", height: "calc(100vh - 78px)" }}
+      >
+        {/* Ambient glow blob */}
         <div
-          className="absolute top-[22px] left-[10%] right-[10%] h-[2px] rounded-full"
-          style={{ background: `${color}18` }}
-        />
-        {/* Animated fill line */}
-        <motion.div
-          className="absolute top-[22px] left-[10%] rounded-full origin-left h-[2px]"
+          className="absolute pointer-events-none"
           style={{
-            right: "10%",
-            scaleX: scrollYProgress,
-            background: `linear-gradient(90deg, ${color}, ${color}88)`,
-            boxShadow: `0 0 12px ${color}60`,
+            top: "20%", left: "30%",
+            width: 520, height: 520,
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${color}20, transparent 70%)`,
+            filter: "blur(80px)",
+            transform: "translate(-50%,-50%)",
+          }}
+        />
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(${color}0a 1.5px, transparent 1.5px), linear-gradient(90deg, ${color}0a 1.5px, transparent 1.5px)`,
+            backgroundSize: "52px 52px",
           }}
         />
 
-        {/* Nodes row */}
-        <div className="relative flex justify-around mb-8">
-          {steps.map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ scale: 0, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.18, type: "spring", stiffness: 280, damping: 20 }}
-              className="flex flex-col items-center"
-            >
-              {/* Outer ring */}
-              <motion.div
-                className="relative w-11 h-11 rounded-full flex items-center justify-center"
-                style={{ background: `${color}14`, border: `2px solid ${color}35` }}
-                whileInView={{ borderColor: color }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.18 + 0.3 }}
-              >
-                {/* Inner filled dot */}
-                <motion.div
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-black"
-                  style={{ background: color, boxShadow: `0 0 14px ${color}70` }}
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.18 + 0.25, type: "spring" }}
-                >
-                  {i + 1}
-                </motion.div>
-                {/* Pulse ring */}
-                <motion.div
-                  className="absolute inset-0 rounded-full"
-                  style={{ border: `1.5px solid ${color}` }}
-                  animate={{ scale: [1, 1.45, 1], opacity: [0.6, 0, 0.6] }}
-                  transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.3, ease: "easeOut" }}
-                />
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Cards row ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-        {steps.map((step, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.12, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            whileHover={{ y: -7, scale: 1.02 }}
-            className="group relative rounded-2xl p-6 border overflow-hidden cursor-default"
-            style={{
-              background: "#fff",
-              borderColor: `${color}20`,
-              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
-              transition: "box-shadow 0.35s ease, border-color 0.35s ease",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.boxShadow = `0 14px 40px rgba(0,0,0,0.1), 0 0 0 2px ${color}30`;
-              (e.currentTarget as HTMLDivElement).style.borderColor = `${color}40`;
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 16px rgba(0,0,0,0.05)";
-              (e.currentTarget as HTMLDivElement).style.borderColor = `${color}20`;
-            }}
+        {/* ── Title row — sticky at top ── */}
+        <div className="relative z-20 pt-7 pb-5 text-center flex-shrink-0 border-b" style={{ borderColor: `${color}15` }}>
+          <span
+            className="text-[10px] uppercase tracking-[0.28em] font-bold mb-1.5 block"
+            style={{ color }}
           >
-            {/* Step number — visible only on mobile (desktop uses node above) */}
-            <div className="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center text-white text-[11px] font-black mb-4"
-              style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)`, boxShadow: `0 4px 14px ${color}40` }}
-            >
-              {i + 1}
-            </div>
+            How It Works
+          </span>
+          <h2 className="font-serif text-2xl md:text-3xl font-bold text-white">
+            Our Process
+          </h2>
+          <div
+            className="mt-3 mx-auto w-20 h-[2px] rounded-full"
+            style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }}
+          />
+        </div>
 
-            {/* Top stripe on hover */}
+        {/* ── Content: timeline + card, fills remaining height ── */}
+        <div className="relative flex-1 flex items-center">
+          <div className="relative w-full max-w-7xl mx-auto px-6 md:px-14 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center py-8">
+
+          {/* ── LEFT: Vertical timeline (desktop only) ── */}
+          <div className="hidden lg:flex flex-col items-center relative" style={{ minWidth: 80 }}>
+            {/* Track line (grey) */}
             <div
-              className="absolute top-0 left-0 right-0 h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl"
-              style={{ background: `linear-gradient(90deg, ${color}, ${color}44, transparent)` }}
+              className="absolute rounded-full"
+              style={{
+                top: 36, bottom: 0, left: "50%",
+                width: 2,
+                transform: "translateX(-50%)",
+                background: "rgba(255,255,255,0.07)",
+              }}
             />
-            {/* Left accent bar */}
-            <div
-              className="absolute top-4 left-0 bottom-4 w-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"
-              style={{ background: color }}
+            {/* Animated fill line */}
+            <motion.div
+              className="absolute rounded-full origin-top"
+              style={{
+                top: 36, left: "50%",
+                width: 2,
+                height: `calc(100% - 36px)`,
+                scaleY: lineScaleY,
+                transform: "translateX(-50%)",
+                background: `linear-gradient(180deg, ${color}, ${color}44)`,
+                boxShadow: `0 0 18px ${color}80`,
+              }}
             />
 
-            <h4 className="font-bold text-[14.5px] mb-2 leading-snug" style={{ color: "hsl(222 55% 13%)" }}>{step.title}</h4>
-            <p className="text-[13px] leading-[1.76]" style={{ color: "hsl(222 20% 48%)" }}>{step.desc}</p>
-
-            {/* Step # watermark */}
-            <div
-              className="absolute bottom-3 right-4 text-[3rem] font-black leading-none select-none pointer-events-none opacity-[0.05]"
-              style={{ color }}
-            >
-              {i + 1}
+            {/* Step nodes */}
+            <div className="flex flex-col gap-[52px] relative z-10">
+              {steps.map((s, i) => {
+                const done = activeStep > i;
+                const current = activeStep === i;
+                return (
+                  <div key={i} className="flex flex-col items-center">
+                    {/* Node */}
+                    <div className="relative flex items-center justify-center">
+                      {/* Outer glow ring — only on current */}
+                      {current && (
+                        <motion.div
+                          className="absolute rounded-full"
+                          style={{
+                            width: 48, height: 48,
+                            border: `1.5px solid ${color}`,
+                          }}
+                          animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0, 0.8] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                        />
+                      )}
+                      {/* Main circle */}
+                      <motion.div
+                        className="relative w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-black z-10"
+                        animate={{
+                          background: done || current ? color : "rgba(255,255,255,0.08)",
+                          boxShadow: current ? `0 0 24px ${color}90, 0 0 48px ${color}40` : "none",
+                          scale: current ? 1.15 : 1,
+                          color: done || current ? "#fff" : "rgba(255,255,255,0.3)",
+                        }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        style={{ border: `2px solid ${done || current ? color : "rgba(255,255,255,0.12)"}` }}
+                      >
+                        {i + 1}
+                      </motion.div>
+                    </div>
+                    {/* Mini label */}
+                    <motion.span
+                      className="text-[9px] mt-2 font-semibold uppercase tracking-wider text-center max-w-[60px] leading-tight"
+                      animate={{ opacity: current ? 1 : done ? 0.5 : 0.2, color: current ? color : "#fff" }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {s.title.split(" ").slice(0, 2).join(" ")}
+                    </motion.span>
+                  </div>
+                );
+              })}
             </div>
-          </motion.div>
-        ))}
+          </div>
+
+          {/* ── RIGHT: Active step 3D card ── */}
+          <div className="flex-1 flex flex-col justify-center" style={{ perspective: "1200px" }}>
+            {/* Step counter badge */}
+            <motion.div
+              className="mb-8 flex items-center gap-3"
+              key={`badge-${activeStep}`}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <span
+                className="text-[10px] uppercase tracking-[0.28em] font-bold px-3 py-1.5 rounded-full"
+                style={{ background: `${color}22`, color, border: `1px solid ${color}40` }}
+              >
+                Step {activeStep + 1} of {steps.length}
+              </span>
+            </motion.div>
+
+            {/* 3D Card — swaps on each step */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, y: 40, rotateX: 8, rotateY: -4 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0, rotateY: 0 }}
+                exit={{ opacity: 0, y: -30, rotateX: -6 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <div
+                  className="relative rounded-3xl overflow-hidden"
+                  style={{
+                    background: "linear-gradient(145deg, hsl(222 55% 15% / 0.95), hsl(222 55% 11% / 0.98))",
+                    border: `1px solid ${color}28`,
+                    boxShadow: `0 32px 80px -16px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px -20px ${color}44`,
+                    backdropFilter: "blur(24px)",
+                  }}
+                >
+                  {/* Top color accent */}
+                  <div
+                    className="h-[3px] w-full"
+                    style={{ background: `linear-gradient(90deg, ${color}, ${color}55, transparent)` }}
+                  />
+
+                  {/* Card inner */}
+                  <div className="p-10 md:p-14">
+                    {/* Big step number watermark */}
+                    <div
+                      className="absolute -top-4 -right-4 font-black select-none pointer-events-none"
+                      style={{
+                        fontSize: "11rem",
+                        lineHeight: 1,
+                        color: `${color}08`,
+                        WebkitTextStroke: `2px ${color}12`,
+                      }}
+                    >
+                      {String(activeStep + 1).padStart(2, "0")}
+                    </div>
+
+                    {/* Step badge */}
+                    <div
+                      className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-8 text-white text-xl font-black"
+                      style={{
+                        background: `linear-gradient(135deg, ${color}, ${color}bb)`,
+                        boxShadow: `0 8px 28px ${color}55`,
+                      }}
+                    >
+                      {activeStep + 1}
+                    </div>
+
+                    <h3
+                      className="font-serif text-3xl md:text-4xl font-bold mb-5 text-white leading-tight"
+                    >
+                      {steps[activeStep].title}
+                    </h3>
+                    <p
+                      className="text-[16px] leading-[1.85] max-w-xl"
+                      style={{ color: "rgba(255,255,255,0.55)" }}
+                    >
+                      {steps[activeStep].desc}
+                    </p>
+
+                    {/* Progress dots */}
+                    <div className="flex items-center gap-2 mt-10">
+                      {steps.map((_, i) => (
+                        <motion.div
+                          key={i}
+                          className="rounded-full"
+                          animate={{
+                            width: i === activeStep ? 28 : 8,
+                            height: 8,
+                            background: i <= activeStep ? color : "rgba(255,255,255,0.12)",
+                          }}
+                          transition={{ duration: 0.35 }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Corner decoration */}
+                  <div
+                    className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full pointer-events-none"
+                    style={{ background: `radial-gradient(circle, ${color}18, transparent 70%)` }}
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Scroll hint — only on first step */}
+            {activeStep === 0 && (
+              <motion.div
+                className="mt-8 flex items-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 1.2 }}
+              >
+                <motion.div
+                  animate={{ y: [0, 6, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.4, ease: "easeInOut" }}
+                  className="w-5 h-8 rounded-full border-2 flex items-start justify-center p-1"
+                  style={{ borderColor: `${color}50` }}
+                >
+                  <div className="w-1 h-2 rounded-full" style={{ background: color }} />
+                </motion.div>
+                <span className="text-[11px] uppercase tracking-widest" style={{ color: `${color}60` }}>Scroll to explore</span>
+              </motion.div>
+            )}
+          </div>
+        </div>
+        </div>
       </div>
     </div>
   );
@@ -561,43 +712,81 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ── PROCESS ───────────────────────────────────────────────────────── */}
-      <section className="py-28 relative overflow-hidden" style={{ background: BG }}>
-        {/* Full grid pattern */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `
-              linear-gradient(${meta.color}12 1.5px, transparent 1.5px),
-              linear-gradient(90deg, ${meta.color}12 1.5px, transparent 1.5px)
-            `,
-            backgroundSize: "52px 52px",
-          }}
-        />
-        {/* Radial fade center */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 80% 60% at 50% 50%, hsl(220 30% 97%) 30%, transparent 100%)" }}
-        />
+      {/* ── OVERVIEW / ABOUT THIS SERVICE ────────────────────────────────── */}
+      {service.overview && (
+        <section className="py-24 relative overflow-hidden" style={{ background: BG }}>
+          {/* Subtle grid */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: `linear-gradient(${meta.color}08 1px, transparent 1px), linear-gradient(90deg, ${meta.color}08 1px, transparent 1px)`,
+              backgroundSize: "52px 52px",
+            }}
+          />
+          <div className="max-w-7xl mx-auto px-6 md:px-14 relative z-10">
+            <div className="grid lg:grid-cols-[1.5fr_1fr] gap-16 items-start">
+              {/* Left Content */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <span className="text-[11px] uppercase tracking-[0.22em] font-bold mb-4 block" style={{ color: meta.color }}>
+                  In Detail
+                </span>
+                <h2 className="font-serif text-3xl md:text-4xl font-bold mb-8" style={{ color: TEXT }}>
+                  About {service.title}
+                </h2>
+                
+                <div className="space-y-6 text-[15px] leading-[1.85]" style={{ color: TEXT_MID }}>
+                  {service.overview.content.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
+              </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-14 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <span className="text-[11px] uppercase tracking-[0.22em] font-bold mb-4 block" style={{ color: meta.color }}>
-              How It Works
-            </span>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold" style={{ color: TEXT }}>Our Process</h2>
-          </motion.div>
+              {/* Right Highlights Panel */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="rounded-3xl p-8 border"
+                style={{
+                  background: "#fff",
+                  borderColor: `${meta.color}25`,
+                  boxShadow: `0 16px 40px -12px ${meta.color}15`,
+                }}
+              >
+                <h3 className="text-[13px] font-bold uppercase tracking-widest mb-6 pb-4 border-b" style={{ color: TEXT, borderColor: BORDER }}>
+                  Key Highlights
+                </h3>
+                
+                <ul className="space-y-6">
+                  {service.overview.highlights.map((highlight, i) => (
+                    <li key={i} className="flex flex-col gap-1.5">
+                      <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: meta.color }}>
+                        {highlight.label}
+                      </span>
+                      <span className="text-[15px] font-semibold" style={{ color: TEXT }}>
+                        {highlight.value}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+      )}
 
-          <ProcessTimeline steps={service.process} color={meta.color} />
-        </div>
+      {/* ── PROCESS — sticky Web3 scroll timeline ─────────────────────────── */}
+      <section className="relative">
+        <ProcessTimeline steps={service.process} color={meta.color} />
       </section>
 
       {/* ── DOCUMENTS ─────────────────────────────────────────────────────── */}
+
       <section className="py-28" style={{ background: "#fff" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-14">
           <div className="grid lg:grid-cols-2 gap-16 items-center">

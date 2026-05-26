@@ -79,7 +79,7 @@ function StatCard({ value, suffix, prefix = "", label, description, isInView, in
 }
 
 const stats = [
-  { value: 25, suffix: "+", label: "Years of Excellence", description: "Serving clients since 1998 with unmatched expertise" },
+  { value: 15, suffix: "+", label: "Years of Excellence", description: "15+ years of hands-on expertise serving clients across India" },
   { value: 500, suffix: "+", label: "Happy Clients", description: "Businesses that trust us with their financial future" },
   { value: 10, suffix: "k+", label: "Filings Completed", description: "Accurate filings across tax, GST, and compliance" },
   { value: 2, prefix: "₹", suffix: "B+", label: "Assets Advised", description: "Total financial assets managed and guided by our team" },

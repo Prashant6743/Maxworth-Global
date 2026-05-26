@@ -1,135 +1,100 @@
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Play, Users, ShieldCheck, Cloud, TrendingUp } from "lucide-react";
+import { useLocation } from "wouter";
+import ourStoryImg from "../assets/ourstory.png";
 
 const highlights = [
-  "Two decades of partner-led expertise",
-  "ICAI registered & fully compliant",
-  "Tech-forward cloud-based systems",
-  "Proactive advisory, not just reactive filing",
+  {
+    icon: Users,
+    title: "Two decades of partner-led expertise",
+    desc: "Seasoned professionals delivering trusted guidance.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Fully compliant with all regulations",
+    desc: "Ensuring complete adherence to evolving laws.",
+  },
+  {
+    icon: Cloud,
+    title: "Tech-forward cloud systems",
+    desc: "Smart, secure & efficient solutions for modern businesses.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Proactive advisory, not just filing",
+    desc: "Actionable insights that drive real growth.",
+  },
 ];
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
-  const isTextInView = useInView(textRef, { once: true, amount: 0.2 });
+  const imageRef = useRef<HTMLDivElement>(null);
 
+  const isInView = useInView(sectionRef, { once: true, amount: 0.08 });
+  const isTextInView = useInView(textRef, { once: true, amount: 0.15 });
+  const isImageInView = useInView(imageRef, { once: true, amount: 0.15 });
+
+  // Parallax on the image
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["4%", "-8%"]);
 
-  const imgY = useTransform(scrollYProgress, [0, 1], [30, -50]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const [, navigate] = useLocation();
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-20 lg:py-32 overflow-hidden bg-background"
+      className="relative overflow-visible bg-background"
     >
-      {/* Faint background grid */}
-      <div className="absolute inset-0 dot-grid opacity-40 pointer-events-none" />
+      {/* ── MAIN SPLIT ROW ── */}
+      <div className="relative flex flex-col lg:flex-row min-h-[520px] overflow-hidden">
 
-      {/* Large decorative number */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute right-0 top-0 select-none pointer-events-none overflow-hidden"
-      >
-        <span
-          className="font-serif font-bold text-[22rem] leading-none text-primary opacity-[0.025]"
-          style={{ lineHeight: 0.8 }}
+        {/* ── LEFT: Text content ── */}
+        <div
+          ref={textRef}
+          className="relative z-10 flex flex-col justify-center px-8 md:px-12 lg:px-16 xl:px-20 py-16 lg:py-20 w-full lg:w-[52%] xl:w-[50%] bg-background"
         >
-          25
-        </span>
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-        {/* Section label */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-[11px] uppercase tracking-[0.22em] font-semibold text-gold mb-4 text-center"
-        >
-          Our Story
-        </motion.p>
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="w-12 h-[2px] mx-auto mb-20 origin-left"
-          style={{ background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))" }}
-        />
-
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-
-          {/* Image Column */}
-          <div className="relative h-[580px] w-full max-w-[480px] mx-auto lg:mx-0 hidden lg:block">
-            {/* Animated gold frame */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8 }}
-              className="absolute top-6 -right-6 w-full h-full"
-              style={{ border: "1.5px solid hsl(38 88% 48% / 0.45)" }}
+          {/* Section label — fade + slide down */}
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={isTextInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="flex items-center gap-2 mb-5"
+          >
+            <motion.span
+              className="w-2 h-2 rounded-full"
+              style={{ background: "hsl(38 88% 48%)" }}
+              initial={{ scale: 0 }}
+              animate={isTextInView ? { scale: 1 } : {}}
+              transition={{ duration: 0.35, delay: 0.15, type: "spring", stiffness: 300 }}
             />
+            <span className="text-[11px] uppercase tracking-[0.22em] font-bold text-gold">
+              Our Story
+            </span>
+          </motion.div>
 
-            {/* Main image with parallax */}
-            <motion.div
-              style={{ y: imgY }}
-              className="absolute inset-0 overflow-hidden shadow-[0_24px_64px_-12px_rgba(15,27,58,0.2)]"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&w=900&q=85"
-                alt="Senior partner at desk"
-                className="w-full h-full object-cover"
-                style={{ filter: "contrast(1.05) saturate(0.85)" }}
-              />
-              {/* Bottom dark gradient */}
-              <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(15,27,58,0.55), transparent)" }} />
-            </motion.div>
+          {/* Gold divider — scale in from left */}
+          <motion.div
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={isTextInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.55, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="w-10 h-[2px] mb-8 origin-left"
+            style={{ background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))" }}
+          />
 
-            {/* Overlapping accent image */}
-            <motion.div
-              initial={{ opacity: 0, x: 30, y: 20 }}
-              animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
-              transition={{ delay: 0.5, duration: 0.8, type: "spring", stiffness: 100, damping: 20 }}
-              className="absolute -bottom-10 -right-10 w-56 h-56 z-20 overflow-hidden"
-              style={{
-                border: "4px solid white",
-                boxShadow: "0 12px 40px -8px rgba(15,27,58,0.25)",
-              }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1554200876-56c2f25224fa?auto=format&fit=crop&w=600&q=85"
-                alt="Document review"
-                className="w-full h-full object-cover"
-                style={{ filter: "contrast(1.05) saturate(0.85)" }}
-              />
-            </motion.div>
-
-            {/* Partner name badge */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              className="absolute bottom-5 left-5 z-30 glass px-5 py-3"
-              style={{ border: "1px solid hsl(38 88% 48% / 0.3)" }}
-            >
-              <p className="font-serif text-white text-lg font-bold italic">R. Maxworth</p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/70 font-medium">Senior Partner, FCA</p>
-            </motion.div>
-          </div>
-
-          {/* Text Column */}
-          <div ref={textRef} className="relative">
+          {/* Headline — word by word reveal from clip */}
+          <div className="overflow-hidden mb-8">
             <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={isTextInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-serif font-bold text-4xl md:text-5xl lg:text-[3.2rem] text-foreground mb-8 leading-[1.1]"
+              initial={{ y: "100%", opacity: 0 }}
+              animate={isTextInView ? { y: "0%", opacity: 1 } : {}}
+              transition={{ duration: 0.75, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="font-serif font-bold leading-[1.1] text-foreground"
+              style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
             >
               A legacy built on{" "}
               <span
@@ -145,82 +110,198 @@ export function About() {
               </span>{" "}
               &amp; sharp acumen.
             </motion.h2>
+          </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isTextInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="text-base text-muted-foreground font-light leading-[1.9] mb-5"
-            >
-              For over two decades, The Maxworth Global has stood as a pillar of financial clarity and strategic compliance. We believe that accounting is more than numbers — it's about providing peace of mind and unlocking your growth potential.
-            </motion.p>
+          {/* Body paragraph 1 — fade + rise */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isTextInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.32 }}
+            className="text-sm text-muted-foreground font-light leading-[1.85] mb-4 max-w-[440px]"
+          >
+            We are a team of qualified Chartered Accountants, tax professionals, and business advisors committed to delivering precision-driven financial solutions. Based in Delhi and operating as PAN India service providers, we partner with clients across all sectors — from early-stage startups to established corporations.
+          </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isTextInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="text-base text-muted-foreground font-light leading-[1.9] mb-10"
-            >
-              Our approach marries strict precision with warm, accessible partnership. We don't just audit and file — we advise, protect, and propel your business forward.
-            </motion.p>
+          {/* Body paragraph 2 */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isTextInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.40 }}
+            className="text-sm text-muted-foreground font-light leading-[1.85] mb-10 max-w-[440px]"
+          >
+            Our philosophy is simple: every business deserves expert guidance, not just compliance. We go beyond the numbers to provide insights that drive real growth — with 15+ years of collective expertise behind every recommendation.
+          </motion.p>
 
-            {/* Highlights checklist */}
-            <div className="space-y-4 mb-12">
-              {highlights.map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={isTextInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <CheckCircle2 className="w-4.5 h-4.5 text-gold shrink-0" style={{ width: 18, height: 18 }} />
-                  <span className="text-sm font-medium text-foreground">{item}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Pull Quote */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isTextInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.65 }}
-              className="relative pl-8 mb-12 before:content-[''] before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[3px] before:rounded-full"
-              style={{ borderLeft: "3px solid hsl(38 88% 48%)" }}
-            >
-              <span
-                className="absolute -top-4 left-4 font-serif text-6xl leading-none"
-                style={{ color: "hsl(38 88% 48%)", opacity: 0.5 }}
-              >
-                "
-              </span>
-              <p className="font-serif text-xl text-foreground italic leading-snug">
-                Our mission is to translate complex regulations into clear strategies, letting our clients focus entirely on what they do best.
-              </p>
-              <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                — R. Maxworth, Senior Partner FCA
-              </p>
-            </motion.div>
-
-            <motion.button
-              initial={{ opacity: 0, y: 16 }}
-              animate={isTextInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="group relative h-13 px-8 overflow-hidden font-semibold uppercase tracking-[0.14em] text-[12px] flex items-center gap-2 transition-all"
+          {/* CTA Buttons — slide up */}
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={isTextInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-5"
+          >
+            {/* Primary button */}
+            <button
+              id="about-cta-discover"
+              onClick={() => navigate("/about")}
+              className="group relative flex items-center justify-center gap-2 overflow-hidden font-semibold uppercase tracking-[0.13em] text-[11px] text-white transition-all hover:shadow-[0_8px_28px_-6px_rgba(15,27,58,0.45)]"
               style={{
-                height: "3.25rem",
-                border: "1.5px solid hsl(222 55% 18%)",
-                color: "hsl(222 55% 18%)",
+                background: "hsl(222 55% 18%)",
+                height: "3rem",
+                paddingLeft: "1.75rem",
+                paddingRight: "1.75rem",
               }}
             >
               <span
-                className="absolute inset-0 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-350 ease-out"
-                style={{ background: "hsl(222 55% 18%)" }}
+                className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-[360ms] ease-out"
+                style={{ background: "linear-gradient(90deg, hsl(38 88% 40%), hsl(38 88% 54%))" }}
               />
-              <span className="relative z-10 group-hover:text-white transition-colors">Speak with a Partner</span>
-            </motion.button>
-          </div>
+              <span className="relative z-10">Discover Our Journey</span>
+              <ArrowUpRight className="relative z-10 w-3.5 h-3.5" />
+            </button>
+
+            {/* Secondary ghost button */}
+            <button
+              id="about-cta-watch"
+              className="group flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.13em] text-foreground/75 hover:text-primary transition-colors"
+            >
+              <span className="w-9 h-9 rounded-full border border-border/70 flex items-center justify-center group-hover:border-gold/60 transition-colors">
+                <Play className="w-3 h-3 fill-foreground/60 group-hover:fill-gold transition-colors" />
+              </span>
+              Watch Our Story
+            </button>
+          </motion.div>
+        </div>
+
+        {/* ── RIGHT: Image with diagonal clip + quote card ── */}
+        <div
+          ref={imageRef}
+          className="relative w-full lg:w-[58%] xl:w-[60%] min-h-[440px] lg:min-h-0 overflow-hidden pb-14"
+        >
+          {/* Diagonal clip container — clip-path wipe reveal */}
+          <motion.div
+            className="absolute inset-0 z-0"
+            style={{ clipPath: "polygon(6% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
+            initial={{ clipPath: "polygon(6% 0%, 6% 0%, 6% 100%, 0% 100%)" }}
+            animate={isImageInView
+              ? { clipPath: "polygon(6% 0%, 100% 0%, 100% 100%, 0% 100%)" }
+              : {}}
+            transition={{ duration: 1.1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Parallax image */}
+            <motion.img
+              src={ourStoryImg}
+              alt="Our Story — architectural path to city skyline at sunset"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: "center center", y: imgY }}
+              initial={{ scale: 1.08, opacity: 0 }}
+              animate={isImageInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+            />
+            {/* Subtle dark overlay */}
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(135deg, rgba(15,27,58,0.2) 0%, transparent 55%)" }}
+            />
+          </motion.div>
+
+          {/* Quote card — spring slide in from bottom-right */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: 30, scale: 0.92 }}
+            animate={isImageInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
+            transition={{
+              delay: 0.9,
+              duration: 0.8,
+              type: "spring",
+              stiffness: 100,
+              damping: 18,
+            }}
+            className="absolute bottom-24 right-16 lg:bottom-28 lg:right-20 z-20 max-w-[280px] p-6 shadow-2xl"
+            style={{
+              background: "hsl(222 55% 15%)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            {/* Animated gold quote mark */}
+            <motion.span
+              className="block font-serif text-5xl leading-none mb-3"
+              style={{ color: "hsl(38 88% 52%)" }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={isImageInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 1.2, duration: 0.4 }}
+            >
+              "
+            </motion.span>
+
+            {/* Quote text — fade line by line */}
+            <motion.p
+              className="font-serif text-[15px] italic text-white/90 leading-snug"
+              initial={{ opacity: 0 }}
+              animate={isImageInView ? { opacity: 1 } : {}}
+              transition={{ delay: 1.35, duration: 0.55 }}
+            >
+              Our mission is to translate complex regulations into clear strategies, letting our clients focus entirely on what they do best.
+            </motion.p>
+
+            {/* Subtle gold bottom accent line */}
+            <motion.div
+              className="mt-4 h-[2px] origin-left"
+              style={{ background: "linear-gradient(90deg, hsl(38 88% 52%), transparent)" }}
+              initial={{ scaleX: 0 }}
+              animate={isImageInView ? { scaleX: 1 } : {}}
+              transition={{ delay: 1.5, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── BOTTOM: Highlights floating card overlay ── */}
+      <div className="relative z-20 px-6 md:px-10 pb-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-border/30 rounded-2xl bg-white shadow-[0_8px_40px_-8px_rgba(15,27,58,0.14)] border border-border/20"
+            style={{ marginTop: "-3.5rem" }}
+          >
+            {highlights.map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.65 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-start gap-4 px-6 py-7 lg:px-8 group"
+              >
+                {/* Icon circle — scale-in with slight bounce */}
+                <motion.div
+                  className="shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-colors duration-300 group-hover:bg-gold/20"
+                  style={{ background: "hsl(38 88% 48% / 0.10)" }}
+                  initial={{ scale: 0, rotate: -15 }}
+                  animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                  transition={{
+                    delay: 0.72 + i * 0.1,
+                    duration: 0.45,
+                    type: "spring",
+                    stiffness: 280,
+                    damping: 18,
+                  }}
+                >
+                  <item.icon
+                    className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                    style={{ color: "hsl(38 88% 42%)" }}
+                  />
+                </motion.div>
+                <div>
+                  <p className="text-sm font-bold text-foreground leading-snug mb-1">
+                    {item.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground font-light leading-snug">
+                    {item.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

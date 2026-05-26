@@ -29,7 +29,7 @@ const testimonials = [
   {
     name: "Arjun Mehra",
     role: "CEO, TechVentures Pvt Ltd",
-    text: "The Maxworth Global transformed how we approach compliance. Their proactive advisory saved us lakhs in penalties.",
+    text: "The Maxworth-Global Consultants LLP transformed how we approach compliance. Their proactive advisory saved us lakhs in penalties.",
     rating: 5,
   },
   {

@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircle2, MapPin, Phone, Mail, Clock, ArrowUpRight } from "lucide-react";
+import { PremiumMap } from "./PremiumMap";
 
 const contactDetails = [
   {
     icon: MapPin,
     label: "Office",
-    lines: ["123 Financial District, Suite 400", "Mumbai, Maharashtra 400001"],
+    lines: ["27, Sunview Apartments, Sector-11", "Pocket-4, Dwarka, New Delhi-110075"],
   },
   {
     icon: Phone,
@@ -21,7 +22,7 @@ const contactDetails = [
   {
     icon: Clock,
     label: "Office Hours",
-    lines: ["Mon – Sat: 9:00 AM – 7:00 PM", "Sun: By Appointment"],
+    lines: ["Mon – Sat: 10:00 AM – 7:00 PM"],
   },
 ];
 
@@ -274,6 +275,153 @@ export function Contact() {
           </motion.div>
         </div>
       </div>
+
+      {/* ══ MODERN MAP SECTION ══ */}
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: "520px" }}
+      >
+        {/* Gold top accent */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] z-20"
+          style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 48%), transparent)" }}
+        />
+
+        <div className="flex flex-col lg:flex-row w-full h-full" style={{ minHeight: "520px" }}>
+
+          {/* ── LEFT INFO PANEL ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 flex flex-col justify-center px-10 py-14 lg:py-0 lg:w-[38%] shrink-0"
+            style={{ background: "hsl(222 55% 12%)" }}
+          >
+            {/* Radial glow blob */}
+            <div
+              className="absolute -top-20 -left-20 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: "radial-gradient(circle, hsl(38 88% 48% / 0.08), transparent 70%)", filter: "blur(50px)" }}
+            />
+            {/* Corner bracket decoration */}
+            <div className="absolute top-8 right-8 w-14 h-14 pointer-events-none"
+              style={{ borderTop: "1.5px solid hsl(38 88% 48% / 0.3)", borderRight: "1.5px solid hsl(38 88% 48% / 0.3)" }} />
+            <div className="absolute bottom-8 left-8 w-14 h-14 pointer-events-none"
+              style={{ borderBottom: "1.5px solid hsl(38 88% 48% / 0.3)", borderLeft: "1.5px solid hsl(38 88% 48% / 0.3)" }} />
+
+            {/* Label */}
+            <p className="text-[10px] uppercase tracking-[0.26em] font-bold mb-5" style={{ color: "hsl(38 88% 55%)" }}>
+              Find Us
+            </p>
+
+            {/* Animated pin icon */}
+            <motion.div
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: "hsl(38 88% 48% / 0.15)", border: "1px solid hsl(38 88% 48% / 0.3)" }}
+              >
+                <MapPin className="w-5 h-5" style={{ color: "hsl(38 88% 55%)" }} />
+              </div>
+              <h3 className="font-serif font-bold text-xl text-white leading-snug">
+                Our Office
+              </h3>
+            </motion.div>
+
+            {/* Gold divider */}
+            <motion.div
+              className="w-10 h-[1.5px] mb-6 origin-left"
+              style={{ background: "linear-gradient(90deg, hsl(38 88% 48%), transparent)" }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.35, duration: 0.5 }}
+            />
+
+            {/* Address */}
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              <p className="text-white/90 font-light text-[15px] leading-[1.9]">
+                27, Sunview Apartments<br />
+                Sector-11, Pocket-4, Dwarka<br />
+                New Delhi – 110075
+              </p>
+            </motion.div>
+
+            {/* Info rows */}
+            {[
+              { icon: Clock, label: "Hours", value: "Mon – Sat: 10:00 AM – 7:00 PM" },
+              { icon: Phone, label: "Phone", value: "+011-49847956" },
+              { icon: Mail, label: "Email", value: "maxworthglobal@zohomail.in" },
+            ].map(({ icon: Icon, label, value }, i) => (
+              <motion.div
+                key={label}
+                className="flex items-start gap-3 mb-5"
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.45 + i * 0.1, duration: 0.45 }}
+              >
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                  style={{ background: "hsl(38 88% 48% / 0.1)", border: "1px solid hsl(38 88% 48% / 0.2)" }}
+                >
+                  <Icon className="w-3.5 h-3.5" style={{ color: "hsl(38 88% 55%)" }} />
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-white/35 font-semibold mb-0.5">{label}</p>
+                  <p className="text-white/75 text-[13px] font-light">{value}</p>
+                </div>
+              </motion.div>
+            ))}
+
+            {/* CTA */}
+            <motion.a
+              href="https://maps.app.goo.gl/XkLHiRBzZwahZJ1h9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-4 inline-flex items-center gap-2 self-start font-bold uppercase tracking-[0.14em] text-[11px] px-6 py-3 transition-all"
+              style={{ background: "hsl(38 88% 48%)", color: "hsl(222 55% 12%)" }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.75, duration: 0.45 }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <MapPin className="w-3.5 h-3.5" />
+              Get Directions
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </motion.a>
+          </motion.div>
+
+          {/* ── RIGHT MAP PANEL ── */}
+          <div className="relative flex-1 min-h-[380px] lg:min-h-0">
+            {/* Gradient bleed from left panel into map */}
+            <div
+              className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none"
+              style={{ background: "linear-gradient(to right, hsl(222 55% 12%), transparent)" }}
+            />
+            {/* Gradient bleed from right side into map */}
+            <div
+              className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none"
+              style={{ background: "linear-gradient(to left, hsl(222 55% 12%), transparent)" }}
+            />
+            <PremiumMap />
+          </div>
+        </div>
+      </div>
+
     </section>
   );
 }

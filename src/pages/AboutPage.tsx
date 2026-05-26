@@ -11,7 +11,6 @@ import {
 // Stock images (partners)
 import imgPartner1 from "@/Stock_img/13.png";
 import imgPartner2 from "@/Stock_img/10.png";
-import imgPartner3 from "@/Stock_img/16.png";
 
 // Generated hero collage images
 import imgOffice from "@/assets/about_office.png";
@@ -49,33 +48,33 @@ const values = [
 // Timeline milestones data
 const milestones = [
   {
-    year: "2002",
+    year: "Foundation",
     title: "The Genesis",
-    desc: "Founded in Mumbai with two visionary partners, focusing on corporate taxation and financial advisory for traditional industrial businesses.",
+    desc: "Founded in Delhi with a vision to provide expert financial guidance to startups and SMEs, focusing on taxation, compliance, and advisory services.",
     tag: "Foundation"
   },
   {
-    year: "2008",
+    year: "Early Years",
     title: "Audit & Assurance Wing",
-    desc: "Launched our full-scale statutory and tax audit practice, securing regulatory compliance registrations and growing our client base into manufacturing.",
+    desc: "Launched full-scale statutory and tax audit practice, securing regulatory compliance registrations and growing our client base across diverse industries.",
     tag: "Expansion"
   },
   {
-    year: "2014",
-    title: "Cloud & Digital Leap",
-    desc: "Pioneered the transition of all accounting files to cloud-based ledgers, providing clients with real-time financial tracking and dashboard reporting.",
-    tag: "Tech Integration"
+    year: "Growth Phase",
+    title: "PAN India Presence",
+    desc: "Expanded operations to serve clients across the length and breadth of India, establishing ourselves as a trusted partner for businesses of all sizes.",
+    tag: "Scale"
   },
   {
-    year: "2020",
-    title: "Rebranding to Maxworth Global",
-    desc: "Consolidated our partner networks under a single unified brand. Expanded services to international taxation, transfer pricing, and virtual CFO solutions.",
-    tag: "Strategic Pivot"
+    year: "Digital Era",
+    title: "Cloud & Digital Leap",
+    desc: "Pioneered the transition to cloud-based accounting systems, providing clients with real-time financial tracking and digital-first compliance workflows.",
+    tag: "Tech Integration"
   },
   {
     year: "Present Day",
     title: "Empowering Modern Enterprises",
-    desc: "Servicing over 500 active corporate clients, including high-growth startups, SMEs, and listed entities, managing an audited portfolio of ₹50B+.",
+    desc: "Servicing 500+ active clients including high-growth startups, SMEs, and established enterprises with comprehensive financial and compliance solutions across India.",
     tag: "Market Leaders"
   }
 ];
@@ -83,32 +82,22 @@ const milestones = [
 // Partners team data
 const team = [
   {
-    name: "Rakesh Maxworth",
-    role: "Founder & Managing Partner",
-    credentials: "FCA, DISA (ICAI)",
-    bio: "With over 24 years of experience, Rakesh specializes in direct tax dispute resolution, corporate restructurings, and strategic advisory. He serves as an advisor to several board rooms.",
+    name: "CA Sachin Rana",
+    role: "Founder",
+    credentials: "CA · LLB · M.Com (Finance & Taxation)",
+    bio: "CA Sachin Rana is the Founder of Maxworth Global Consultants LLP and brings a rare blend of financial, legal, and taxation expertise. A qualified Chartered Accountant (CA), Law Graduate (LLB), and Master of Commerce in Finance and Taxation (M.Com), he possesses a multi-disciplinary foundation that allows him to address complex business challenges from every angle. With over 15 years of hands-on experience, he has advised a diverse clientele — from individual taxpayers and startups to large enterprises — across direct and indirect taxation, financial structuring, business compliance, and legal advisory.",
     quote: "Precision is our craft; trust is our currency.",
     image: imgPartner1,
     linkedin: "#",
     email: "maxworthglobal@zohomail.in"
   },
   {
-    name: "Priya Sharma",
-    role: "Partner – Taxation & CFO Advisory",
-    credentials: "ACA, B.Com (Hons)",
-    bio: "Priya leads our tax structuring and virtual CFO practices. She has managed complex compliance setups for over 100 high-growth tech startups and multinational subsidiaries.",
+    name: "CA Satish Bhardwaj",
+    role: "Partner & Co-Founder",
+    credentials: "CA (ICAI)",
+    bio: "CA Satish Bhardwaj is the Partner and Co-Founder of Maxworth Global Consultants LLP, with over 15 years of distinguished experience in audit, statutory compliance, and corporate financial management. A qualified Chartered Accountant from the Institute of Chartered Accountants of India (ICAI), he brings a detail-oriented approach and deep regulatory knowledge that has helped countless businesses maintain seamless compliance. Known for his client-centric approach and proactive advisory style, CA Satish Bhardwaj plays a pivotal role in steering the firm's operations and ensuring that every client receives timely, accurate, and reliable financial guidance.",
     quote: "We don't just file the past; we shape your financial future.",
     image: imgPartner2,
-    linkedin: "#",
-    email: "maxworthglobal@zohomail.in"
-  },
-  {
-    name: "Vikram Malhotra",
-    role: "Partner – Audit & Assurance",
-    credentials: "FCA, Certified Forensic Auditor",
-    bio: "Vikram leads statutory audit, internal control reviews, and forensic accounting investigations. He brings a sharp eye for corporate governance and risk management.",
-    quote: "Governance is not about restricting speed; it is about building safe brakes.",
-    image: imgPartner3,
     linkedin: "#",
     email: "maxworthglobal@zohomail.in"
   }
@@ -313,7 +302,7 @@ export default function AboutPage() {
                 className="mt-10 pt-8 border-t border-border/40 flex flex-wrap gap-6"
               >
                 {[
-                  { icon: ShieldCheck, label: "ICAI Registered" },
+                  { icon: ShieldCheck, label: "Govt. Registered" },
                   { icon: Award,       label: "22+ Years" },
                   { icon: Users,       label: "500+ Clients" },
                 ].map((b, i) => {
@@ -484,7 +473,7 @@ export default function AboutPage() {
           >
             {([
               { text: "Trusted Since 2002",     gold: false },
-              { text: "ICAI Registered",         gold: true  },
+              { text: "Govt. Registered",         gold: true  },
               { text: "500+ Corporate Clients",  gold: false },
               { text: "₹50B+ Portfolio Audited", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
@@ -495,7 +484,7 @@ export default function AboutPage() {
               { text: "Licencing & Certificates", gold: true  },
             ] as const).concat(([
               { text: "Trusted Since 2002",     gold: false },
-              { text: "ICAI Registered",         gold: true  },
+              { text: "Govt. Registered",         gold: true  },
               { text: "500+ Corporate Clients",  gold: false },
               { text: "₹50B+ Portfolio Audited", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
