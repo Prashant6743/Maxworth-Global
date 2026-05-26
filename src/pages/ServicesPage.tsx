@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-import img11 from "@/Stock_img/2.png";
+import img11 from "@/assets/2.png";
 
 const services = [
   {
@@ -293,7 +293,7 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-background font-sans text-foreground">
       <Helmet>
-        <title>Our Services | The Maxworth Global</title>
+        <title>Our Services | The Maxworth-Global</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/services" />
       </Helmet>
       <Navbar />

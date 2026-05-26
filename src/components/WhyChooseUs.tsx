@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Users, Lightbulb, Cloud, ShieldCheck, ArrowUpRight, Star } from "lucide-react";
+import imgWhyUs from "@/assets/9.png";
 
 const reasons = [
   {
@@ -125,14 +126,14 @@ export function WhyChooseUs() {
             className="lg:col-span-3 relative h-[480px] md:h-[560px] overflow-hidden"
           >
             <img
-              src="https://images.unsplash.com/photo-1664575198263-269a022d6e14?auto=format&fit=crop&w=1200&q=85"
+              src={imgWhyUs}
               alt="Professional consultation meeting"
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               style={{ filter: "contrast(1.05) saturate(0.88)" }}
             />
             {/* Gold frame inset */}
             <div
-              className="absolute inset-6 pointer-events-none"
+              className="absolute inset-0 pointer-events-none"
               style={{ border: "1px solid hsl(38 88% 48% / 0.4)" }}
             />
             {/* Bottom overlay */}

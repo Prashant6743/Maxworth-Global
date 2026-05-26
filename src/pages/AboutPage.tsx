@@ -10,8 +10,8 @@ import {
 
 
 // Stock images (partners)
-import imgPartner1 from "@/Stock_img/13.png";
-import imgPartner2 from "@/Stock_img/10.png";
+import imgPartner1 from "@/assets/13.png";
+import imgPartner2 from "@/assets/10.png";
 
 // Generated hero collage images
 import imgOffice from "@/assets/about_office.png";
@@ -198,7 +198,7 @@ export default function AboutPage() {
   return (
     <main ref={containerRef} className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
       <Helmet>
-        <title>About Us | The Maxworth Global</title>
+        <title>About Us | The Maxworth-Global</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/about" />
       </Helmet>
       <Navbar />
@@ -383,14 +383,12 @@ export default function AboutPage() {
                     }}
                     className="absolute bottom-0 left-0 w-[46%] rounded-xl overflow-hidden shadow-[0_20px_60px_-10px_rgba(15,27,58,0.28)] border-[3px] border-white"
                   >
-                    <div style={{ transform: "translateY(28px)" }}>
-                      <img
-                        src={imgDesk}
-                        alt="Financial analyst desk"
-                        className="w-full h-[185px] object-cover"
-                        style={{ objectPosition: "center" }}
-                      />
-                    </div>
+                    <img
+                      src={imgDesk}
+                      alt="Financial analyst desk"
+                      className="w-full h-[185px] object-cover"
+                      style={{ objectPosition: "center" }}
+                    />
                   </motion.div>
 
                   {/* ── SEAL: Top foreground layer — floats up fastest on scroll ── */}

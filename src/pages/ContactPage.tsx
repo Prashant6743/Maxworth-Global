@@ -229,7 +229,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
       <Helmet>
-        <title>Contact Us | The Maxworth Global</title>
+        <title>Contact Us | The Maxworth-Global</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/contact" />
       </Helmet>
       {/* ── Page Scroll Progress Animation ── */}
@@ -433,7 +433,7 @@ export default function ContactPage() {
               transition={{ duration: 0.65, delay: 0.08 }}
               className="font-serif font-bold text-3xl md:text-4xl lg:text-[2.7rem] text-primary leading-tight mb-4"
             >
-              Six ways to reach us.
+              Ways to reach us.
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
