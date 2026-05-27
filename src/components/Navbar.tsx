@@ -211,28 +211,22 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        className={`fixed top-[2px] left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-[2px] left-0 right-0 z-50 transition-all duration-500 ${isScrolled
             ? "py-3 bg-white/80 backdrop-blur-md shadow-[0_4px_32px_-8px_rgba(15,27,58,0.14)] border-b border-white/40"
             : "py-5 bg-white/30 backdrop-blur-sm border-b border-white/20"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
 
           {/* Logo */}
           <button onClick={() => scrollTo("#home", "Home")} className="flex items-center gap-3 group shrink-0 text-left">
             <img src={logoImg} alt="The Maxworth Global Logo" className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
-            <div className="flex flex-col">
-              <span
-                className="font-serif font-bold text-[1.3rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold"
-                style={{ transition: "color 0.3s" }}
-              >
-                The Maxworth-Global
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground mt-[3.5px] font-semibold">
-                Consultants LLP
-              </span>
-            </div>
+            <span
+              className="font-serif font-bold text-[1.3rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold -translate-y-1.5"
+              style={{ transition: "color 0.3s" }}
+            >
+              The Maxworth-Global Llp
+            </span>
           </button>
 
           {/* Desktop Nav */}
@@ -260,9 +254,8 @@ export function Navbar() {
                         <ChevronDown className="w-3 h-3 mt-0.5" />
                       </motion.span>
                       <span
-                        className={`absolute bottom-0 left-0 h-[1.5px] bg-gold transition-all duration-300 ${
-                          activeLink === link.name ? "w-full" : "w-0 group-hover:w-full"
-                        }`}
+                        className={`absolute bottom-0 left-0 h-[1.5px] bg-gold transition-all duration-300 ${activeLink === link.name ? "w-full" : "w-0 group-hover:w-full"
+                          }`}
                       />
                     </button>
 
@@ -472,9 +465,8 @@ export function Navbar() {
                     >
                       {link.name}
                       <span
-                        className={`absolute bottom-0 left-0 h-[1.5px] bg-gold transition-all duration-300 ${
-                          activeLink === link.name ? "w-full" : "w-0 group-hover:w-full"
-                        }`}
+                        className={`absolute bottom-0 left-0 h-[1.5px] bg-gold transition-all duration-300 ${activeLink === link.name ? "w-full" : "w-0 group-hover:w-full"
+                          }`}
                       />
                     </button>
                   </li>
@@ -520,7 +512,7 @@ export function Navbar() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
               <div className="flex items-center gap-2">
                 <img src={logoImg} alt="The Maxworth Global Logo" className="h-12 w-auto object-contain" />
-                <span className="font-serif font-bold text-lg text-primary">The Maxworth-Global Consultants LLP</span>
+                <span className="font-serif font-bold text-lg text-primary -translate-y-1">The Maxworth-Global Llp</span>
               </div>
               <button onClick={() => setMobileOpen(false)} className="p-2 text-foreground" aria-label="Close menu">
                 <X className="w-6 h-6" />

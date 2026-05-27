@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background font-sans text-foreground">
       <Helmet>
-        <title>The Maxworth-Global Consultants LLP | Trusted CA Firm</title>
+        <title>The Maxworth-Global Llp | Trusted CA Firm</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/" />
       </Helmet>
       <Navbar />

@@ -91,12 +91,9 @@ export function Footer() {
               <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-16 w-auto object-contain" />
               <div className="flex flex-col">
                 <span
-                  className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block"
+                  className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block -translate-y-1.5"
                 >
-                  The Maxworth-Global
-                </span>
-                <span className="text-[9px] uppercase tracking-[0.22em] text-white/40 mt-1.5 block font-semibold">
-                  Consultants LLP
+                  The Maxworth-Global Llp
                 </span>
               </div>
             </div>
@@ -157,7 +154,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-white/30 font-light tracking-wider">
-          <p>© {new Date().getFullYear()} The Maxworth-Global Consultants LLP. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} The Maxworth-Global Llp. All rights reserved.</p>
           <div className="flex gap-6">
             <span className="cursor-pointer hover:text-white/60 transition-colors">Privacy Policy</span>
             <span className="cursor-pointer hover:text-white/60 transition-colors">Terms of Service</span>

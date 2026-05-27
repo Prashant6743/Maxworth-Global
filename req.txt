@@ -5,18 +5,18 @@ Mon to Sat 10-7
 
 
 SECTION 1 — INTRO PARAGRAPH
-Welcome to The Maxworth-Global Consultants LLP — your trusted partner for comprehensive financial, taxation, and business compliance solutions. Established in Delhi and serving clients across the length and breadth of India, we bring together over 15 years of collective expertise to help individuals, startups, and enterprises navigate the complexities of finance and regulatory compliance with confidence and clarity.
+Welcome to The Maxworth-Global LlpConsultants LLP — your trusted partner for comprehensive financial, taxation, and business compliance solutions. Established in Delhi and serving clients across the length and breadth of India, we bring together over 15 years of collective expertise to help individuals, startups, and enterprises navigate the complexities of finance and regulatory compliance with confidence and clarity.
 
 SECTION 2 — WHO WE ARE
-At The Maxworth-Global Consultants LLP, we are a team of qualified Chartered Accountants, tax professionals, and business advisors committed to delivering precision-driven financial solutions. Based in Delhi and operating as PAN India service providers, we partner with clients across all sectors — from early-stage startups to established corporations — offering tailored strategies that align with their unique financial goals.
+At The Maxworth-Global LlpConsultants LLP, we are a team of qualified Chartered Accountants, tax professionals, and business advisors committed to delivering precision-driven financial solutions. Based in Delhi and operating as PAN India service providers, we partner with clients across all sectors — from early-stage startups to established corporations — offering tailored strategies that align with their unique financial goals.
 Our philosophy is simple: every business deserves expert guidance, not just compliance. We go beyond the numbers to provide insights that drive real growth.
 
 SECTION 3 — WHAT WE OFFER
-Our services span the full spectrum of financial and compliance needs — from Income Tax planning and GST registration to company incorporation, ROC compliance, audit, and business consulting. Whether you are looking to register a new business, streamline your taxation, or ensure seamless statutory compliance, The Maxworth-Global Consultants LLP has the expertise to guide you every step of the way. With a dedicated PAN India presence, our reach is as wide as your ambitions.
+Our services span the full spectrum of financial and compliance needs — from Income Tax planning and GST registration to company incorporation, ROC compliance, audit, and business consulting. Whether you are looking to register a new business, streamline your taxation, or ensure seamless statutory compliance, The Maxworth-Global LlpConsultants LLP has the expertise to guide you every step of the way. With a dedicated PAN India presence, our reach is as wide as your ambitions.
 
 SECTION 4 — WHY CHOOSE US
-What sets The Maxworth-Global Consultants LLP apart is our unwavering commitment to accuracy, transparency, and client-first service. With over 15 years of hands-on experience, our team stays ahead of the ever-evolving regulatory landscape — proactively monitoring changes in tax laws, MCA regulations, and compliance frameworks so that our clients always stay protected and informed.
-We understand that no two businesses are alike, which is why we offer personalised solutions crafted around your specific industry, structure, and objectives. When you choose The Maxworth-Global Consultants LLP, you are not just hiring a CA firm — you are gaining a long-term financial partner dedicated to your success.
+What sets The Maxworth-Global LlpConsultants LLP apart is our unwavering commitment to accuracy, transparency, and client-first service. With over 15 years of hands-on experience, our team stays ahead of the ever-evolving regulatory landscape — proactively monitoring changes in tax laws, MCA regulations, and compliance frameworks so that our clients always stay protected and informed.
+We understand that no two businesses are alike, which is why we offer personalised solutions crafted around your specific industry, structure, and objectives. When you choose The Maxworth-Global LlpConsultants LLP, you are not just hiring a CA firm — you are gaining a long-term financial partner dedicated to your success.
 
 SECTION 5 — OUR TEAM
 CA Sachin Rana
@@ -32,12 +32,12 @@ Known for his client-centric approach and proactive advisory style, CA Satish Bh
 Specialization: Chartered Accountant (ICAI)
 
 SECTION 6 — CLOSING STATEMENT
-The Maxworth-Global Consultants LLP is more than a CA firm — it is a promise of excellence, reliability, and integrity in everything we do. As we continue to grow our PAN India footprint, our core mission remains unchanged: to empower businesses and individuals with the financial expertise they need to thrive in a complex, fast-moving world.
+The Maxworth-Global LlpConsultants LLP is more than a CA firm — it is a promise of excellence, reliability, and integrity in everything we do. As we continue to grow our PAN India footprint, our core mission remains unchanged: to empower businesses and individuals with the financial expertise they need to thrive in a complex, fast-moving world.
 We invite you to experience the Maxworth difference. Reach out to us today and let us build your financial future together.
 
 DEVELOPER NOTES
 Firm legal name:The Maxworth Global Consultants LLP
-Website display name: The Maxworth-Global Consultants LLP
+Website display name: The Maxworth-Global LlpConsultants LLP
 Location: Delhi (PAN India service providers)
 Founders: CA Sachin Rana (Founder) | CA Satish Bhardwaj (Partner & Co-Founder)
 Team avatar initials: SR (blue) | SB (teal)

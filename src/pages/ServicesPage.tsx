@@ -293,7 +293,7 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-background font-sans text-foreground">
       <Helmet>
-        <title>Our Services | The Maxworth-Global</title>
+        <title>Our Services | The Maxworth-Global Llp</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/services" />
       </Helmet>
       <Navbar />

@@ -86,7 +86,7 @@ const team = [
     name: "CA Sachin Rana",
     role: "Founder",
     credentials: "CA · LLB · M.Com (Finance & Taxation)",
-    bio: "CA Sachin Rana is the Founder of Maxworth Global Consultants LLP and brings a rare blend of financial, legal, and taxation expertise. A qualified Chartered Accountant (CA), Law Graduate (LLB), and Master of Commerce in Finance and Taxation (M.Com), he possesses a multi-disciplinary foundation that allows him to address complex business challenges from every angle. With over 15 years of hands-on experience, he has advised a diverse clientele — from individual taxpayers and startups to large enterprises — across direct and indirect taxation, financial structuring, business compliance, and legal advisory.",
+    bio: "CA Sachin Rana is the Founder of Maxworth Global LLP Consultants and brings a rare blend of financial, legal, and taxation expertise. A qualified Chartered Accountant (CA), Law Graduate (LLB), and Master of Commerce in Finance and Taxation (M.Com), he possesses a multi-disciplinary foundation that allows him to address complex business challenges from every angle. With over 15 years of hands-on experience, he has advised a diverse clientele — from individual taxpayers and startups to large enterprises — across direct and indirect taxation, financial structuring, business compliance, and legal advisory.",
     quote: "Precision is our craft; trust is our currency.",
     image: imgPartner1,
     linkedin: "#",
@@ -96,7 +96,7 @@ const team = [
     name: "CA Satish Bhardwaj",
     role: "Partner & Co-Founder",
     credentials: "CA (ICAI)",
-    bio: "CA Satish Bhardwaj is the Partner and Co-Founder of Maxworth Global Consultants LLP, with over 15 years of distinguished experience in audit, statutory compliance, and corporate financial management. A qualified Chartered Accountant from the Institute of Chartered Accountants of India (ICAI), he brings a detail-oriented approach and deep regulatory knowledge that has helped countless businesses maintain seamless compliance. Known for his client-centric approach and proactive advisory style, CA Satish Bhardwaj plays a pivotal role in steering the firm's operations and ensuring that every client receives timely, accurate, and reliable financial guidance.",
+    bio: "CA Satish Bhardwaj is the Partner and Co-Founder of Maxworth Global LLP Consultants, with over 15 years of distinguished experience in audit, statutory compliance, and corporate financial management. A qualified Chartered Accountant from the Institute of Chartered Accountants of India (ICAI), he brings a detail-oriented approach and deep regulatory knowledge that has helped countless businesses maintain seamless compliance. Known for his client-centric approach and proactive advisory style, CA Satish Bhardwaj plays a pivotal role in steering the firm's operations and ensuring that every client receives timely, accurate, and reliable financial guidance.",
     quote: "We don't just file the past; we shape your financial future.",
     image: imgPartner2,
     linkedin: "#",
@@ -198,7 +198,7 @@ export default function AboutPage() {
   return (
     <main ref={containerRef} className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
       <Helmet>
-        <title>About Us | The Maxworth-Global</title>
+        <title>About Us | The Maxworth-Global Llp</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/about" />
       </Helmet>
       <Navbar />

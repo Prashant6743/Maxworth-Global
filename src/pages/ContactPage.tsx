@@ -229,7 +229,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-background font-sans text-foreground overflow-x-hidden">
       <Helmet>
-        <title>Contact Us | The Maxworth-Global</title>
+        <title>Contact Us | The Maxworth-Global Llp</title>
         <link rel="canonical" href="https://www.themaxworthglobal.com/contact" />
       </Helmet>
       {/* ── Page Scroll Progress Animation ── */}

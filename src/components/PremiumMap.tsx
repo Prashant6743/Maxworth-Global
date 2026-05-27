@@ -55,7 +55,7 @@ export function PremiumMap() {
         <div class="p-3 text-slate-100 max-w-[200px] select-none pointer-events-auto">
           <h4 class="font-serif font-bold text-sm text-amber-500 mb-1 flex items-center gap-1.5">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-            Maxworth Global
+            THE MAXWORTH-GLOBAL LLP
           </h4>
           <p class="text-[11px] font-light text-slate-300 leading-relaxed mb-3">
             27, Sunview Apartments, Sector-11, Dwarka, New Delhi – 110075
