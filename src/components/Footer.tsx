@@ -91,9 +91,10 @@ export function Footer() {
               <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-16 w-auto object-contain" />
               <div className="flex flex-col">
                 <span
-                  className="font-serif font-bold text-[1.4rem] tracking-tight text-white leading-none block -translate-y-1.5"
+                  className="font-bold text-[1.25rem] md:text-[1.4rem] tracking-wide text-white leading-none block -translate-y-1.5"
+                  style={{ fontFamily: "'Outfit', sans-serif" }}
                 >
-                  The Maxworth-Global Llp
+                  MAXWORTH GLOBAL LLP
                 </span>
               </div>
             </div>

@@ -222,10 +222,10 @@ export function Navbar() {
           <button onClick={() => scrollTo("#home", "Home")} className="flex items-center gap-3 group shrink-0 text-left">
             <img src={logoImg} alt="The Maxworth Global Logo" className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             <span
-              className="font-serif font-bold text-[1.3rem] leading-none tracking-tight text-primary transition-colors group-hover:text-gold -translate-y-1.5"
-              style={{ transition: "color 0.3s" }}
+              className="font-bold text-[1.2rem] md:text-[1.3rem] leading-none tracking-wide text-primary transition-colors group-hover:text-gold -translate-y-1.5"
+              style={{ fontFamily: "'Outfit', sans-serif", transition: "color 0.3s" }}
             >
-              The Maxworth-Global Llp
+              MAXWORTH GLOBAL LLP
             </span>
           </button>
 
@@ -512,7 +512,7 @@ export function Navbar() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-border shrink-0">
               <div className="flex items-center gap-2">
                 <img src={logoImg} alt="The Maxworth Global Logo" className="h-12 w-auto object-contain" />
-                <span className="font-serif font-bold text-lg text-primary -translate-y-1">The Maxworth-Global Llp</span>
+                <span className="font-bold text-base md:text-lg tracking-wide text-primary -translate-y-1" style={{ fontFamily: "'Outfit', sans-serif" }}>MAXWORTH GLOBAL LLP</span>
               </div>
               <button onClick={() => setMobileOpen(false)} className="p-2 text-foreground" aria-label="Close menu">
                 <X className="w-6 h-6" />

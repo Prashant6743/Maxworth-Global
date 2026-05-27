@@ -4,12 +4,38 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PremiumMap } from "@/components/PremiumMap";
+import emailjs from "@emailjs/browser";
 import {
   MapPin, Phone, Mail, Clock,
   ArrowUpRight, CheckCircle2, Send,
   MessageSquare, Calendar, Linkedin,
   ChevronRight, Shield, Award, Users,
+  Loader2, AlertCircle,
 } from "lucide-react";
+
+const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string;
+
+// ── Validation helpers ──────────────────────────────────────────────
+const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+const isValidPhone = (v: string) => /^[+]?[\d\s\-().]{7,15}$/.test(v.trim());
+const isValidName  = (v: string) => v.trim().length >= 2;
+
+interface CFormState {
+  from_name: string;
+  from_email: string;
+  phone: string;
+  service: string;
+  message: string;
+}
+interface CFormErrors {
+  from_name?: string;
+  from_email?: string;
+  phone?: string;
+  service?: string;
+  message?: string;
+}
 
 // ─── Generated Assets ───────────────────────────────────────────────────────────
 import imgContactBg from "@/assets/contactm.png";
@@ -205,25 +231,73 @@ function ReachCard({ item, index }: { item: typeof reachMethods[0]; index: numbe
 export default function ContactPage() {
   const heroRef = useRef<HTMLElement>(null);
   const formSectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY       = useTransform(heroScroll, [0, 1], [0, 70]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
-  
+
   const { scrollYProgress: pageScroll } = useScroll();
 
-  const [submitted, setSubmitted]         = useState(false);
-  const [focused, setFocused]             = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending]     = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [focused, setFocused]     = useState<string | null>(null);
+  const [touched, setTouched]     = useState<Partial<Record<keyof CFormState, boolean>>>({});
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [form, setForm] = useState<CFormState>({
+    from_name: "", from_email: "", phone: "", service: "", message: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = (f: CFormState): CFormErrors => {
+    const e: CFormErrors = {};
+    if (!isValidName(f.from_name))    e.from_name  = "Please enter your full name (at least 2 characters).";
+    if (!isValidEmail(f.from_email))  e.from_email = "Please enter a valid email address.";
+    if (!isValidPhone(f.phone))       e.phone      = "Please enter a valid phone number.";
+    if (!f.service)                   e.service    = "Please select a service.";
+    if (f.message.trim().length < 10) e.message    = "Please write at least 10 characters.";
+    return e;
+  };
+
+  const errors  = validate(form);
+  const isValid = Object.keys(errors).length === 0;
+
+  const handleChange = (field: keyof CFormState, value: string) =>
+    setForm(prev => ({ ...prev, [field]: value }));
+
+  const handleBlur = (field: keyof CFormState) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+    setFocused(null);
+  };
+
+  const showErr = (field: keyof CFormState) => touched[field] && errors[field];
+
+  const borderColor = (field: keyof CFormState) => {
+    if (showErr(field))    return "hsl(0 70% 55%)";
+    if (focused === field) return "hsl(38 88% 48%)";
+    return "hsl(var(--border))";
+  };
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 7000);
+    setTouched({ from_name: true, from_email: true, phone: true, service: true, message: true });
+    if (!isValid || !formRef.current) return;
+    setSending(true);
+    setSendError(null);
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      setSubmitted(true);
+      setForm({ from_name: "", from_email: "", phone: "", service: "", message: "" });
+      setTouched({});
+      setTimeout(() => setSubmitted(false), 7000);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSendError("Something went wrong. Please try again or email us at maxworthglobal@zohomail.in");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -587,81 +661,109 @@ export default function ContactPage() {
                         <div className="mb-8">
                           <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-2">Enquiry Portal</p>
                           <h3 className="font-serif font-bold text-2xl md:text-3xl text-primary mb-1.5">Request a Discovery Call</h3>
-                          <p className="text-muted-foreground text-sm font-light">Fill in your details and we'll connect you with the right partner.</p>
+                          <p className="text-muted-foreground text-sm font-light">
+                            All fields marked <span className="text-red-500 font-medium">*</span> are required.
+                          </p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-7">
+                        <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-6">
 
-                          {/* Name row */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            {[
-                              { id: "first-name", label: "First Name" },
-                              { id: "last-name",  label: "Last Name" },
-                            ].map((f) => {
-                              const active = focused === f.id;
-                              return (
-                                <div key={f.id} className="float-label-group">
-                                  <input required type="text" id={f.id} placeholder=" "
-                                    onFocus={() => setFocused(f.id)} onBlur={() => setFocused(null)} />
-                                  <label htmlFor={f.id}>{f.label}</label>
-                                  <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                                    style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-                                    initial={{ scaleX: 0, originX: 0 }}
-                                    animate={{ scaleX: active ? 1 : 0 }}
-                                    transition={{ duration: 0.28 }} />
-                                </div>
-                              );
-                            })}
+                          {/* Full Name */}
+                          <div>
+                            <div className="float-label-group">
+                              <input
+                                type="text" name="from_name" id="from_name"
+                                value={form.from_name}
+                                onChange={e => handleChange("from_name", e.target.value)}
+                                onFocus={() => setFocused("from_name")}
+                                onBlur={() => handleBlur("from_name")}
+                                placeholder=" "
+                                style={{ borderColor: borderColor("from_name") }}
+                              />
+                              <label htmlFor="from_name">Full Name <span className="text-red-500">*</span></label>
+                              <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+                                initial={{ scaleX: 0, originX: 0 }}
+                                animate={{ scaleX: focused === "from_name" ? 1 : 0 }}
+                                transition={{ duration: 0.28 }} />
+                            </div>
+                            {showErr("from_name") && (
+                              <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                                <AlertCircle className="w-3 h-3 shrink-0" /> {errors.from_name}
+                              </p>
+                            )}
                           </div>
 
                           {/* Email + Phone */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            {[
-                              { id: "email", label: "Email Address", type: "email", required: true },
-                              { id: "phone", label: "Phone (optional)", type: "tel", required: false },
-                            ].map((f) => {
-                              const active = focused === f.id;
-                              return (
-                                <div key={f.id} className="float-label-group">
-                                  <input required={f.required} type={f.type} id={f.id} placeholder=" "
-                                    onFocus={() => setFocused(f.id)} onBlur={() => setFocused(null)} />
-                                  <label htmlFor={f.id}>{f.label}</label>
-                                  <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                                    style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-                                    initial={{ scaleX: 0, originX: 0 }}
-                                    animate={{ scaleX: active ? 1 : 0 }}
-                                    transition={{ duration: 0.28 }} />
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                          {/* Company */}
-                          <div className="float-label-group">
-                            <input type="text" id="company" placeholder=" "
-                              onFocus={() => setFocused("company")} onBlur={() => setFocused(null)} />
-                            <label htmlFor="company">Company / Firm Name <span className="text-muted-foreground/50">(optional)</span></label>
-                            <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                              style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-                              initial={{ scaleX: 0, originX: 0 }}
-                              animate={{ scaleX: focused === "company" ? 1 : 0 }}
-                              transition={{ duration: 0.28 }} />
+                            {/* Email */}
+                            <div>
+                              <div className="float-label-group">
+                                <input
+                                  type="email" name="from_email" id="from_email"
+                                  value={form.from_email}
+                                  onChange={e => handleChange("from_email", e.target.value)}
+                                  onFocus={() => setFocused("from_email")}
+                                  onBlur={() => handleBlur("from_email")}
+                                  placeholder=" "
+                                  style={{ borderColor: borderColor("from_email") }}
+                                />
+                                <label htmlFor="from_email">Email Address <span className="text-red-500">*</span></label>
+                                <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                  style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+                                  initial={{ scaleX: 0, originX: 0 }}
+                                  animate={{ scaleX: focused === "from_email" ? 1 : 0 }}
+                                  transition={{ duration: 0.28 }} />
+                              </div>
+                              {showErr("from_email") && (
+                                <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                                  <AlertCircle className="w-3 h-3 shrink-0" /> {errors.from_email}
+                                </p>
+                              )}
+                            </div>
+                            {/* Phone */}
+                            <div>
+                              <div className="float-label-group">
+                                <input
+                                  type="tel" name="phone" id="phone"
+                                  value={form.phone}
+                                  onChange={e => handleChange("phone", e.target.value)}
+                                  onFocus={() => setFocused("phone")}
+                                  onBlur={() => handleBlur("phone")}
+                                  placeholder=" "
+                                  style={{ borderColor: borderColor("phone") }}
+                                />
+                                <label htmlFor="phone">Phone Number <span className="text-red-500">*</span></label>
+                                <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                  style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+                                  initial={{ scaleX: 0, originX: 0 }}
+                                  animate={{ scaleX: focused === "phone" ? 1 : 0 }}
+                                  transition={{ duration: 0.28 }} />
+                              </div>
+                              {showErr("phone") && (
+                                <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                                  <AlertCircle className="w-3 h-3 shrink-0" /> {errors.phone}
+                                </p>
+                              )}
+                            </div>
                           </div>
 
                           {/* Service chip selector */}
                           <div>
                             <label className="block text-[10px] uppercase tracking-[0.22em] font-semibold text-muted-foreground mb-3.5">
-                              Service Required
+                              Service Required <span className="text-red-500">*</span>
                             </label>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            {/* Hidden input so EmailJS picks up the service value */}
+                            <input type="hidden" name="service" value={form.service} />
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                               {services.map((svc) => {
-                                const active = selectedService === svc;
+                                const active = form.service === svc;
                                 return (
                                   <motion.button
                                     key={svc} type="button"
                                     whileTap={{ scale: 0.97 }}
-                                    onClick={() => setSelectedService(active ? "" : svc)}
-                                    className="py-2.5 px-3 rounded-lg text-[11px] font-semibold transition-all duration-200 relative overflow-hidden"
+                                    onClick={() => { handleChange("service", active ? "" : svc); setTouched(prev => ({ ...prev, service: true })); }}
+                                    className="py-2.5 px-3 rounded-lg text-[11px] font-semibold transition-all duration-200"
                                     style={{
                                       background: active ? "hsl(38 88% 46%/0.1)" : "hsl(220 18% 97%)",
                                       border: `1px solid ${active ? "hsl(38 88% 46%/0.5)" : "hsl(220 18% 90%)"}`,
@@ -673,40 +775,105 @@ export default function ContactPage() {
                                 );
                               })}
                             </div>
+                            {showErr("service") && (
+                              <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                                <AlertCircle className="w-3 h-3 shrink-0" /> {errors.service}
+                              </p>
+                            )}
                           </div>
 
                           {/* Message */}
-                          <div className="float-label-group">
-                            <textarea required id="message" placeholder=" " rows={4}
-                              onFocus={() => setFocused("message")} onBlur={() => setFocused(null)}
-                              className="resize-none" />
-                            <label htmlFor="message">Your Message or Requirement</label>
-                            <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
-                              style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-                              initial={{ scaleX: 0, originX: 0 }}
-                              animate={{ scaleX: focused === "message" ? 1 : 0 }}
-                              transition={{ duration: 0.28 }} />
+                          <div>
+                            <div className="float-label-group">
+                              <textarea
+                                name="message" id="message" rows={4}
+                                value={form.message}
+                                onChange={e => handleChange("message", e.target.value)}
+                                onFocus={() => setFocused("message")}
+                                onBlur={() => handleBlur("message")}
+                                placeholder=" "
+                                className="resize-none"
+                                style={{ borderColor: borderColor("message") }}
+                              />
+                              <label htmlFor="message">Your Message or Requirement <span className="text-red-500">*</span></label>
+                              <motion.div className="absolute bottom-0 left-0 h-[2px] rounded-full"
+                                style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+                                initial={{ scaleX: 0, originX: 0 }}
+                                animate={{ scaleX: focused === "message" ? 1 : 0 }}
+                                transition={{ duration: 0.28 }} />
+                            </div>
+                            {showErr("message") && (
+                              <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                                <AlertCircle className="w-3 h-3 shrink-0" /> {errors.message}
+                              </p>
+                            )}
                           </div>
+
+                          {/* Send error banner with fallbacks */}
+                          {sendError && (
+                            <div className="rounded-xl overflow-hidden" style={{ border: "1px solid hsl(0 70% 88%)" }}>
+                              <div className="flex items-start gap-3 p-4" style={{ background: "hsl(0 70% 96%)" }}>
+                                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "hsl(0 70% 50%)" }} />
+                                <div className="flex-1">
+                                  <p className="text-[13px] font-semibold" style={{ color: "hsl(0 60% 35%)" }}>Message not sent</p>
+                                  <p className="text-[12px] mt-0.5" style={{ color: "hsl(0 60% 45%)" }}>There was a technical issue. Please try one of the options below:</p>
+                                </div>
+                                <button onClick={() => setSendError(null)} className="text-[11px] font-bold shrink-0" style={{ color: "hsl(0 60% 45%)" }}>✕ Dismiss</button>
+                              </div>
+                              <div className="flex gap-2 p-3" style={{ background: "hsl(0 70% 93%)" }}>
+                                <a
+                                  href="mailto:maxworthglobal@zohomail.in?subject=Enquiry from Website&body=Name: %0APhone: %0AService: %0AMessage: "
+                                  className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                                  style={{ background: "hsl(222 55% 18%)", color: "#fff" }}
+                                >
+                                  📧 Email Us Directly
+                                </a>
+                                <a
+                                  href="https://wa.me/911149847956?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                                  style={{ background: "hsl(142 70% 40%)", color: "#fff" }}
+                                >
+                                  💬 WhatsApp Us
+                                </a>
+                                <button
+                                  type="submit"
+                                  className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                                  style={{ background: "hsl(38 88% 46%)", color: "hsl(222 55% 12%)" }}
+                                >
+                                  🔄 Try Again
+                                </button>
+                              </div>
+                            </div>
+                          )}
 
                           {/* Submit */}
                           <motion.button
                             type="submit"
-                            whileHover={{ scale: 1.012 }} whileTap={{ scale: 0.985 }}
-                            className="group relative w-full h-14 overflow-hidden font-bold uppercase tracking-[0.16em] text-[12px] text-white flex items-center justify-center gap-3 transition-shadow duration-300"
-                            style={{
-                              background: "hsl(222 55% 18%)",
-                              boxShadow: "0 4px 24px rgba(15,27,58,0.18)",
-                            }}
-                            onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 8px 32px rgba(15,27,58,0.3)")}
+                            disabled={sending}
+                            whileHover={{ scale: sending ? 1 : 1.012 }} whileTap={{ scale: sending ? 1 : 0.985 }}
+                            className="group relative w-full h-14 overflow-hidden font-bold uppercase tracking-[0.16em] text-[12px] text-white flex items-center justify-center gap-3 transition-shadow duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                            style={{ background: "hsl(222 55% 18%)", boxShadow: "0 4px 24px rgba(15,27,58,0.18)" }}
+                            onMouseEnter={(e) => !sending && (e.currentTarget.style.boxShadow = "0 8px 32px rgba(15,27,58,0.3)")}
                             onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 4px 24px rgba(15,27,58,0.18)")}
                           >
                             <span className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-400 ease-out"
                               style={{ background: "linear-gradient(90deg, hsl(38 88% 44%), hsl(38 88% 56%))" }} />
-                            <span className="relative z-10">Submit Enquiry</span>
-                            <motion.span className="relative z-10"
-                              animate={{ x: [0, 3, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
-                              <Send className="w-4 h-4" />
-                            </motion.span>
+                            {sending ? (
+                              <>
+                                <Loader2 className="relative z-10 w-4 h-4 animate-spin" />
+                                <span className="relative z-10">Sending…</span>
+                              </>
+                            ) : (
+                              <>
+                                <span className="relative z-10">Submit Enquiry</span>
+                                <motion.span className="relative z-10"
+                                  animate={{ x: [0, 3, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
+                                  <Send className="w-4 h-4" />
+                                </motion.span>
+                              </>
+                            )}
                           </motion.button>
 
                           <p className="text-center text-[10px] text-muted-foreground/50 font-light">

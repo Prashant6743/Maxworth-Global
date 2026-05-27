@@ -25,3 +25,11 @@ dist-ssr
 
 # TypeScript build info
 *.tsbuildinfo
+
+# Environment variables (sensitive keys)
+.env
+.env.local
+.env.production
+
+# Template files
+emailjs-template.html

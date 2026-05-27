@@ -1,7 +1,12 @@
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle2, MapPin, Phone, Mail, Clock, ArrowUpRight } from "lucide-react";
+import { CheckCircle2, MapPin, Phone, Mail, Clock, ArrowUpRight, Loader2, AlertCircle } from "lucide-react";
 import { PremiumMap } from "./PremiumMap";
+import emailjs from "@emailjs/browser";
+
+const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string;
 
 const contactDetails = [
   {
@@ -28,16 +33,99 @@ const contactDetails = [
 
 const services = ["Startup", "Licence", "ROC", "Tax & Payroll", "Miscellaneous Registration", "OTHER Services"];
 
-export function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.15 });
-  const [submitted, setSubmitted] = useState(false);
-  const [focused, setFocused] = useState<string | null>(null);
+// ── Validation helpers ──────────────────────────────────────────────
+const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+const isValidPhone = (v: string) => /^[+]?[\d\s\-().]{7,15}$/.test(v.trim());
+const isValidName  = (v: string) => v.trim().length >= 2;
 
-  const handleSubmit = (e: React.FormEvent) => {
+interface FormState {
+  from_name: string;
+  from_email: string;
+  phone: string;
+  service: string;
+  message: string;
+}
+
+interface FormErrors {
+  from_name?: string;
+  from_email?: string;
+  phone?: string;
+  service?: string;
+  message?: string;
+}
+
+export function Contact() {
+  const ref     = useRef(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending]     = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [focused, setFocused]     = useState<string | null>(null);
+  const [touched, setTouched]     = useState<Partial<Record<keyof FormState, boolean>>>({});
+
+  const [form, setForm] = useState<FormState>({
+    from_name:  "",
+    from_email: "",
+    phone:      "",
+    service:    "",
+    message:    "",
+  });
+
+  // ── Derive errors on the fly ──────────────────────────────────────
+  const validate = (f: FormState): FormErrors => {
+    const e: FormErrors = {};
+    if (!isValidName(f.from_name))   e.from_name  = "Please enter your full name (at least 2 characters).";
+    if (!isValidEmail(f.from_email)) e.from_email = "Please enter a valid email address.";
+    if (!isValidPhone(f.phone))      e.phone      = "Please enter a valid phone number.";
+    if (!f.service)                  e.service    = "Please select a service.";
+    if (f.message.trim().length < 10) e.message   = "Please write at least 10 characters.";
+    return e;
+  };
+
+  const errors  = validate(form);
+  const isValid = Object.keys(errors).length === 0;
+
+  const handleChange = (field: keyof FormState, value: string) => {
+    setForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleBlur = (field: keyof FormState) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+    setFocused(null);
+  };
+
+  const showErr = (field: keyof FormState) =>
+    touched[field] && errors[field];
+
+  const borderColor = (field: keyof FormState) => {
+    if (showErr(field))    return "hsl(0 70% 55%)";
+    if (focused === field) return "hsl(38 88% 48%)";
+    return "hsl(var(--border))";
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 6000);
+    // Mark all fields touched so errors show
+    setTouched({ from_name: true, from_email: true, phone: true, service: true, message: true });
+    if (!isValid || !formRef.current) return;
+
+    setSending(true);
+    setSendError(null);
+
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      setSubmitted(true);
+      setForm({ from_name: "", from_email: "", phone: "", service: "", message: "" });
+      setTouched({});
+      setTimeout(() => setSubmitted(false), 7000);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSendError("Something went wrong. Please try again or email us directly at maxworthglobal@zohomail.in");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -153,121 +241,205 @@ export function Contact() {
               <>
                 <div className="mb-10">
                   <h3 className="font-serif font-bold text-3xl text-foreground mb-2">Request a Callback</h3>
-                  <p className="text-muted-foreground text-sm font-light">Fill in the details below and we'll reach out shortly.</p>
+                  <p className="text-muted-foreground text-sm font-light">
+                    All fields marked <span className="text-red-500 font-medium">*</span> are required.
+                  </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-9">
-                  {/* Name row */}
-                  <div className="grid grid-cols-2 gap-6">
-                    {["First Name", "Last Name"].map((label) => (
-                      <div key={label} className="relative">
-                        <input
-                          required
-                          type="text"
-                          placeholder=" "
-                          id={label.toLowerCase().replace(" ", "-")}
-                          onFocus={() => setFocused(label)}
-                          onBlur={() => setFocused(null)}
-                          className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
-                          style={{
-                            borderColor: focused === label ? "hsl(38 88% 48%)" : "hsl(var(--border))",
-                          }}
-                        />
-                        <label
-                          htmlFor={label.toLowerCase().replace(" ", "-")}
-                          className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary peer-not-placeholder-shown:-top-0 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-wider"
-                        >
-                          {label}
-                        </label>
-                      </div>
-                    ))}
+                <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-7">
+
+                  {/* Full Name */}
+                  <div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="from_name"
+                        id="from_name"
+                        value={form.from_name}
+                        onChange={e => handleChange("from_name", e.target.value)}
+                        onFocus={() => setFocused("from_name")}
+                        onBlur={() => handleBlur("from_name")}
+                        placeholder=" "
+                        className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
+                        style={{ borderColor: borderColor("from_name") }}
+                      />
+                      <label htmlFor="from_name" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary peer-not-placeholder-shown:-top-0 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-wider">
+                        Full Name <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+                    {showErr("from_name") && (
+                      <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.from_name}
+                      </p>
+                    )}
                   </div>
 
                   {/* Email */}
-                  <div className="relative">
-                    <input
-                      required
-                      type="email"
-                      placeholder=" "
-                      id="email"
-                      onFocus={() => setFocused("email")}
-                      onBlur={() => setFocused(null)}
-                      className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
-                      style={{
-                        borderColor: focused === "email" ? "hsl(38 88% 48%)" : "hsl(var(--border))",
-                      }}
-                    />
-                    <label htmlFor="email" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary">
-                      Email Address
-                    </label>
+                  <div>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        name="from_email"
+                        id="from_email"
+                        value={form.from_email}
+                        onChange={e => handleChange("from_email", e.target.value)}
+                        onFocus={() => setFocused("from_email")}
+                        onBlur={() => handleBlur("from_email")}
+                        placeholder=" "
+                        className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
+                        style={{ borderColor: borderColor("from_email") }}
+                      />
+                      <label htmlFor="from_email" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary peer-not-placeholder-shown:-top-0 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-wider">
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+                    {showErr("from_email") && (
+                      <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.from_email}
+                      </p>
+                    )}
                   </div>
 
-                  {/* Phone */}
-                  <div className="relative">
-                    <input
-                      type="tel"
-                      placeholder=" "
-                      id="phone"
-                      onFocus={() => setFocused("phone")}
-                      onBlur={() => setFocused(null)}
-                      className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
-                      style={{
-                        borderColor: focused === "phone" ? "hsl(38 88% 48%)" : "hsl(var(--border))",
-                      }}
-                    />
-                    <label htmlFor="phone" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary">
-                      Phone Number (optional)
-                    </label>
+                  {/* Phone – now required */}
+                  <div>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        value={form.phone}
+                        onChange={e => handleChange("phone", e.target.value)}
+                        onFocus={() => setFocused("phone")}
+                        onBlur={() => handleBlur("phone")}
+                        placeholder=" "
+                        className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none transition-colors placeholder-transparent"
+                        style={{ borderColor: borderColor("phone") }}
+                      />
+                      <label htmlFor="phone" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary peer-not-placeholder-shown:-top-0 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-wider">
+                        Phone Number <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+                    {showErr("phone") && (
+                      <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.phone}
+                      </p>
+                    )}
                   </div>
 
                   {/* Service Select */}
-                  <div className="relative">
-                    <select
-                      required
-                      id="service"
-                      defaultValue=""
-                      className="w-full border-b-[1.5px] border-border bg-transparent py-3 text-[15px] text-foreground outline-none appearance-none cursor-pointer focus:border-gold transition-colors"
-                    >
-                      <option value="" disabled className="text-muted-foreground">Select a Service</option>
-                      {services.map((s) => (
-                        <option key={s} value={s.toLowerCase().replace(/\s+/g, "-")}>{s}</option>
-                      ))}
-                    </select>
-                    <div className="absolute right-0 top-3.5 pointer-events-none">
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground rotate-90" />
+                  <div>
+                    <div className="relative">
+                      <select
+                        id="service"
+                        name="service"
+                        value={form.service}
+                        onChange={e => handleChange("service", e.target.value)}
+                        onBlur={() => handleBlur("service")}
+                        className="w-full border-b-[1.5px] bg-transparent py-3 text-[15px] text-foreground outline-none appearance-none cursor-pointer transition-colors"
+                        style={{ borderColor: borderColor("service") }}
+                      >
+                        <option value="" disabled>Select a Service *</option>
+                        {services.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-0 top-3.5 pointer-events-none">
+                        <ArrowUpRight className="w-4 h-4 text-muted-foreground rotate-90" />
+                      </div>
                     </div>
+                    {showErr("service") && (
+                      <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.service}
+                      </p>
+                    )}
                   </div>
 
                   {/* Message */}
-                  <div className="relative">
-                    <textarea
-                      required
-                      placeholder=" "
-                      id="message"
-                      rows={3}
-                      onFocus={() => setFocused("message")}
-                      onBlur={() => setFocused(null)}
-                      className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none resize-none transition-colors placeholder-transparent"
-                      style={{
-                        borderColor: focused === "message" ? "hsl(38 88% 48%)" : "hsl(var(--border))",
-                      }}
-                    />
-                    <label htmlFor="message" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary">
-                      Brief Message
-                    </label>
+                  <div>
+                    <div className="relative">
+                      <textarea
+                        name="message"
+                        id="message"
+                        rows={3}
+                        value={form.message}
+                        onChange={e => handleChange("message", e.target.value)}
+                        onFocus={() => setFocused("message")}
+                        onBlur={() => handleBlur("message")}
+                        placeholder=" "
+                        className="peer w-full border-b-[1.5px] bg-transparent py-3 pt-5 text-[15px] text-foreground outline-none resize-none transition-colors placeholder-transparent"
+                        style={{ borderColor: borderColor("message") }}
+                      />
+                      <label htmlFor="message" className="absolute left-0 top-3.5 text-sm text-muted-foreground pointer-events-none transition-all duration-200 peer-focus:-top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-primary peer-not-placeholder-shown:-top-0 peer-not-placeholder-shown:text-[10px] peer-not-placeholder-shown:uppercase peer-not-placeholder-shown:tracking-wider">
+                        Brief Message <span className="text-red-500">*</span>
+                      </label>
+                    </div>
+                    {showErr("message") && (
+                      <p className="mt-1.5 text-[12px] flex items-center gap-1" style={{ color: "hsl(0 70% 50%)" }}>
+                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.message}
+                      </p>
+                    )}
                   </div>
+
+                  {/* Send error banner with fallbacks */}
+                  {sendError && (
+                    <div className="rounded-xl overflow-hidden" style={{ border: "1px solid hsl(0 70% 88%)" }}>
+                      <div className="flex items-start gap-3 p-4" style={{ background: "hsl(0 70% 96%)" }}>
+                        <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "hsl(0 70% 50%)" }} />
+                        <div className="flex-1">
+                          <p className="text-[13px] font-semibold" style={{ color: "hsl(0 60% 35%)" }}>Message not sent</p>
+                          <p className="text-[12px] mt-0.5" style={{ color: "hsl(0 60% 45%)" }}>There was a technical issue. Please try one of the options below:</p>
+                        </div>
+                        <button onClick={() => setSendError(null)} className="text-[11px] font-bold shrink-0" style={{ color: "hsl(0 60% 45%)" }}>✕ Dismiss</button>
+                      </div>
+                      <div className="flex gap-2 p-3" style={{ background: "hsl(0 70% 93%)" }}>
+                        <a
+                          href="mailto:maxworthglobal@zohomail.in?subject=Enquiry from Website&body=Name: %0APhone: %0AService: %0AMessage: "
+                          className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                          style={{ background: "hsl(222 55% 18%)", color: "#fff" }}
+                        >
+                          📧 Email Us Directly
+                        </a>
+                        <a
+                          href="https://wa.me/911149847956?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                          style={{ background: "hsl(142 70% 40%)", color: "#fff" }}
+                        >
+                          💬 WhatsApp Us
+                        </a>
+                        <button
+                          type="submit"
+                          className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"
+                          style={{ background: "hsl(38 88% 46%)", color: "hsl(222 55% 12%)" }}
+                        >
+                          🔄 Try Again
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   <button
                     type="submit"
-                    className="group relative w-full h-14 overflow-hidden font-bold uppercase tracking-[0.14em] text-[12px] text-white flex items-center justify-center gap-3 transition-all hover:shadow-[0_8px_32px_-6px_rgba(15,27,58,0.45)]"
+                    disabled={sending}
+                    className="group relative w-full h-14 overflow-hidden font-bold uppercase tracking-[0.14em] text-[12px] text-white flex items-center justify-center gap-3 transition-all hover:shadow-[0_8px_32px_-6px_rgba(15,27,58,0.45)] disabled:opacity-70 disabled:cursor-not-allowed"
                     style={{ background: "hsl(222 55% 18%)" }}
                   >
                     <span
                       className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-400 ease-out"
                       style={{ background: "linear-gradient(90deg, hsl(38 88% 44%), hsl(38 88% 56%))" }}
                     />
-                    <span className="relative z-10">Submit Request</span>
-                    <ArrowUpRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    {sending ? (
+                      <>
+                        <Loader2 className="relative z-10 w-4 h-4 animate-spin" />
+                        <span className="relative z-10">Sending…</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="relative z-10">Submit Request</span>
+                        <ArrowUpRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </>
+                    )}
                   </button>
                 </form>
               </>
