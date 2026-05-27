@@ -1,6 +1,6 @@
-import emailjs from "@emailjs/nodejs";
+const emailjs = require("@emailjs/nodejs");
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   // Only allow POST
   if (event.httpMethod !== "POST") {
     return {
@@ -22,7 +22,6 @@ export const handler = async (event) => {
       };
     }
 
-    // Keys are read from server-side env — never exposed to browser
     const SERVICE_ID  = process.env.EMAILJS_SERVICE_ID;
     const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
     const PUBLIC_KEY  = process.env.EMAILJS_PUBLIC_KEY;
