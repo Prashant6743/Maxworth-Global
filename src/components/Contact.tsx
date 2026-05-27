@@ -2,11 +2,6 @@ import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircle2, MapPin, Phone, Mail, Clock, ArrowUpRight, Loader2, AlertCircle } from "lucide-react";
 import { PremiumMap } from "./PremiumMap";
-import emailjs from "@emailjs/browser";
-
-const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
-const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string;
 
 const contactDetails = [
   {
@@ -109,19 +104,29 @@ export function Contact() {
     e.preventDefault();
     // Mark all fields touched so errors show
     setTouched({ from_name: true, from_email: true, phone: true, service: true, message: true });
-    if (!isValid || !formRef.current) return;
+    if (!isValid) return;
 
     setSending(true);
     setSendError(null);
 
     try {
-      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
+      const res = await fetch("/.netlify/functions/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Server error");
+      }
+
       setSubmitted(true);
       setForm({ from_name: "", from_email: "", phone: "", service: "", message: "" });
       setTouched({});
       setTimeout(() => setSubmitted(false), 7000);
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Send error:", err);
       setSendError("Something went wrong. Please try again or email us directly at maxworthglobal@zohomail.in");
     } finally {
       setSending(false);

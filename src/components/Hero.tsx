@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 import heroImage from "../assets/image.png";
 
 const TICKER_ITEMS = [
@@ -10,6 +11,7 @@ const TICKER_ITEMS = [
 ];
 
 export function Hero() {
+  const [, setLocation] = useLocation();
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -197,7 +199,7 @@ export function Hero() {
 
               <button
                 id="hero-cta-services"
-                onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => setLocation("/services")}
                 className="group flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-foreground/80 hover:text-primary transition-colors"
               >
                 <span className="relative">
