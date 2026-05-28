@@ -8,6 +8,7 @@ const TICKER_ITEMS = [
   "GST Compliance", "Income Tax Filing", "Statutory Audit", "Company Registration",
   "Virtual CFO", "TDS Management", "MCA Filing", "Business Advisory",
   "Payroll Services", "FEMA Compliance", "Financial Planning", "ROC Services",
+  "Startup Fund Raising", "IPO Services", "IND AS Advisory", "ERP Implementation", "US Accounting"
 ];
 
 export function Hero() {
@@ -151,7 +152,7 @@ export function Hero() {
                       paddingBottom: "8px",
                     }}
                   >
-                    Empires.
+                    Empires...
                   </span>
                 </motion.span>
               </div>

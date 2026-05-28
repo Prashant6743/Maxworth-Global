@@ -575,7 +575,7 @@ export const servicesData: ServiceData[] = [
     ]
   }),
   
-  generateDefaultService("csr-complains", "other", "CSR Complains", {
+  generateDefaultService("csr-compliance", "other", "CSR Compliance", {
     content: [
       "Corporate Social Responsibility (CSR) in India is not merely philanthropy; it is a strict statutory mandate under Section 135 of the Companies Act, 2013. Qualifying companies must spend at least 2% of their average net profits over the preceding three years on designated social initiatives.",
       "CSR compliance requires the formation of a CSR Committee, drafting a formal CSR policy, identifying eligible implementing agencies (which must be registered with the MCA via Form CSR-1), and filing the detailed annual report on CSR activities.",
@@ -589,7 +589,7 @@ export const servicesData: ServiceData[] = [
     ]
   }),
   
-  generateDefaultService("fema-complaines", "other", "FEMA Complaines", {
+  generateDefaultService("fema-compliance", "other", "FEMA Compliance", {
     content: [
       "The Foreign Exchange Management Act, 1999 (FEMA) regulates all cross-border financial transactions in India. Administered aggressively by the Reserve Bank of India (RBI) and the Enforcement Directorate (ED), FEMA violations can result in massive penalties and asset confiscation.",
       "FEMA compliance is triggered anytime a business receives Foreign Direct Investment (FDI), makes Overseas Direct Investment (ODI), raises External Commercial Borrowings (ECB), or executes significant import/export remittances.",

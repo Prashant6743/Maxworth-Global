@@ -6,7 +6,7 @@ import imgWhyUs from "@/assets/9.png";
 const reasons = [
   {
     icon: Users,
-    title: "Partner-led Approach",
+    title: "Partner led Approach",
     desc: "Every client gets direct, undivided attention from experienced senior partners — not juniors or interns.",
   },
   {
@@ -29,13 +29,13 @@ const reasons = [
 const testimonials = [
   {
     name: "Arjun Mehra",
-    role: "CEO, TechVentures Pvt Ltd",
-    text: "The Maxworth-Global Llp transformed how we approach compliance. Their proactive advisory saved us lakhs in penalties.",
+    role: "CEO",
+    text: "Maxworth Global LLP transformed how we approach compliance. Their proactive advisory saved us lakhs in penalties.",
     rating: 5,
   },
   {
     name: "Priya Nair",
-    role: "Founder, Bloom Retail",
+    role: "Founder",
     text: "The team feels like an extension of our own. Always reachable, always precise, and remarkably insightful.",
     rating: 5,
   },

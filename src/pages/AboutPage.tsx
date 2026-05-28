@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -10,13 +10,11 @@ import {
 
 
 // Stock images (partners)
-import imgPartner1 from "@/assets/13.png";
-import imgPartner2 from "@/assets/10.png";
+import imgPartner1 from "@/assets/fca_sachin.png";
+import imgPartner2 from "@/assets/FCA Satish.png";
 
 // Generated hero collage images
-import imgOffice from "@/assets/about_office.png";
-import imgDesk   from "@/assets/about_desk.png";
-import imgSeal   from "@/assets/about_seal.png";
+import imgBoardroom from "@/assets/image copy.png";
 
 // Core Values data
 const values = [
@@ -41,7 +39,7 @@ const values = [
   {
     icon: Users,
     title: "Client-Centric Synergy",
-    desc: "We align deeply with your business objectives. You get direct access to senior partners who act as strategic sounding boards for your growth.",
+    desc: "Every engagement is managed by seasoned professionals and reviewed by senior partners with direct expertise in your industry. The guidance you receive is always informed, accountable, and aligned with what actually moves your business forward.",
     color: "hsl(280 50% 42%)" // Purple
   }
 ];
@@ -57,7 +55,7 @@ const milestones = [
   {
     year: "Early Years",
     title: "Audit & Assurance Wing",
-    desc: "Launched full-scale statutory and tax audit practice, securing regulatory compliance registrations and growing our client base across diverse industries.",
+    desc: "With over 15 years of deep expertise in financial planning, taxation, and strategic advisory, our Founder Partner established this firm with a clear and purposeful vision to bring every business need under a single, trusted roof.",
     tag: "Expansion"
   },
   {
@@ -75,7 +73,7 @@ const milestones = [
   {
     year: "Present Day",
     title: "Empowering Modern Enterprises",
-    desc: "Servicing 500+ active clients including high-growth startups, SMEs, and established enterprises with comprehensive financial and compliance solutions across India.",
+    desc: "Servicing 1500+ active clients including high-growth startups, SMEs, and established enterprises with comprehensive financial and compliance solutions across India.",
     tag: "Market Leaders"
   }
 ];
@@ -83,17 +81,17 @@ const milestones = [
 // Partners team data
 const team = [
   {
-    name: "CA Sachin Rana",
-    role: "Founder",
-    credentials: "CA · LLB · M.Com (Finance & Taxation)",
-    bio: "CA Sachin Rana is the Founder of Maxworth Global LLP Consultants and brings a rare blend of financial, legal, and taxation expertise. A qualified Chartered Accountant (CA), Law Graduate (LLB), and Master of Commerce in Finance and Taxation (M.Com), he possesses a multi-disciplinary foundation that allows him to address complex business challenges from every angle. With over 15 years of hands-on experience, he has advised a diverse clientele — from individual taxpayers and startups to large enterprises — across direct and indirect taxation, financial structuring, business compliance, and legal advisory.",
+    name: "FCA SACHIN RANA",
+    role: "ASSOCIATE CONSULTANT",
+    credentials: "CA, LLB, M.COM(F&T), FAFD(ICAI)",
+    bio: "FCA Sachin Rana is a Chartered Accountant (FCA), Law Graduate (LLB), and qualified FAFD (Forensic & Fraud Detection, ICAI) professional, bringing a rare blend of financial, legal, and taxation expertise that enables him to address complex business challenges from every angle.\n\nWith over 10+ years of experience in Accountancy, Auditing, and Domestic & International Taxation, he has advised a diverse clientele from individual taxpayers and startups to large enterprises across direct and indirect taxation, financial structuring, business compliance, and legal advisory.\n\nHe has gained rich experience working with various high-ranked firms and through his own practice, particularly in Statutory Audits and Internal Audits across varied industries including banks. He has developed a strong practice in both Domestic and International Direct Taxes, having served as Income Tax consultant to various industry leaders, and is equally well-versed in GST and Indirect Taxation. He has additionally developed notable expertise in Company Law, FEMA, and Limited Liability Partnership.",
     quote: "Precision is our craft; trust is our currency.",
     image: imgPartner1,
     linkedin: "#",
     email: "maxworthglobal@zohomail.in"
   },
   {
-    name: "CA Satish Bhardwaj",
+    name: "FCA Satish Bhardwaj",
     role: "Partner & Co-Founder",
     credentials: "CA (ICAI)",
     bio: "CA Satish Bhardwaj is the Partner and Co-Founder of Maxworth Global LLP Consultants, with over 15 years of distinguished experience in audit, statutory compliance, and corporate financial management. A qualified Chartered Accountant from the Institute of Chartered Accountants of India (ICAI), he brings a detail-oriented approach and deep regulatory knowledge that has helped countless businesses maintain seamless compliance. Known for his client-centric approach and proactive advisory style, CA Satish Bhardwaj plays a pivotal role in steering the firm's operations and ensuring that every client receives timely, accurate, and reliable financial guidance.",
@@ -108,10 +106,6 @@ export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
-  // Mouse parallax for collage
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const springX = useSpring(mouse.x, { stiffness: 45, damping: 18 });
-  const springY = useSpring(mouse.y, { stiffness: 45, damping: 18 });
   
   // Parallax hook for Hero
   const { scrollYProgress: heroScroll } = useScroll({
@@ -119,43 +113,11 @@ export default function AboutPage() {
     offset: ["start start", "end start"]
   });
   
-  const heroY       = useTransform(heroScroll, [0, 1], [0, 80]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  // ── Scroll-driven 3D transforms for each collage image layer ──
-  // Primary image: tilts back + rises as you scroll
-  const imgPrimaryRotateX = useTransform(heroScroll, [0, 0.6], [0,  14]);
-  const imgPrimaryRotateY = useTransform(heroScroll, [0, 0.6], [0,  -6]);
-  const imgPrimaryScale   = useTransform(heroScroll, [0, 0.6], [1,  0.88]);
-  const imgPrimaryY       = useTransform(heroScroll, [0, 0.6], [0, -50]);
-  const imgPrimaryOpacity = useTransform(heroScroll, [0, 0.55], [1,  0]);
-
-  // Desk overlay: slides down + rotates opposite direction
-  const imgDeskRotateX  = useTransform(heroScroll, [0, 0.6], [0, -10]);
-  const imgDeskRotateY  = useTransform(heroScroll, [0, 0.6], [0,   8]);
-  const imgDeskScale    = useTransform(heroScroll, [0, 0.6], [1,  0.82]);
-  const imgDeskY        = useTransform(heroScroll, [0, 0.6], [0,  60]);
-  const imgDeskOpacity  = useTransform(heroScroll, [0, 0.5], [1,   0]);
-
-  // Seal accent: fastest layer — floats away up and right
-  const imgSealRotateX  = useTransform(heroScroll, [0, 0.6], [0,  -18]);
-  const imgSealRotateY  = useTransform(heroScroll, [0, 0.6], [0,   12]);
-  const imgSealScale    = useTransform(heroScroll, [0, 0.6], [1,   0.75]);
-  const imgSealY        = useTransform(heroScroll, [0, 0.6], [0,  -80]);
-  const imgSealOpacity  = useTransform(heroScroll, [0, 0.4], [1,    0]);
-
-  // Stat badges: fade + drift with scroll
-  const badgeY1         = useTransform(heroScroll, [0, 0.5], [0,  30]);
-  const badgeY2         = useTransform(heroScroll, [0, 0.5], [0,  50]);
-  const badgeOpacity    = useTransform(heroScroll, [0, 0.4], [1,   0]);
-
-  // Scroll to top on load + mouse parallax
+  // Scroll to top on load
   useEffect(() => {
     window.scrollTo(0, 0);
-    const h = (e: MouseEvent) =>
-      setMouse({ x: (e.clientX / window.innerWidth - 0.5) * 20, y: (e.clientY / window.innerHeight - 0.5) * 14 });
-    window.addEventListener("mousemove", h);
-    return () => window.removeEventListener("mousemove", h);
   }, []);
 
   // Mouse Move 3D effect handler for custom 3D hover cards
@@ -203,259 +165,176 @@ export default function AboutPage() {
       </Helmet>
       <Navbar />
 
-      {/* ─── HERO SECTION WITH 3D PARALLAX DECK (LITE THEME) ───────────────────── */}
-      <section 
+      {/* ─── HERO SECTION — SPLIT LAYOUT ───────────────────────────────────────── */}
+      <section
         ref={heroRef}
-        className="relative min-h-[92vh] flex items-center pt-24 pb-16 overflow-hidden bg-background"
+        className="relative min-h-screen flex flex-col lg:flex-row overflow-hidden pt-[78px] lg:pt-[88px] bg-gradient-to-br from-[#FCFBF8] via-[#F8F6F0] to-[#EBE5D9]"
       >
-        {/* Animated gradient mesh blobs (Lite theme) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Primary blob — blue-navy tint */}
-          <motion.div
-            className="absolute -top-[20%] -left-[15%] w-[65%] h-[65%] rounded-full animate-blob-1"
-            style={{
-              background: "radial-gradient(circle at 40% 40%, hsl(222 55% 85% / 0.55), hsl(210 60% 90% / 0.3) 60%, transparent)",
-              filter: "blur(80px)",
-            }}
-          />
-          {/* Gold-warm blob */}
-          <motion.div
-            className="absolute -bottom-[15%] -right-[10%] w-[60%] h-[60%] rounded-full animate-blob-2"
-            style={{
-              background: "radial-gradient(circle at 60% 60%, hsl(38 88% 92% / 0.7), hsl(36 60% 88% / 0.4) 60%, transparent)",
-              filter: "blur(80px)",
-            }}
-          />
-          {/* Subtle center glow */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50%] h-[40%] opacity-[0.25]"
-            style={{
-              background: "radial-gradient(ellipse, hsl(38 88% 48% / 0.08) 0%, transparent 70%)",
-              filter: "blur(40px)",
-            }}
-          />
-          {/* Dot-grid overlay */}
-          <div className="absolute inset-0 dot-grid opacity-50" />
-        </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 w-full">
-          <div className="grid lg:grid-cols-12 gap-10 xl:gap-16 items-center">
+        {/* ── LEFT PANEL: Text Content ── */}
+        <motion.div
+          style={{ opacity: heroOpacity }}
+          className="relative z-10 flex flex-col justify-center px-8 sm:px-12 lg:px-16 xl:px-20 pt-32 pb-16 lg:py-0 lg:w-[52%] xl:w-[48%] shrink-0"
+        >
 
-            {/* ── LEFT: Text (5 cols) ── */}
-            <motion.div
-              style={{ y: heroY, opacity: heroOpacity }}
-              className="lg:col-span-5 text-left"
+
+          {/* Decorative SVG corner accent */}
+          <svg className="absolute top-24 left-6 opacity-20 pointer-events-none" width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <path d="M0 0 L40 0 L40 2 L2 2 L2 40 L0 40 Z" fill="hsl(38 88% 48%)" />
+            <circle cx="50" cy="50" r="1.5" fill="hsl(38 88% 48%)" />
+            <circle cx="70" cy="50" r="1.5" fill="hsl(38 88% 48%)" />
+            <circle cx="50" cy="70" r="1.5" fill="hsl(38 88% 48%)" />
+            <circle cx="70" cy="70" r="1.5" fill="hsl(38 88% 48%)" />
+          </svg>
+
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}
+            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-border/50 bg-white/60 backdrop-blur-sm mb-8 self-start shadow-sm"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-primary/70">About Maxworth Global</span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="font-serif font-bold leading-[1.06] mb-6"
+            style={{ fontSize: "clamp(2.4rem, 5vw, 3.8rem)", color: "hsl(222, 55%, 18%)" }}
+          >
+            Architects of financial{" "}
+            <span className="italic" style={{ color: "hsl(38 88% 46%)" }}>trust</span>,{" "}
+            custodians of{" "}
+            <span className="italic text-primary">growth</span>.
+          </motion.h1>
+
+          {/* Gold rule */}
+          <motion.div
+            initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="w-16 h-[2px] mb-7 origin-left"
+            style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+          />
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.3 }}
+            className="font-light leading-[1.85] mb-10 max-w-md text-muted-foreground"
+            style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)" }}
+          >
+            For over 15 years, we have coupled strict compliance with forward-thinking financial intelligence — turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="flex flex-wrap gap-4 mb-12"
+          >
+            <button
+              onClick={() => document.getElementById("philosophy")?.scrollIntoView({ behavior: "smooth" })}
+              className="group h-12 px-7 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 rounded-sm transition-all duration-300 cursor-pointer"
+              style={{ background: "hsl(38 88% 46%)", color: "#0a0f1e", boxShadow: "0 4px 24px rgba(217,143,33,0.3)" }}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-border/70 shadow-sm mb-6"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-muted-foreground">About Maxworth Global</span>
-              </motion.div>
+              <span>Our Philosophy</span>
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button
+              onClick={() => document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" })}
+              className="group h-12 px-6 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 border rounded-sm transition-all duration-300 cursor-pointer"
+              style={{ borderColor: "rgba(15,27,58,0.2)", color: "rgba(15,27,58,0.8)" }}
+            >
+              <span>Our Journey</span>
+            </button>
+          </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-serif font-bold text-4xl sm:text-5xl lg:text-[3.5rem] text-primary leading-[1.08] mb-6"
-              >
-                Architects of financial{" "}
-                <span className="italic" style={{ background: "linear-gradient(120deg, hsl(38 88% 38%), hsl(38 88% 58%))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>trust</span>,{" "}
-                custodians of <span className="italic">growth</span>.
-              </motion.h1>
+          {/* Trust Stats Row */}
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.6 }}
+            className="pt-8 border-t flex flex-wrap gap-8"
+            style={{ borderColor: "rgba(15,27,58,0.15)" }}
+          >
+            {[
+              { value: "15+", label: "Years of Excellence" },
+              { value: "1500+", label: "Clients Served" },
 
-              {/* Gold rule */}
-              <motion.div
-                initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-                transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="w-14 h-[2px] mb-6 origin-left"
-                style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-              />
+            ].map((s, i) => (
+              <div key={i}>
+                <p className="font-serif font-bold text-2xl" style={{ color: "hsl(38 88% 46%)" }}>{s.value}</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold mt-0.5" style={{ color: "rgba(15,27,58,0.6)" }}>{s.label}</p>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, delay: 0.28 }}
-                className="text-muted-foreground font-light leading-[1.82] mb-10 max-w-md"
-                style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.05rem)" }}
-              >
-                For over 22 years, we have coupled strict compliance with forward-thinking financial intelligence — turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
-              </motion.p>
+        {/* ── RIGHT PANEL: Image ── */}
+        <div className="relative lg:flex-1 min-h-[380px] lg:min-h-0 overflow-hidden">
 
-              <motion.div
-                initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.42 }}
-                className="flex flex-wrap gap-4"
-              >
-                <button
-                  onClick={() => document.getElementById("philosophy")?.scrollIntoView({ behavior: "smooth" })}
-                  className="group relative h-12 px-7 overflow-hidden font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 bg-gold text-primary shadow-[0_4px_24px_rgba(217,143,33,0.22)] hover:shadow-[0_8px_32px_rgba(217,143,33,0.38)] transition-all rounded-sm duration-300 cursor-pointer"
-                >
-                  <span className="relative z-10">Our Philosophy</span>
-                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button
-                  onClick={() => document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" })}
-                  className="group relative h-12 px-6 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 border border-border/80 hover:border-gold/50 text-foreground rounded-sm transition-all duration-300 cursor-pointer"
-                >
-                  <span>Our Journey</span>
-                </button>
-              </motion.div>
+          {/* Main boardroom image */}
+          <motion.div
+            initial={{ scale: 1.08, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0"
+          >
+            <img
+              src={imgBoardroom}
+              alt="Maxworth Global luxury boardroom with city skyline"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center center" }}
+            />
+          </motion.div>
 
-              {/* Small trust row */}
-              <motion.div
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.6 }}
-                className="mt-10 pt-8 border-t border-border/40 flex flex-wrap gap-6"
-              >
-                {[
-                  { icon: ShieldCheck, label: "Govt. Registered" },
-                  { icon: Award,       label: "22+ Years" },
-                  { icon: Users,       label: "500+ Clients" },
-                ].map((b, i) => {
-                  const Ic = b.icon;
-                  return (
-                    <div key={i} className="flex items-center gap-2">
-                      <Ic className="w-3.5 h-3.5 text-gold shrink-0" />
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{b.label}</span>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
+          {/* Left edge fade into page background */}
+          <div className="absolute inset-y-0 left-0 w-[32%] md:w-[25%] pointer-events-none z-10"
+            style={{ background: "linear-gradient(to right, #FCFBF8 0%, transparent 100%)" }}
+          />
+          
+          {/* Soft top/bottom edge blend */}
+          <div className="absolute inset-x-0 top-0 h-16 pointer-events-none z-10"
+            style={{ background: "linear-gradient(to bottom, #FCFBF8 0%, transparent 100%)" }}
+          />
+          {/* Gradient overlay bottom — blends into dark next section on mobile */}
+          <div className="absolute inset-x-0 bottom-0 pointer-events-none z-10 lg:hidden h-24"
+            style={{ background: "linear-gradient(to top, #050814 0%, transparent 100%)" }}
+          />
 
-            {/* ── RIGHT: Editorial Image Collage (7 cols) ── */}
-            <div className="lg:col-span-7 relative flex items-center justify-center min-h-[560px]">
-              
-              {/* ── EDITORIAL COLLAGE — 3D Scroll Scene ── */}
-              <motion.div
-                style={{ x: springX, y: springY }}
-                className="relative w-full"
-              >
-                {/* 3D Perspective container — all children rendered in same 3D space */}
-                <div style={{ perspective: "1100px", perspectiveOrigin: "50% 40%" }}>
 
-                  {/* ── PRIMARY: Boardroom (bottom layer, tilts back on scroll) ── */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                      rotateX:  imgPrimaryRotateX,
-                      rotateY:  imgPrimaryRotateY,
-                      scale:    imgPrimaryScale,
-                      y:        imgPrimaryY,
-                      opacity:  imgPrimaryOpacity,
-                      height:   "400px",
-                      transformStyle: "preserve-3d",
-                      willChange: "transform, opacity",
-                    }}
-                    className="relative ml-8 rounded-2xl overflow-hidden shadow-[0_28px_80px_-14px_rgba(15,27,58,0.22)] border border-border/30"
-                  >
-                    <div style={{ height: "400px" }}>
-                      <img
-                        src={imgOffice}
-                        alt="Maxworth Global Boardroom"
-                        className="w-full h-full object-cover"
-                        style={{ objectPosition: "center 30%" }}
-                      />
-                    </div>
-                    {/* Bottom gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent pointer-events-none" />
-                    {/* Established badge — bottom left */}
-                    <div className="absolute bottom-5 left-5 flex flex-col">
-                      <span className="text-[9px] uppercase tracking-[0.22em] font-bold text-white/60 mb-0.5">Established</span>
-                      <span className="font-serif font-bold text-white text-2xl italic leading-none">2002</span>
-                    </div>
-                  </motion.div>
 
-                  {/* ── DESK: Mid layer — slides down + tilts opposite on scroll ── */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -25, y: 20 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    transition={{ duration: 0.9, delay: 0.55, type: "spring", stiffness: 140, damping: 22 }}
-                    style={{
-                      rotateX:  imgDeskRotateX,
-                      rotateY:  imgDeskRotateY,
-                      scale:    imgDeskScale,
-                      y:        imgDeskY,
-                      opacity:  imgDeskOpacity,
-                      transformStyle: "preserve-3d",
-                      willChange: "transform, opacity",
-                    }}
-                    className="absolute bottom-0 left-0 w-[46%] rounded-xl overflow-hidden shadow-[0_20px_60px_-10px_rgba(15,27,58,0.28)] border-[3px] border-white"
-                  >
-                    <img
-                      src={imgDesk}
-                      alt="Financial analyst desk"
-                      className="w-full h-[185px] object-cover"
-                      style={{ objectPosition: "center" }}
-                    />
-                  </motion.div>
-
-                  {/* ── SEAL: Top foreground layer — floats up fastest on scroll ── */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 20, y: -15 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    transition={{ duration: 0.85, delay: 0.75, type: "spring", stiffness: 150, damping: 20 }}
-                    style={{
-                      rotateX:  imgSealRotateX,
-                      rotateY:  imgSealRotateY,
-                      scale:    imgSealScale,
-                      y:        imgSealY,
-                      opacity:  imgSealOpacity,
-                      transformStyle: "preserve-3d",
-                      willChange: "transform, opacity",
-                    }}
-                    className="absolute -top-10 right-4 w-[30%] rounded-xl overflow-hidden shadow-[0_16px_50px_-8px_rgba(15,27,58,0.22)] border-[3px] border-white"
-                  >
-                    <img
-                      src={imgSeal}
-                      alt="Gold wax seal — authenticity"
-                      className="w-full h-[130px] object-cover"
-                      style={{ objectPosition: "center 60%" }}
-                    />
-                  </motion.div>
-
-                </div>{/* end perspective container */}
-
-                {/* ── Floating stat card 1 — right side ── */}
-                <motion.div
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.05, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
-                  style={{ y: badgeY1, opacity: badgeOpacity }}
-                  className="absolute top-1/2 -right-6 -translate-y-1/2 glass px-5 py-3.5 shadow-xl border border-gold/30"
-                >
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Portfolio Audited</p>
-                  <p className="font-serif font-bold text-primary text-xl italic leading-none">₹50B+</p>
-                </motion.div>
-
-                {/* ── Floating stat card 2 — bottom center ── */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
-                  style={{ y: badgeY2, opacity: badgeOpacity, x: "-50%" }}
-                  className="absolute -bottom-6 left-[46%] glass px-5 py-3.5 shadow-xl border border-border/50"
-                >
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Retention Rate</p>
-                  <p className="font-serif font-bold text-primary text-xl italic leading-none">99.8%</p>
-                </motion.div>
-
-                {/* ── Decorative gold diagonal rules ── */}
-                <div
-                  className="absolute top-[55%] right-[8%] w-[1px] h-28 pointer-events-none rotate-12 origin-top"
-                  style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.5), transparent)" }}
-                />
-                <div
-                  className="absolute top-[55%] right-[11%] w-[1px] h-20 pointer-events-none rotate-12 origin-top"
-                  style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.25), transparent)" }}
-                />
-
-              </motion.div>
+          {/* ── Established badge — bottom left of image ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.35, duration: 0.65 }}
+            className="absolute bottom-8 left-6 sm:bottom-12 sm:left-10 flex items-end gap-3"
+          >
+            <div className="w-[2px] h-14 rounded-full" style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46%))" }} />
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.22em] font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>Established</p>
+              <p className="font-serif font-bold text-3xl text-white italic leading-none">2002</p>
             </div>
+          </motion.div>
 
+          {/* ── Gold corner bracket — top left of image ── */}
+          <svg className="absolute top-6 left-6 pointer-events-none" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M0 0 L20 0 L20 2 L2 2 L2 20 L0 20 Z" fill="hsl(38 88% 48%)" opacity="0.7"/>
+          </svg>
+          {/* ── Gold corner bracket — bottom right of image ── */}
+          <svg className="absolute bottom-6 right-6 pointer-events-none rotate-180" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M0 0 L20 0 L20 2 L2 2 L2 20 L0 20 Z" fill="hsl(38 88% 48%)" opacity="0.7"/>
+          </svg>
 
-          </div>
+          {/* ── Decorative diagonal gold line ── */}
+          <div
+            className="absolute top-[20%] left-[15%] w-[1px] h-32 pointer-events-none hidden lg:block"
+            style={{
+              background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.4), transparent)",
+              transform: "rotate(15deg)"
+            }}
+          />
+
         </div>
       </section>
 
@@ -476,9 +355,8 @@ export default function AboutPage() {
           >
             {([
               { text: "Trusted Since 2002",     gold: false },
-              { text: "Govt. Registered",         gold: true  },
-              { text: "500+ Corporate Clients",  gold: false },
-              { text: "₹50B+ Portfolio Audited", gold: true  },
+              { text: "1500+ Clients",  gold: false },
+              { text: "10K+ Tax Litigations", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
               { text: "Audit & Virtual CFO",     gold: true  },
               { text: "Tax & Payroll Setup",     gold: false },
@@ -487,9 +365,8 @@ export default function AboutPage() {
               { text: "Licencing & Certificates", gold: true  },
             ] as const).concat(([
               { text: "Trusted Since 2002",     gold: false },
-              { text: "Govt. Registered",         gold: true  },
-              { text: "500+ Corporate Clients",  gold: false },
-              { text: "₹50B+ Portfolio Audited", gold: true  },
+              { text: "1500+ Clients",  gold: false },
+              { text: "10K+ Tax Litigations", gold: true  },
               { text: "99.8% Client Retention",  gold: false },
               { text: "Audit & Virtual CFO",     gold: true  },
               { text: "Tax & Payroll Setup",     gold: false },
@@ -514,9 +391,9 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 items-center">
             
             {[
-              { num: "22+", label: "Years of Trust", desc: "Since 2002 inception" },
-              { num: "500+", label: "Corporate Clients", desc: "Startups, SMEs & Listed Co." },
-              { num: "₹50B+", label: "Portfolio Audited", desc: "Robust financial oversight" },
+              { num: "15+", label: "Years of Trust", desc: "Proven track record" },
+              { num: "1500+", label: "Clients", desc: "Startups, SMEs & Listed Co." },
+              { num: "10K+", label: "Tax Litigations", desc: "Direct & Indirect Tax" },
               { num: "99.8%", label: "Client Retention", desc: "Partnership-led priority" }
             ].map((stat, idx) => (
               <motion.div
@@ -595,11 +472,11 @@ export default function AboutPage() {
                   {/* Border gradient trace on hover */}
                   <div className="absolute inset-[-1.5px] rounded-lg bg-gradient-to-br from-white/10 to-transparent group-hover:from-gold/30 z-0 transition-colors" />
 
-                  <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div className="relative z-10 flex flex-col h-full">
                     
                     {/* Icon container */}
                     <div 
-                      className="w-12 h-12 rounded-sm flex items-center justify-center mb-8 transition-transform duration-300 group-hover:scale-110"
+                      className="w-12 h-12 rounded-sm flex items-center justify-center mb-8 transition-transform duration-300 group-hover:scale-110 shrink-0"
                       style={{ 
                         background: `${v.color}18`, 
                         border: `1px solid ${v.color}35`
@@ -608,8 +485,8 @@ export default function AboutPage() {
                       <Icon className="w-5 h-5" style={{ color: v.color }} />
                     </div>
 
-                    <div>
-                      <h3 className="font-serif font-bold text-white text-lg mb-4 group-hover:text-gold transition-colors">
+                    <div className="flex flex-col flex-grow">
+                      <h3 className="font-serif font-bold text-white text-lg mb-4 group-hover:text-gold transition-colors min-h-[56px]">
                         {v.title}
                       </h3>
                       <p className="text-white/55 text-[13px] leading-[1.7] font-light">
@@ -618,7 +495,7 @@ export default function AboutPage() {
                     </div>
 
                     {/* Subtle numbering */}
-                    <span className="text-[10px] font-mono tracking-widest text-white/10 group-hover:text-gold/20 transition-colors block mt-8 text-right">
+                    <span className="text-[10px] font-mono tracking-widest text-white/10 group-hover:text-gold/20 transition-colors block mt-auto pt-8 text-right shrink-0">
                       // VALUE_0{i + 1}
                     </span>
 
@@ -806,9 +683,11 @@ export default function AboutPage() {
                   </div>
                   
                   {/* Bio snippet */}
-                  <p className="text-white/50 text-[11.5px] leading-relaxed font-light mb-6">
-                    {partner.bio}
-                  </p>
+                  <div className="text-white/50 text-[11.5px] leading-relaxed font-light mb-6 space-y-3">
+                    {partner.bio.split('\n\n').map((para, idx) => (
+                      <p key={idx}>{para}</p>
+                    ))}
+                  </div>
 
                   {/* Social and contacts HUD bar */}
                   <div className="flex items-center justify-between pt-4 border-t border-white/5">
@@ -853,12 +732,12 @@ export default function AboutPage() {
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 46%), transparent)" }} />
             
-            <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-4">Partner-Led Solutions</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-4">Business-Tailored Solutions</p>
             <h2 className="font-serif font-bold text-3xl md:text-4xl text-white mb-6 leading-tight max-w-2xl mx-auto">
               Ready to structure your business for compliant growth?
             </h2>
             <p className="text-white/60 text-sm font-light leading-[1.8] max-w-xl mx-auto mb-10">
-              Schedule a 30-minute discovery consultation. Our senior partners will review your current taxation layout, audit readiness, or corporate governance structure.
+              Schedule a 30-minute discovery consultation. Our team will review your current taxation layout, audit readiness, or corporate governance structure.
             </p>
 
             <button

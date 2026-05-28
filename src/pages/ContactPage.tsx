@@ -94,13 +94,13 @@ const reachMethods = [
   {
     icon: MessageSquare,
     label: "WhatsApp",
-    primary: "+011-49847956",
+    primary: "+91-9319744130",
     secondary: "Quick queries & updates",
     tag: "Usually responds fast",
     color: "hsl(142 60% 36%)",
     bg: "hsl(142 60% 36% / 0.07)",
     border: "hsl(142 60% 36% / 0.2)",
-    action: "https://wa.me/911149847956",
+    action: "https://wa.me/919319744130",
     cta: "Message Now",
   },
   {
@@ -124,8 +124,8 @@ const services = [
 
 const trustBadges = [
   { icon: Shield, label: "MCA Compliant" },
-  { icon: Award,  label: "22+ Years" },
-  { icon: Users,  label: "500+ Clients" },
+  { icon: Award,  label: "15+ Years" },
+  { icon: Users,  label: "1500+ Clients" },
 ];
 
 // ─── 3D Tilt Hook ───────────────────────────────────────────────────────────────
@@ -829,7 +829,7 @@ export default function ContactPage() {
                                   📧 Email Us Directly
                                 </a>
                                 <a
-                                  href="https://wa.me/911149847956?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                                  href="https://wa.me/919319744130?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"

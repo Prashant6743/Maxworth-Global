@@ -405,7 +405,7 @@ export function Contact() {
                           📧 Email Us Directly
                         </a>
                         <a
-                          href="https://wa.me/911149847956?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                          href="https://wa.me/919319744130?text=Hello%20Maxworth%20Global%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 text-center text-[11px] font-bold py-2 px-3 rounded-lg transition-all"

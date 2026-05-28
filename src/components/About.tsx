@@ -119,7 +119,7 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.32 }}
             className="text-sm text-muted-foreground font-light leading-[1.85] mb-4 max-w-[440px]"
           >
-            We are a team of qualified Chartered Accountants, tax professionals, and business advisors committed to delivering precision-driven financial solutions. Based in Delhi and operating as PAN India service providers, we partner with clients across all sectors — from early-stage startups to established corporations.
+            We have a team of Chartered Accountants, Advocates, Company Secretaries, Valuers, and other seasoned professionals who are committed to delivering precision-driven solutions across all your business and compliance needs. Based in Delhi and operating as PAN India service providers, we bring every expertise under one roof, partnering with clients across all sectors from the early-stage startups to established corporations.
           </motion.p>
 
           {/* Body paragraph 2 */}
@@ -129,7 +129,7 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.40 }}
             className="text-sm text-muted-foreground font-light leading-[1.85] mb-10 max-w-[440px]"
           >
-            Our philosophy is simple: every business deserves expert guidance, not just compliance. We go beyond the numbers to provide insights that drive real growth — with 15+ years of collective expertise behind every recommendation.
+            Our philosophy is simple: every business deserves expert guidance, not just compliance. We go beyond the numbers to provide insights that drive real growth with 15+ years of collective expertise behind every recommendation.
           </motion.p>
 
           {/* CTA Buttons — slide up */}
@@ -190,7 +190,7 @@ export function About() {
             {/* Parallax image */}
             <motion.img
               src={ourStoryImg}
-              alt="Our Story — architectural path to city skyline at sunset"
+              alt="Our Story - architectural path to city skyline at sunset"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: "center center", y: imgY }}
               initial={{ scale: 1.08, opacity: 0 }}

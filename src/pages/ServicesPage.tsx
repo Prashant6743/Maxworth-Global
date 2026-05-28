@@ -112,9 +112,14 @@ const services = [
     description: "Statutory audit, fractional CFO leadership, business valuation, and capital raising advisory. Senior partner attention to solve your complex financial needs.",
     features: [
       "International Trade",
-      "CSR Complains",
-      "FEMA Complaines",
-      "Business Consulting"
+      "CSR Compliance",
+      "FEMA Compliance",
+      "Business Consulting",
+      "Startup fund raising (Debt and Equity Both)",
+      "IPO services",
+      "IND AS implementation and Advisory",
+      "Automation of Recording of Transaction or ERP Implementation",
+      "US Accounting"
     ],
     stat: "₹5B+ Funding Advisory"
   }
@@ -303,29 +308,38 @@ export default function ServicesPage() {
         {/* Right image half */}
         <motion.div
           style={{ y: imgParallax }}
-          className="absolute inset-y-0 right-0 w-full md:w-[55%]"
+          className="absolute top-[90px] bottom-0 right-0 hidden md:block md:w-[55%] z-0 overflow-hidden"
         >
           <img
             src={img11}
             alt="CA firm services"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.05] origin-left"
             style={{ filter: "brightness(0.75) contrast(1.05)" }}
           />
-          {/* Overlay gradients */}
-          <div className="absolute inset-0" style={{
-            background: "linear-gradient(to right, hsl(36 33% 97%) 0%, hsl(36 33% 97% / 0.5) 35%, transparent 65%)",
+          
+          {/* Overlay gradients (Left fade) */}
+          <div className="absolute inset-y-0 left-0 z-10 w-[32%] md:w-[35%]" style={{
+            background: "linear-gradient(to right, hsl(36 33% 97%) 0%, transparent 100%)",
           }} />
-          <div className="absolute inset-0" style={{
-            background: "linear-gradient(to top, hsl(36 33% 97%) 0%, transparent 25%)",
+          
+          {/* Soft top/bottom edge blend */}
+          <div className="absolute inset-x-0 top-0 z-10 h-16" style={{
+            background: "linear-gradient(to bottom, hsl(36 33% 97%) 0%, transparent 100%)",
           }} />
+          <div className="absolute inset-x-0 bottom-0 z-10 h-16" style={{
+            background: "linear-gradient(to top, hsl(36 33% 97%) 0%, transparent 100%)",
+          }} />
+
+          {/* Texture Overlay */}
+          <div className="absolute inset-0 dot-grid opacity-20 z-20 mix-blend-multiply" />
         </motion.div>
 
         {/* Left text content */}
         <motion.div
           style={{ y: textY, opacity: textOpacity }}
-          className="relative z-10 h-full flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-10"
+          className="relative z-30 h-full flex-1 flex items-center max-w-7xl mx-auto px-6 md:px-10 w-full"
         >
-          <div className="max-w-xl pt-20">
+          <div className="max-w-[580px] pt-20 transform md:-translate-x-2 lg:-translate-x-4 xl:-translate-x-6 2xl:-translate-x-20">
             <motion.button
               initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
@@ -351,7 +365,7 @@ export default function ServicesPage() {
                 initial={{ y: 80 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-                className="font-serif font-bold text-foreground leading-[1.04]"
+                className="font-serif font-bold text-foreground leading-[1.04] pb-6"
                 style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.2rem)" }}
               >
                 Financial
@@ -384,7 +398,7 @@ export default function ServicesPage() {
               transition={{ delay: 0.6 }}
               className="flex flex-wrap gap-8 mb-12"
             >
-              {[["6", "Services"], ["25+", "Years"], ["500+", "Clients"], ["98%", "Retention"]].map(([v, l]) => (
+              {[["6", "Services"], ["25+", "Years"], ["1500+", "Clients"], ["98%", "Retention"]].map(([v, l]) => (
                 <div key={l}>
                   <p className="font-serif font-bold text-2xl text-primary">{v}</p>
                   <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">{l}</p>

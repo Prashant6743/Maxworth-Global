@@ -96,8 +96,8 @@ const serviceItems = [
     id: "other",
     subItems: [
       { name: "International Trade", id: "international-trade" },
-      { name: "CSR Complains", id: "csr-complains" },
-      { name: "FEMA Complaines", id: "fema-complaines" },
+      { name: "CSR Compliance", id: "csr-compliance" },
+      { name: "FEMA Compliance", id: "fema-compliance" },
       { name: "Business Consulting", id: "business-consulting" },
     ],
   },
@@ -212,7 +212,7 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className={`fixed top-[2px] left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-            ? "py-3 bg-white/80 backdrop-blur-md shadow-[0_4px_32px_-8px_rgba(15,27,58,0.14)] border-b border-white/40"
+            ? "py-3 bg-white/95 backdrop-blur-md shadow-[0_4px_32px_-8px_rgba(15,27,58,0.14)] border-b border-border/30"
             : "py-5 bg-white/30 backdrop-blur-sm border-b border-white/20"
           }`}
       >
