@@ -80,9 +80,7 @@ const services = [
       "Domestic Tax Compliances",
       "80G / 12A",
       "Income Tax",
-      "Indirect Tax",
-      "Direct Tax",
-      "Tax Consultancy"
+      "Indirect Tax"
     ],
     stat: "₹2B+ Tax Optimised"
   },

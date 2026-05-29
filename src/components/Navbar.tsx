@@ -71,8 +71,6 @@ const serviceItems = [
       { name: "80G / 12A", id: "80g-12a" },
       { name: "Income Tax", id: "income-tax" },
       { name: "Indirect Tax", id: "indirect-tax" },
-      { name: "Direct Tax", id: "direct-tax" },
-      { name: "Tax Consultancy", id: "tax-consultancy" },
     ],
   },
   {
@@ -99,6 +97,11 @@ const serviceItems = [
       { name: "CSR Compliance", id: "csr-compliance" },
       { name: "FEMA Compliance", id: "fema-compliance" },
       { name: "Business Consulting", id: "business-consulting" },
+      { name: "Startup fund raising (Debt and Equity Both)", id: "startup-fund-raising" },
+      { name: "IPO services", id: "ipo-services" },
+      { name: "IND AS implementation and Advisory", id: "ind-as-implementation" },
+      { name: "Automation of Recording of Transaction or ERP Implementation", id: "erp-implementation" },
+      { name: "US Accounting", id: "us-accounting" },
     ],
   },
 ];

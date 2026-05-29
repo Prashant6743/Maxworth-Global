@@ -1,5 +1,5 @@
-import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -14,7 +14,9 @@ import imgPartner1 from "@/assets/fca_sachin.png";
 import imgPartner2 from "@/assets/FCA Satish.png";
 
 // Generated hero collage images
-import imgBoardroom from "@/assets/image copy.png";
+import imgOffice from "@/assets/about_office.png";
+import imgDesk   from "@/assets/image copy.png";
+import imgSeal   from "@/assets/about_seal.png";
 
 // Core Values data
 const values = [
@@ -106,18 +108,49 @@ export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
 
-  
+  // Mouse parallax for collage
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const springX = useSpring(mouse.x, { stiffness: 45, damping: 18 });
+  const springY = useSpring(mouse.y, { stiffness: 45, damping: 18 });
+
   // Parallax hook for Hero
   const { scrollYProgress: heroScroll } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
-  
+
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
-  // Scroll to top on load
+  // Scroll-driven 3D transforms for each collage image layer
+  const imgPrimaryRotateX = useTransform(heroScroll, [0, 0.6], [0,  14]);
+  const imgPrimaryRotateY = useTransform(heroScroll, [0, 0.6], [0,  -6]);
+  const imgPrimaryScale   = useTransform(heroScroll, [0, 0.6], [1,  0.88]);
+  const imgPrimaryY       = useTransform(heroScroll, [0, 0.6], [0, -50]);
+  const imgPrimaryOpacity = useTransform(heroScroll, [0, 0.55], [1,  0]);
+
+  const imgDeskRotateX  = useTransform(heroScroll, [0, 0.6], [0, -10]);
+  const imgDeskRotateY  = useTransform(heroScroll, [0, 0.6], [0,   8]);
+  const imgDeskScale    = useTransform(heroScroll, [0, 0.6], [1,  0.82]);
+  const imgDeskY        = useTransform(heroScroll, [0, 0.6], [0,  60]);
+  const imgDeskOpacity  = useTransform(heroScroll, [0, 0.5], [1,   0]);
+
+  const imgSealRotateX  = useTransform(heroScroll, [0, 0.6], [0,  -18]);
+  const imgSealRotateY  = useTransform(heroScroll, [0, 0.6], [0,   12]);
+  const imgSealScale    = useTransform(heroScroll, [0, 0.6], [1,   0.75]);
+  const imgSealY        = useTransform(heroScroll, [0, 0.6], [0,  -80]);
+  const imgSealOpacity  = useTransform(heroScroll, [0, 0.4], [1,    0]);
+
+  const badgeY1         = useTransform(heroScroll, [0, 0.5], [0,  30]);
+  const badgeY2         = useTransform(heroScroll, [0, 0.5], [0,  50]);
+  const badgeOpacity    = useTransform(heroScroll, [0, 0.4], [1,   0]);
+
+  // Scroll to top on load + mouse parallax
   useEffect(() => {
     window.scrollTo(0, 0);
+    const h = (e: MouseEvent) =>
+      setMouse({ x: (e.clientX / window.innerWidth - 0.5) * 20, y: (e.clientY / window.innerHeight - 0.5) * 14 });
+    window.addEventListener("mousemove", h);
+    return () => window.removeEventListener("mousemove", h);
   }, []);
 
   // Mouse Move 3D effect handler for custom 3D hover cards
@@ -227,114 +260,170 @@ export default function AboutPage() {
             For over 15 years, we have coupled strict compliance with forward-thinking financial intelligence — turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
           </motion.p>
 
-          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
+            transition={{ duration: 0.5, delay: 0.42 }}
             className="flex flex-wrap gap-4 mb-12"
           >
             <button
               onClick={() => document.getElementById("philosophy")?.scrollIntoView({ behavior: "smooth" })}
-              className="group h-12 px-7 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 rounded-sm transition-all duration-300 cursor-pointer"
-              style={{ background: "hsl(38 88% 46%)", color: "#0a0f1e", boxShadow: "0 4px 24px rgba(217,143,33,0.3)" }}
+              className="group relative h-12 px-7 overflow-hidden font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 bg-gold text-primary shadow-[0_4px_24px_rgba(217,143,33,0.22)] hover:shadow-[0_8px_32px_rgba(217,143,33,0.38)] transition-all rounded-sm duration-300 cursor-pointer"
             >
-              <span>Our Philosophy</span>
+              <span className="relative z-10">Our Philosophy</span>
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => document.getElementById("timeline")?.scrollIntoView({ behavior: "smooth" })}
-              className="group h-12 px-6 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 border rounded-sm transition-all duration-300 cursor-pointer"
-              style={{ borderColor: "rgba(15,27,58,0.2)", color: "rgba(15,27,58,0.8)" }}
+              className="group relative h-12 px-6 font-bold uppercase tracking-[0.14em] text-[11px] flex items-center gap-2 border border-border/80 hover:border-gold/50 text-foreground rounded-sm transition-all duration-300 cursor-pointer"
             >
               <span>Our Journey</span>
             </button>
           </motion.div>
 
-          {/* Trust Stats Row */}
+          {/* Trust row */}
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.6 }}
-            className="pt-8 border-t flex flex-wrap gap-8"
-            style={{ borderColor: "rgba(15,27,58,0.15)" }}
+            className="pt-8 border-t border-border/40 flex flex-wrap gap-6"
           >
             {[
-              { value: "15+", label: "Years of Excellence" },
-              { value: "1500+", label: "Clients Served" },
-
-            ].map((s, i) => (
-              <div key={i}>
-                <p className="font-serif font-bold text-2xl" style={{ color: "hsl(38 88% 46%)" }}>{s.value}</p>
-                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold mt-0.5" style={{ color: "rgba(15,27,58,0.6)" }}>{s.label}</p>
-              </div>
-            ))}
+              { icon: Award, label: "15+ Years" },
+              { icon: Users, label: "1500+ Clients" },
+            ].map((b, i) => {
+              const Ic = b.icon;
+              return (
+                <div key={i} className="flex items-center gap-2">
+                  <Ic className="w-3.5 h-3.5 text-gold shrink-0" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{b.label}</span>
+                </div>
+              );
+            })}
           </motion.div>
         </motion.div>
 
-        {/* ── RIGHT PANEL: Image ── */}
-        <div className="relative lg:flex-1 min-h-[380px] lg:min-h-0 overflow-hidden">
-
-          {/* Main boardroom image */}
+        {/* ── RIGHT: Editorial Image Collage (3D Scroll Scene) ── */}
+        <div className="lg:flex-1 relative flex items-center justify-center min-h-[520px] lg:min-h-0 px-4 py-12 lg:py-0 lg:pr-8">
           <motion.div
-            initial={{ scale: 1.08, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0"
+            style={{ x: springX, y: springY }}
+            className="relative w-full max-w-[78sift this 0px] mx-auto"
           >
-            <img
-              src={imgBoardroom}
-              alt="Maxworth Global luxury boardroom with city skyline"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center center" }}
+            <div style={{ perspective: "1100px", perspectiveOrigin: "50% 40%" }}>
+
+              {/* PRIMARY: Office boardroom */}
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  rotateX: imgPrimaryRotateX,
+                  rotateY: imgPrimaryRotateY,
+                  scale: imgPrimaryScale,
+                  y: imgPrimaryY,
+                  opacity: imgPrimaryOpacity,
+                  height: "440px",
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, opacity",
+                }}
+                className="relative rounded-2xl overflow-hidden shadow-[0_28px_80px_-14px_rgba(15,27,58,0.22)] border border-border/30"
+              >
+                <div style={{ height: "440px" }}>
+                  <img
+                    src={imgOffice}
+                    alt="Maxworth Global Boardroom"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: "center center" }}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-5 left-5 flex flex-col">
+                  <span className="text-[9px] uppercase tracking-[0.22em] font-bold text-white/60 mb-0.5">Established</span>
+                  <span className="font-serif font-bold text-white text-2xl italic leading-none">2002</span>
+                </div>
+              </motion.div>
+
+              {/* DESK: Mid layer */}
+              <motion.div
+                initial={{ opacity: 0, x: -25, y: 20 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.55, type: "spring", stiffness: 140, damping: 22 }}
+                style={{
+                  rotateX: imgDeskRotateX,
+                  rotateY: imgDeskRotateY,
+                  scale: imgDeskScale,
+                  y: imgDeskY,
+                  opacity: imgDeskOpacity,
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, opacity",
+                }}
+                className="absolute bottom-0 -left-6 w-[48%] rounded-xl overflow-hidden shadow-[0_20px_60px_-10px_rgba(15,27,58,0.28)] border-[3px] border-white"
+              >
+                <img
+                  src={imgDesk}
+                  alt="Financial analyst desk"
+                  className="w-full h-[240px] object-cover"
+                  style={{ objectPosition: "center" }}
+                />
+              </motion.div>
+
+              {/* SEAL: Top foreground layer */}
+              <motion.div
+                initial={{ opacity: 0, x: 20, y: -15 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.75, type: "spring", stiffness: 150, damping: 20 }}
+                style={{
+                  rotateX: imgSealRotateX,
+                  rotateY: imgSealRotateY,
+                  scale: imgSealScale,
+                  y: imgSealY,
+                  opacity: imgSealOpacity,
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, opacity",
+                }}
+                className="absolute -top-10 right-4 w-[36%] rounded-xl overflow-hidden shadow-[0_16px_50px_-8px_rgba(15,27,58,0.22)] border-[3px] border-white"
+              >
+                <img
+                  src={imgSeal}
+                  alt="Gold wax seal — authenticity"
+                  className="w-full h-[170px] object-cover"
+                  style={{ objectPosition: "center 60%" }}
+                />
+              </motion.div>
+
+            </div>{/* end perspective container */}
+
+            {/* Floating stat card 1 */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.05, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
+              style={{ y: badgeY1, opacity: badgeOpacity }}
+              className="absolute top-1/2 -right-6 -translate-y-1/2 glass px-5 py-3.5 shadow-xl border border-gold/30"
+            >
+              <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Tax Litigations</p>
+              <p className="font-serif font-bold text-primary text-xl italic leading-none">10K+</p>
+            </motion.div>
+
+            {/* Floating stat card 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.7, type: "spring", stiffness: 160, damping: 22 }}
+              style={{ y: badgeY2, opacity: badgeOpacity, x: "-50%" }}
+              className="absolute -bottom-6 left-[46%] glass px-5 py-3.5 shadow-xl border border-border/50"
+            >
+              <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-0.5">Retention Rate</p>
+              <p className="font-serif font-bold text-primary text-xl italic leading-none">99.8%</p>
+            </motion.div>
+
+            {/* Decorative gold diagonal rules */}
+            <div
+              className="absolute top-[55%] right-[8%] w-[1px] h-28 pointer-events-none rotate-12 origin-top"
+              style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.5), transparent)" }}
+            />
+            <div
+              className="absolute top-[55%] right-[11%] w-[1px] h-20 pointer-events-none rotate-12 origin-top"
+              style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.25), transparent)" }}
             />
           </motion.div>
-
-          {/* Left edge fade into page background */}
-          <div className="absolute inset-y-0 left-0 w-[32%] md:w-[25%] pointer-events-none z-10"
-            style={{ background: "linear-gradient(to right, #FCFBF8 0%, transparent 100%)" }}
-          />
-          
-          {/* Soft top/bottom edge blend */}
-          <div className="absolute inset-x-0 top-0 h-16 pointer-events-none z-10"
-            style={{ background: "linear-gradient(to bottom, #FCFBF8 0%, transparent 100%)" }}
-          />
-          {/* Gradient overlay bottom — blends into dark next section on mobile */}
-          <div className="absolute inset-x-0 bottom-0 pointer-events-none z-10 lg:hidden h-24"
-            style={{ background: "linear-gradient(to top, #050814 0%, transparent 100%)" }}
-          />
-
-
-
-          {/* ── Established badge — bottom left of image ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.35, duration: 0.65 }}
-            className="absolute bottom-8 left-6 sm:bottom-12 sm:left-10 flex items-end gap-3"
-          >
-            <div className="w-[2px] h-14 rounded-full" style={{ background: "linear-gradient(to bottom, transparent, hsl(38 88% 46%))" }} />
-            <div>
-              <p className="text-[9px] uppercase tracking-[0.22em] font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>Established</p>
-              <p className="font-serif font-bold text-3xl text-white italic leading-none">2002</p>
-            </div>
-          </motion.div>
-
-          {/* ── Gold corner bracket — top left of image ── */}
-          <svg className="absolute top-6 left-6 pointer-events-none" width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path d="M0 0 L20 0 L20 2 L2 2 L2 20 L0 20 Z" fill="hsl(38 88% 48%)" opacity="0.7"/>
-          </svg>
-          {/* ── Gold corner bracket — bottom right of image ── */}
-          <svg className="absolute bottom-6 right-6 pointer-events-none rotate-180" width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <path d="M0 0 L20 0 L20 2 L2 2 L2 20 L0 20 Z" fill="hsl(38 88% 48%)" opacity="0.7"/>
-          </svg>
-
-          {/* ── Decorative diagonal gold line ── */}
-          <div
-            className="absolute top-[20%] left-[15%] w-[1px] h-32 pointer-events-none hidden lg:block"
-            style={{
-              background: "linear-gradient(to bottom, transparent, hsl(38 88% 46% / 0.4), transparent)",
-              transform: "rotate(15deg)"
-            }}
-          />
-
         </div>
       </section>
 

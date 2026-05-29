@@ -615,6 +615,66 @@ export const servicesData: ServiceData[] = [
       { label: "Key Tool", value: "Legal & Financial Due Diligence" },
       { label: "Value Proposition", value: "Holistic Corporate Strategy" }
     ]
+  }),
+  
+  generateDefaultService("startup-fund-raising", "other", "Startup fund raising (Debt and Equity Both)", {
+    content: [
+      "We provide end-to-end assistance in raising capital for startups, whether through equity or debt instruments.",
+      "Our team helps with pitch deck preparation, valuation, term sheet negotiation, and due diligence."
+    ],
+    highlights: [
+      { label: "Target", value: "Seed to Series B" },
+      { label: "Instruments", value: "Equity & Debt" },
+      { label: "Support", value: "Valuation & Pitch Decks" }
+    ]
+  }),
+  
+  generateDefaultService("ipo-services", "other", "IPO services", {
+    content: [
+      "Comprehensive advisory services for companies planning to go public.",
+      "From pre-IPO restructuring to prospectus drafting and post-issue compliance, we manage the entire lifecycle."
+    ],
+    highlights: [
+      { label: "Scope", value: "End-to-End IPO Management" },
+      { label: "Key Role", value: "Prospectus & Compliance" },
+      { label: "Result", value: "Successful Listing" }
+    ]
+  }),
+  
+  generateDefaultService("ind-as-implementation", "other", "IND AS implementation and Advisory", {
+    content: [
+      "Expert guidance on transitioning to and complying with Indian Accounting Standards (IND AS).",
+      "We help businesses align their financial reporting with global standards seamlessly."
+    ],
+    highlights: [
+      { label: "Standard", value: "Indian Accounting Standards" },
+      { label: "Process", value: "Transition & Mapping" },
+      { label: "Outcome", value: "Global Compliance" }
+    ]
+  }),
+  
+  generateDefaultService("erp-implementation", "other", "Automation of Recording of Transaction or ERP Implementation", {
+    content: [
+      "Modernize your financial operations with our ERP implementation and transaction automation services.",
+      "Reduce manual errors and increase efficiency with robust, scalable software solutions."
+    ],
+    highlights: [
+      { label: "Focus", value: "Process Automation" },
+      { label: "Tools", value: "Leading ERP Solutions" },
+      { label: "Benefit", value: "Zero Manual Errors" }
+    ]
+  }),
+  
+  generateDefaultService("us-accounting", "other", "US Accounting", {
+    content: [
+      "Specialized accounting and bookkeeping services aligned with US GAAP.",
+      "Ideal for Indian subsidiaries of US corporations or businesses expanding into the United States."
+    ],
+    highlights: [
+      { label: "Standard", value: "US GAAP" },
+      { label: "Audience", value: "US Subsidiaries & Expats" },
+      { label: "Service", value: "End-to-End Bookkeeping" }
+    ]
   })
 ];
 
