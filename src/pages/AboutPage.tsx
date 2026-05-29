@@ -257,7 +257,7 @@ export default function AboutPage() {
             className="font-light leading-[1.85] mb-10 max-w-md text-muted-foreground"
             style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)" }}
           >
-            For over 15 years, we have coupled strict compliance with forward-thinking financial intelligence and turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
+            For over 15 years, we have coupled strict compliance with forward - thinking financial intelligence and turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
           </motion.p>
 
           <motion.div
