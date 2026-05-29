@@ -15,8 +15,8 @@ import imgPartner2 from "@/assets/FCA Satish.png";
 
 // Generated hero collage images
 import imgOffice from "@/assets/about_office.png";
-import imgDesk   from "@/assets/image copy.png";
-import imgSeal   from "@/assets/about_seal.png";
+import imgDesk from "@/assets/image copy.png";
+import imgSeal from "@/assets/about_seal.png";
 
 // Core Values data
 const values = [
@@ -86,7 +86,7 @@ const team = [
     name: "FCA SACHIN RANA",
     role: "ASSOCIATE CONSULTANT",
     credentials: "CA, LLB, M.COM(F&T), FAFD(ICAI)",
-    bio: "FCA Sachin Rana is a Chartered Accountant (FCA), Law Graduate (LLB), and qualified FAFD (Forensic & Fraud Detection, ICAI) professional, bringing a rare blend of financial, legal, and taxation expertise that enables him to address complex business challenges from every angle.\n\nWith over 10+ years of experience in Accountancy, Auditing, and Domestic & International Taxation, he has advised a diverse clientele from individual taxpayers and startups to large enterprises across direct and indirect taxation, financial structuring, business compliance, and legal advisory.\n\nHe has gained rich experience working with various high-ranked firms and through his own practice, particularly in Statutory Audits and Internal Audits across varied industries including banks. He has developed a strong practice in both Domestic and International Direct Taxes, having served as Income Tax consultant to various industry leaders, and is equally well-versed in GST and Indirect Taxation. He has additionally developed notable expertise in Company Law, FEMA, and Limited Liability Partnership.",
+    bio: "FCA Sachin Rana is a Chartered Accountant, Law Graduate (LLB), and qualified FAFD (Forensic & Fraud Detection, ICAI) professional, bringing a rare blend of financial, legal, and taxation expertise that enables him to address complex business challenges from every angle.\n\nWith over 10+ years of experience in Accountancy, Auditing, and Domestic & International Taxation, he has advised a diverse clientele from individual taxpayers and startups to large enterprises across direct and indirect taxation, financial structuring, business compliance, and legal advisory.\n\nHe has gained rich experience working with various high-ranked firms and through his own practice, particularly in Statutory Audits and Internal Audits across varied industries including banks. He has developed a strong practice in both Domestic and International Direct Taxes, having served as Income Tax consultant to various industry leaders, and is equally well-versed in GST and Indirect Taxation. He has additionally developed notable expertise in Company Law, FEMA, and Limited Liability Partnership.",
     quote: "Precision is our craft; trust is our currency.",
     image: imgPartner1,
     linkedin: "#",
@@ -95,7 +95,7 @@ const team = [
   {
     name: "FCA Satish Bhardwaj",
     role: "Partner & Co-Founder",
-    credentials: "CA (ICAI)",
+    credentials: "CA",
     bio: "CA Satish Bhardwaj is the Partner and Co-Founder of Maxworth Global LLP Consultants, with over 15 years of distinguished experience in audit, statutory compliance, and corporate financial management. A qualified Chartered Accountant from the Institute of Chartered Accountants of India (ICAI), he brings a detail-oriented approach and deep regulatory knowledge that has helped countless businesses maintain seamless compliance. Known for his client-centric approach and proactive advisory style, CA Satish Bhardwaj plays a pivotal role in steering the firm's operations and ensuring that every client receives timely, accurate, and reliable financial guidance.",
     quote: "We don't just file the past; we shape your financial future.",
     image: imgPartner2,
@@ -122,27 +122,27 @@ export default function AboutPage() {
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
   // Scroll-driven 3D transforms for each collage image layer
-  const imgPrimaryRotateX = useTransform(heroScroll, [0, 0.6], [0,  14]);
-  const imgPrimaryRotateY = useTransform(heroScroll, [0, 0.6], [0,  -6]);
-  const imgPrimaryScale   = useTransform(heroScroll, [0, 0.6], [1,  0.88]);
-  const imgPrimaryY       = useTransform(heroScroll, [0, 0.6], [0, -50]);
-  const imgPrimaryOpacity = useTransform(heroScroll, [0, 0.55], [1,  0]);
+  const imgPrimaryRotateX = useTransform(heroScroll, [0, 0.6], [0, 14]);
+  const imgPrimaryRotateY = useTransform(heroScroll, [0, 0.6], [0, -6]);
+  const imgPrimaryScale = useTransform(heroScroll, [0, 0.6], [1, 0.88]);
+  const imgPrimaryY = useTransform(heroScroll, [0, 0.6], [0, -50]);
+  const imgPrimaryOpacity = useTransform(heroScroll, [0, 0.55], [1, 0]);
 
-  const imgDeskRotateX  = useTransform(heroScroll, [0, 0.6], [0, -10]);
-  const imgDeskRotateY  = useTransform(heroScroll, [0, 0.6], [0,   8]);
-  const imgDeskScale    = useTransform(heroScroll, [0, 0.6], [1,  0.82]);
-  const imgDeskY        = useTransform(heroScroll, [0, 0.6], [0,  60]);
-  const imgDeskOpacity  = useTransform(heroScroll, [0, 0.5], [1,   0]);
+  const imgDeskRotateX = useTransform(heroScroll, [0, 0.6], [0, -10]);
+  const imgDeskRotateY = useTransform(heroScroll, [0, 0.6], [0, 8]);
+  const imgDeskScale = useTransform(heroScroll, [0, 0.6], [1, 0.82]);
+  const imgDeskY = useTransform(heroScroll, [0, 0.6], [0, 60]);
+  const imgDeskOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
 
-  const imgSealRotateX  = useTransform(heroScroll, [0, 0.6], [0,  -18]);
-  const imgSealRotateY  = useTransform(heroScroll, [0, 0.6], [0,   12]);
-  const imgSealScale    = useTransform(heroScroll, [0, 0.6], [1,   0.75]);
-  const imgSealY        = useTransform(heroScroll, [0, 0.6], [0,  -80]);
-  const imgSealOpacity  = useTransform(heroScroll, [0, 0.4], [1,    0]);
+  const imgSealRotateX = useTransform(heroScroll, [0, 0.6], [0, -18]);
+  const imgSealRotateY = useTransform(heroScroll, [0, 0.6], [0, 12]);
+  const imgSealScale = useTransform(heroScroll, [0, 0.6], [1, 0.75]);
+  const imgSealY = useTransform(heroScroll, [0, 0.6], [0, -80]);
+  const imgSealOpacity = useTransform(heroScroll, [0, 0.4], [1, 0]);
 
-  const badgeY1         = useTransform(heroScroll, [0, 0.5], [0,  30]);
-  const badgeY2         = useTransform(heroScroll, [0, 0.5], [0,  50]);
-  const badgeOpacity    = useTransform(heroScroll, [0, 0.4], [1,   0]);
+  const badgeY1 = useTransform(heroScroll, [0, 0.5], [0, 30]);
+  const badgeY2 = useTransform(heroScroll, [0, 0.5], [0, 50]);
+  const badgeOpacity = useTransform(heroScroll, [0, 0.4], [1, 0]);
 
   // Scroll to top on load + mouse parallax
   useEffect(() => {
@@ -157,27 +157,27 @@ export default function AboutPage() {
   const handleMouseMove3D = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
-    
+
     // Relative coordinates
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     // Centers
     const xc = rect.width / 2;
     const yc = rect.height / 2;
-    
+
     // Distances
     const dx = x - xc;
     const dy = y - yc;
-    
+
     // Rotations (max 10 degrees)
     const rotateX = -(dy / yc) * 10;
     const rotateY = (dx / xc) * 10;
-    
+
     // Spotlight follow coordinates
     const spotlightX = (x / rect.width) * 100;
     const spotlightY = (y / rect.height) * 100;
-    
+
     card.style.setProperty("--rx", `${rotateX}deg`);
     card.style.setProperty("--ry", `${rotateY}deg`);
     card.style.setProperty("--mx", `${spotlightX}%`);
@@ -198,7 +198,7 @@ export default function AboutPage() {
       </Helmet>
       <Navbar />
 
-      {/* ─── HERO SECTION — SPLIT LAYOUT ───────────────────────────────────────── */}
+      {/* ─── HERO SECTION - SPLIT LAYOUT ───────────────────────────────────────── */}
       <section
         ref={heroRef}
         className="relative min-h-screen flex flex-col lg:flex-row overflow-hidden pt-[78px] lg:pt-[88px] bg-gradient-to-br from-[#FCFBF8] via-[#F8F6F0] to-[#EBE5D9]"
@@ -257,7 +257,7 @@ export default function AboutPage() {
             className="font-light leading-[1.85] mb-10 max-w-md text-muted-foreground"
             style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)" }}
           >
-            For over 15 years, we have coupled strict compliance with forward-thinking financial intelligence — turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
+            For over 15 years, we have coupled strict compliance with forward-thinking financial intelligence and turning audit, tax, and advisory into the vital pillars that protect enterprise value and unlock scale.
           </motion.p>
 
           <motion.div
@@ -333,11 +333,7 @@ export default function AboutPage() {
                     style={{ objectPosition: "center center" }}
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-5 left-5 flex flex-col">
-                  <span className="text-[9px] uppercase tracking-[0.22em] font-bold text-white/60 mb-0.5">Established</span>
-                  <span className="font-serif font-bold text-white text-2xl italic leading-none">2002</span>
-                </div>
+
               </motion.div>
 
               {/* DESK: Mid layer */}
@@ -382,7 +378,7 @@ export default function AboutPage() {
               >
                 <img
                   src={imgSeal}
-                  alt="Gold wax seal — authenticity"
+                  alt="Gold wax seal - authenticity"
                   className="w-full h-[170px] object-cover"
                   style={{ objectPosition: "center 60%" }}
                 />
@@ -437,31 +433,31 @@ export default function AboutPage() {
           <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to left, #050814, transparent)" }} />
 
-          {/* Track — items doubled for seamless infinite loop */}
+          {/* Track - items doubled for seamless infinite loop */}
           <div
             className="flex items-center whitespace-nowrap"
             style={{ animation: "marquee-about 30s linear infinite" }}
           >
             {([
-              { text: "Trusted Since 2002",     gold: false },
-              { text: "1500+ Clients",  gold: false },
-              { text: "10K+ Tax Litigations", gold: true  },
-              { text: "99.8% Client Retention",  gold: false },
-              { text: "Audit & Virtual CFO",     gold: true  },
-              { text: "Tax & Payroll Setup",     gold: false },
-              { text: "Startup Setup",           gold: true  },
-              { text: "ROC Compliance",          gold: false },
-              { text: "Licencing & Certificates", gold: true  },
+              { text: "Trusted Since 2002", gold: false },
+              { text: "1500+ Clients", gold: false },
+              { text: "10K+ Tax Litigations", gold: true },
+              { text: "99.8% Client Retention", gold: false },
+              { text: "Audit & Virtual CFO", gold: true },
+              { text: "Tax & Payroll Setup", gold: false },
+              { text: "Startup Setup", gold: true },
+              { text: "ROC Compliance", gold: false },
+              { text: "Licencing & Certificates", gold: true },
             ] as const).concat(([
-              { text: "Trusted Since 2002",     gold: false },
-              { text: "1500+ Clients",  gold: false },
-              { text: "10K+ Tax Litigations", gold: true  },
-              { text: "99.8% Client Retention",  gold: false },
-              { text: "Audit & Virtual CFO",     gold: true  },
-              { text: "Tax & Payroll Setup",     gold: false },
-              { text: "Startup Setup",           gold: true  },
-              { text: "ROC Compliance",          gold: false },
-              { text: "Licencing & Certificates", gold: true  },
+              { text: "Trusted Since 2002", gold: false },
+              { text: "1500+ Clients", gold: false },
+              { text: "10K+ Tax Litigations", gold: true },
+              { text: "99.8% Client Retention", gold: false },
+              { text: "Audit & Virtual CFO", gold: true },
+              { text: "Tax & Payroll Setup", gold: false },
+              { text: "Startup Setup", gold: true },
+              { text: "ROC Compliance", gold: false },
+              { text: "Licencing & Certificates", gold: true },
             ] as const)).map((item, i) => (
               <span key={i} className="inline-flex items-center gap-5 mx-5 shrink-0">
                 <span
@@ -478,7 +474,7 @@ export default function AboutPage() {
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 items-center">
-            
+
             {[
               { num: "15+", label: "Years of Trust", desc: "Proven track record" },
               { num: "1500+", label: "Clients", desc: "Startups, SMEs & Listed Co." },
@@ -514,15 +510,15 @@ export default function AboutPage() {
 
 
       {/* ─── SECTION: PHILOSOPHY (3D VALUES CARD GRID) ────────────────────────── */}
-      <section 
-        id="philosophy" 
+      <section
+        id="philosophy"
         className="relative py-20 lg:py-32 bg-gradient-to-b from-[#04060f] to-[#0a0f25] overflow-hidden"
       >
         <div className="absolute inset-0 dot-grid opacity-[0.2] pointer-events-none" />
         <div className="absolute top-[30%] right-[5%] w-[350px] h-[350px] rounded-full bg-gold/5 blur-[90px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-          
+
           <div className="max-w-3xl mx-auto text-center mb-24">
             <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-3">Our Core Philosophy</p>
             <h2 className="font-serif font-bold text-3xl md:text-4xl lg:text-[2.8rem] text-white leading-tight">
@@ -551,7 +547,7 @@ export default function AboutPage() {
                   }}
                 >
                   {/* Spotlight Background overlay */}
-                  <div 
+                  <div
                     className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-30 transition-opacity duration-300"
                     style={{
                       background: `radial-gradient(circle 140px at var(--mx, 50%) var(--my, 50%), ${v.color}25, transparent)`
@@ -562,12 +558,12 @@ export default function AboutPage() {
                   <div className="absolute inset-[-1.5px] rounded-lg bg-gradient-to-br from-white/10 to-transparent group-hover:from-gold/30 z-0 transition-colors" />
 
                   <div className="relative z-10 flex flex-col h-full">
-                    
+
                     {/* Icon container */}
-                    <div 
+                    <div
                       className="w-12 h-12 rounded-sm flex items-center justify-center mb-8 transition-transform duration-300 group-hover:scale-110 shrink-0"
-                      style={{ 
-                        background: `${v.color}18`, 
+                      style={{
+                        background: `${v.color}18`,
                         border: `1px solid ${v.color}35`
                       }}
                     >
@@ -598,15 +594,15 @@ export default function AboutPage() {
       </section>
 
       {/* ─── SECTION: TIMELINE (3D DOOR ENTRY STACK) ─────────────────────────── */}
-      <section 
-        id="timeline" 
+      <section
+        id="timeline"
         className="relative py-20 lg:py-32 bg-[#fcfbf9] text-[#0f1b3a] overflow-hidden"
       >
         {/* Subtle light dot grid overlay */}
         <div className="absolute inset-0 dot-grid opacity-[0.07] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-          
+
           <div className="max-w-3xl mx-auto text-center mb-28">
             <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-3">Our Chronicle</p>
             <h2 className="font-serif font-bold text-3xl md:text-4xl lg:text-[2.8rem] text-primary leading-tight">
@@ -618,9 +614,9 @@ export default function AboutPage() {
           <div className="relative">
             {/* Central Spine line */}
             <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] bg-primary/10 -translate-x-1/2" />
-            
+
             {/* Scroll Progress tracker inside spine */}
-            <div 
+            <div
               className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 origin-top"
               style={{
                 background: "linear-gradient(to bottom, hsl(38 88% 46%), hsl(38 88% 60%))",
@@ -631,31 +627,30 @@ export default function AboutPage() {
             <div className="space-y-16">
               {milestones.map((m, i) => {
                 const isEven = i % 2 === 0;
-                
+
                 return (
-                  <div 
-                    key={i} 
-                    className={`relative flex flex-col md:flex-row items-start ${
-                      isEven ? "md:flex-row-reverse" : ""
-                    } justify-between w-full`}
+                  <div
+                    key={i}
+                    className={`relative flex flex-col md:flex-row items-start ${isEven ? "md:flex-row-reverse" : ""
+                      } justify-between w-full`}
                   >
                     {/* Spine bullet */}
                     <div className="absolute left-[20px] md:left-1/2 top-7 w-3 h-3 rounded-full bg-[#fcfbf9] border-2 border-gold -translate-x-1/2 z-20" />
 
                     {/* Timeline card wrapper with 3D entry animation */}
                     <motion.div
-                      initial={{ 
-                        opacity: 0, 
+                      initial={{
+                        opacity: 0,
                         x: isEven ? 40 : -40,
                         rotateY: isEven ? 18 : -18
                       }}
-                      whileInView={{ 
-                        opacity: 1, 
+                      whileInView={{
+                        opacity: 1,
                         x: 0,
                         rotateY: 0
                       }}
                       viewport={{ once: true, margin: "-120px" }}
-                      transition={{ 
+                      transition={{
                         type: "spring",
                         stiffness: 70,
                         damping: 18,
@@ -666,7 +661,7 @@ export default function AboutPage() {
                         transformStyle: "preserve-3d"
                       }}
                     >
-                      <div 
+                      <div
                         className="bg-white border border-[#0f1b3a]/5 p-7 sm:p-8 rounded-sm shadow-[0_8px_32px_rgba(15,27,58,0.04)]"
                         style={{
                           transform: "perspective(1000px)",
@@ -684,7 +679,7 @@ export default function AboutPage() {
                         <h3 className="font-serif font-bold text-lg text-primary mb-3">
                           {m.title}
                         </h3>
-                        
+
                         <p className="text-[#0f1b3a]/65 text-[13px] leading-[1.7] font-light">
                           {m.desc}
                         </p>
@@ -705,15 +700,15 @@ export default function AboutPage() {
       </section>
 
       {/* ─── SECTION: TEAM/PARTNERS (3D TILT GRILL) ───────────────────────────── */}
-      <section 
-        id="leadership" 
+      <section
+        id="leadership"
         className="relative py-20 lg:py-32 bg-gradient-to-b from-[#0a0f25] to-[#070b19] overflow-hidden"
       >
         <div className="absolute inset-0 dot-grid opacity-[0.25] pointer-events-none" />
         <div className="absolute bottom-[10%] left-[5%] w-[380px] h-[380px] rounded-full bg-[#1c2e5a]/20 blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-          
+
           <div className="max-w-3xl mx-auto text-center mb-24">
             <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-3">Our Partners</p>
             <h2 className="font-serif font-bold text-3xl md:text-4xl lg:text-[2.8rem] text-white leading-tight">
@@ -745,15 +740,15 @@ export default function AboutPage() {
                 {/* Team member portrait box */}
                 <div className="relative h-[380px] overflow-hidden bg-slate-950">
                   {/* Portrait photo */}
-                  <img 
-                    src={partner.image} 
-                    alt={partner.name} 
+                  <img
+                    src={partner.image}
+                    alt={partner.name}
                     className="w-full h-full object-cover grayscale brightness-[0.9] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-[600ms] ease-out"
                     style={{ objectPosition: "center top" }}
                   />
                   {/* Subtle dark gradient overlay over photo */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0c122b] via-[#0c122b]/40 to-transparent opacity-90" />
-                  
+
                   {/* Name overlay */}
                   <div className="absolute bottom-5 left-6 right-6">
                     <p className="font-serif text-2xl text-white font-bold tracking-wide">{partner.name}</p>
@@ -770,7 +765,7 @@ export default function AboutPage() {
                       "{partner.quote}"
                     </p>
                   </div>
-                  
+
                   {/* Bio snippet */}
                   <div className="text-white/50 text-[11.5px] leading-relaxed font-light mb-6 space-y-3">
                     {partner.bio.split('\n\n').map((para, idx) => (
@@ -780,15 +775,15 @@ export default function AboutPage() {
 
                   {/* Social and contacts HUD bar */}
                   <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                    <a 
+                    <a
                       href={`mailto:${partner.email}`}
                       className="flex items-center gap-1.5 text-[10px] tracking-wider text-white/40 hover:text-gold uppercase font-bold transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span>Email Partner</span>
                     </a>
-                    
-                    <a 
+
+                    <a
                       href={partner.linkedin}
                       className="w-7 h-7 rounded-full border border-white/5 flex items-center justify-center text-white/40 hover:text-gold hover:border-gold/30 hover:bg-gold/5 transition-all"
                       aria-label="LinkedIn Profile"
@@ -810,9 +805,9 @@ export default function AboutPage() {
         <div className="absolute inset-0 dot-grid opacity-[0.25] pointer-events-none" />
         {/* Glow behind panel */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full bg-gold/10 blur-[130px] pointer-events-none" />
-        
+
         <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -820,7 +815,7 @@ export default function AboutPage() {
             className="glass-navy border-white/10 p-10 md:p-14 text-center rounded-sm relative"
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 46%), transparent)" }} />
-            
+
             <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold mb-4">Business-Tailored Solutions</p>
             <h2 className="font-serif font-bold text-3xl md:text-4xl text-white mb-6 leading-tight max-w-2xl mx-auto">
               Ready to structure your business for compliant growth?

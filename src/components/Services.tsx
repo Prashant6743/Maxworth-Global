@@ -90,7 +90,7 @@ export function Services() {
             transition={{ delay: 0.2 }}
             className="text-sm text-muted-foreground font-light leading-[1.85] max-w-sm"
           >
-            From seamless compliance to strategic advisory — we provide the robust financial foundation your business needs to scale safely and grow boldly.
+            From seamless compliance to strategic advisory - we provide the robust financial foundation your business needs to scale safely and grow boldly.
           </motion.p>
         </div>
 

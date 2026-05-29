@@ -97,7 +97,7 @@ export const servicesData: ServiceData[] = [
       { label: "Timeline", value: "30-45 Days" }
     ]
   }),
-  
+
   generateDefaultService("public-ltd", "startup", "Public Limited Company", {
     content: [
       "A Public Limited Company is a corporate structure that offers limited liability to its owners and the unique ability to raise capital from the general public through Initial Public Offerings (IPOs). It is the ideal vehicle for large-scale businesses planning massive expansion and heavy capital infusion.",
@@ -185,7 +185,7 @@ export const servicesData: ServiceData[] = [
   {
     ...generateDefaultService("pvt-ltd", "startup", "Private Ltd. Company Registration", {
       content: [
-        "A Private Limited Company (Pvt. Ltd.) is the most popular, trusted, and scalable corporate structure for businesses in India. It creates a separate legal entity distinct from its founders, offering limited liability protection—meaning the personal assets of the directors and shareholders are completely secure in the event of business losses.",
+        "A Private Limited Company (Pvt. Ltd.) is the most popular, trusted, and scalable corporate structure for businesses in India. It creates a separate legal entity distinct from its founders, offering limited liability protection-meaning the personal assets of the directors and shareholders are completely secure in the event of business losses.",
         "Governed by the Companies Act, 2013, a Private Limited Company requires a minimum of 2 Directors and 2 Shareholders to incorporate. It restricts the public trading of shares, making it the preferred vehicle for startups raising venture capital, angel investment, or issuing Employee Stock Ownership Plans (ESOPs).",
         "Our comprehensive registration package covers name approval via SPICe+ Part A, drafting of the Memorandum and Articles of Association (MoA & AoA), obtaining Digital Signature Certificates (DSC) and Director Identification Numbers (DIN), and issuing the final Certificate of Incorporation along with PAN & TAN."
       ],
@@ -248,7 +248,7 @@ export const servicesData: ServiceData[] = [
       { label: "Timeline", value: "1-3 Working Days" }
     ]
   }),
-  
+
   generateDefaultService("fcra", "licence", "FCRA Licence", {
     content: [
       "The Foreign Contribution (Regulation) Act, 2010 (FCRA) regulates the acceptance and utilization of foreign contributions by individuals, associations, and NGOs in India. The law ensures that foreign funds are not used for activities detrimental to national interest.",
@@ -262,7 +262,7 @@ export const servicesData: ServiceData[] = [
       { label: "Validity", value: "5 Years (Renewable)" }
     ]
   }),
-  
+
   generateDefaultService("msme", "licence", "MSME Licence", {
     content: [
       "The MSME (Micro, Small, and Medium Enterprises) Registration, officially known as Udyam Registration, is an essential government certification for businesses in India. It is provided by the Ministry of Micro, Small and Medium Enterprises to promote and nurture small businesses.",
@@ -276,7 +276,7 @@ export const servicesData: ServiceData[] = [
       { label: "Validity", value: "Lifetime" }
     ]
   }),
-  
+
   generateDefaultService("fssai", "licence", "FSSAI Registration and Licence", {
     content: [
       "The Food Safety and Standards Authority of India (FSSAI) operates under the Ministry of Health & Family Welfare. Securing an FSSAI License or Registration is a legal requirement for any business involved in the manufacturing, processing, storage, distribution, or sale of food products in India.",
@@ -290,7 +290,7 @@ export const servicesData: ServiceData[] = [
       { label: "Central License", value: "Turnover above ₹20Cr" }
     ]
   }),
-  
+
   generateDefaultService("trademark", "licence", "Trademark", {
     content: [
       "A Trademark is a recognizable insignia, phrase, word, or symbol that denotes a specific product or service and legally differentiates it from all other products. Administered by the Controller General of Patents, Designs and Trade Marks, trademarking your brand is the ultimate defense against counterfeiting and brand theft.",
@@ -319,7 +319,7 @@ export const servicesData: ServiceData[] = [
       { label: "Key Use Case", value: "Fundraising & Share Transfers" }
     ]
   }),
-  
+
   generateDefaultService("roc-search", "roc", "ROC Search Report", {
     content: [
       "An ROC Search Report is an exhaustive, independent verification document prepared by a professional (typically a Company Secretary or CA) after inspecting the official records of a company maintained by the Registrar of Companies (ROC) on the MCA portal.",
@@ -333,7 +333,7 @@ export const servicesData: ServiceData[] = [
       { label: "Used For", value: "Bank Loans & Due Diligence" }
     ]
   }),
-  
+
   generateDefaultService("roc-mca", "roc", "All Compliance Related to ROC & MCA", {
     content: [
       "Under the Companies Act, 2013, every incorporated company and Limited Liability Partnership (LLP) in India is legally obligated to file various annual and event-based returns with the Registrar of Companies (ROC) via the Ministry of Corporate Affairs (MCA) portal.",
@@ -347,7 +347,7 @@ export const servicesData: ServiceData[] = [
       { label: "Penalty Profile", value: "Per-Day Late Fees Applicable" }
     ]
   }),
-  
+
   generateDefaultService("secretarial", "roc", "Companies Secretarial Work", {
     content: [
       "Companies Secretarial Work encompasses the administration of a company's legal and corporate governance framework. It goes beyond simple form filing, involving the meticulous drafting of minutes, registers, and corporate policies to ensure strict adherence to the Companies Act, 2013.",
@@ -361,7 +361,7 @@ export const servicesData: ServiceData[] = [
       { label: "Objective", value: "Flawless Corporate Governance" }
     ]
   }),
-  
+
   generateDefaultService("restructuring", "roc", "Corporate Restructuring", {
     content: [
       "Corporate Restructuring is a complex, strategic process of reorganizing a company's legal, ownership, operational, or financial structures. This is typically undertaken to make the business more profitable, survive a financial crisis, or accommodate a major buyout or merger.",
@@ -390,7 +390,7 @@ export const servicesData: ServiceData[] = [
       { label: "Nature of Tax", value: "Indirect Tax" }
     ]
   }),
-  
+
   generateDefaultService("custom-tax", "tax-payroll", "Custom Tax", {
     content: [
       "Customs Duty is an indirect tax levied by the Central Board of Indirect Taxes and Customs (CBIC) under the Customs Act, 1962, on goods imported into India, and occasionally on goods exported from India. It serves to protect domestic industries and regulate international trade.",
@@ -404,7 +404,7 @@ export const servicesData: ServiceData[] = [
       { label: "Applies To", value: "Cross-Border Goods Trade" }
     ]
   }),
-  
+
   generateDefaultService("gst", "tax-payroll", "GST Registration", {
     content: [
       "The Goods and Services Tax (GST) is India's comprehensive, multi-stage, destination-based indirect tax system. It has revolutionized the taxation landscape by replacing a web of central and state taxes (like Excise, VAT, and Service Tax) into a single, unified system.",
@@ -418,7 +418,7 @@ export const servicesData: ServiceData[] = [
       { label: "Tax System", value: "CGST, SGST, IGST" }
     ]
   }),
-  
+
   generateDefaultService("domestic-tax", "tax-payroll", "Domestic Tax Compliances", {
     content: [
       "Domestic Tax Compliance refers to the routine, rigorous adherence to India's direct and indirect tax laws required by businesses operating within the country. Staying compliant is not just a legal obligation but a necessity to avoid punitive audits and freezing of bank accounts.",
@@ -432,7 +432,7 @@ export const servicesData: ServiceData[] = [
       { label: "Goal", value: "Zero-Penalty Tax Operations" }
     ]
   }),
-  
+
   generateDefaultService("80g-12a", "tax-payroll", "80G / 12A", {
     content: [
       "Registrations under Section 12A and Section 80G of the Income Tax Act, 1961, are the most crucial tax exemptions for NGOs, Charitable Trusts, and Section 8 Companies in India. Without these, an NGO's income is taxable at normal corporate rates, and donors receive no tax incentives.",
@@ -446,7 +446,7 @@ export const servicesData: ServiceData[] = [
       { label: "Eligibility", value: "Registered Trusts/NGOs/Sec 8" }
     ]
   }),
-  
+
   generateDefaultService("income-tax", "tax-payroll", "Income Tax", {
     content: [
       "Income Tax in India is a direct tax levied by the Central Government on the income of individuals, Hindu Undivided Families (HUFs), companies, firms, and other localized entities. The Income Tax Act of 1961 governs the computation, assessment, and collection of this tax.",
@@ -460,7 +460,7 @@ export const servicesData: ServiceData[] = [
       { label: "Key Deadline", value: "July 31 / Oct 31 Annually" }
     ]
   }),
-  
+
   generateDefaultService("indirect-tax", "tax-payroll", "Indirect Tax", {
     content: [
       "Indirect Taxes are levies collected by an intermediary (like a retail store or service provider) from the person who bears the ultimate economic burden of the tax (the consumer). In India, the indirect tax regime is dominated by GST and Customs Duty.",
@@ -474,7 +474,7 @@ export const servicesData: ServiceData[] = [
       { label: "Burden", value: "Borne by End Consumer" }
     ]
   }),
-  
+
   generateDefaultService("direct-tax", "tax-payroll", "Direct Tax", {
     content: [
       "Direct Taxes are paid directly to the government by the individual or organization on whom it is imposed. The primary direct tax in India is Income Tax, alongside specialized levies like Capital Gains Tax, Corporate Tax, and Securities Transaction Tax (STT).",
@@ -488,7 +488,7 @@ export const servicesData: ServiceData[] = [
       { label: "Focus", value: "Strategic Corporate Tax Planning" }
     ]
   }),
-  
+
   generateDefaultService("tax-consultancy", "tax-payroll", "Tax Consultancy", {
     content: [
       "Tax Consultancy is a high-level advisory service designed for businesses facing complex transactions, undergoing restructuring, or planning international expansion. It goes far beyond routine compliance and return filing.",
@@ -517,7 +517,7 @@ export const servicesData: ServiceData[] = [
       { label: "Funding Access", value: "Highly CSR & FCRA Friendly" }
     ]
   }),
-  
+
   generateDefaultService("partnership-deed", "misc-reg", "Partnership Deed Registration", {
     content: [
       "A Partnership Deed is the foundational legal document that dictates how a partnership firm operates. It is a written agreement between two or more partners outlining their mutual rights, duties, profit-sharing ratios, capital contributions, and dispute resolution mechanisms.",
@@ -531,7 +531,7 @@ export const servicesData: ServiceData[] = [
       { label: "Legal Weight", value: "Prevents Partner Disputes" }
     ]
   }),
-  
+
   generateDefaultService("ngo-trust", "misc-reg", "NGO & Trust", {
     content: [
       "A Charitable Trust is the oldest and simplest form of a Non-Governmental Organization in India. It is formed when the creator (Settlor) transfers property or funds to a Trustee for the benefit of the public or a specific charitable purpose, such as education, poverty relief, or medical aid.",
@@ -545,7 +545,7 @@ export const servicesData: ServiceData[] = [
       { label: "Compliance Burden", value: "Low" }
     ]
   }),
-  
+
   generateDefaultService("society", "misc-reg", "Society", {
     content: [
       "A Society is an association of persons who come together by mutual consent to deliberate, determine, and act jointly for a charitable purpose. It is a highly democratic form of NGO, requiring a minimum of 7 members (from the same state) or 8 members (from different states for national-level societies).",
@@ -574,7 +574,7 @@ export const servicesData: ServiceData[] = [
       { label: "Goal", value: "Global Expansion & Tax Mitigation" }
     ]
   }),
-  
+
   generateDefaultService("csr-compliance", "other", "CSR Compliance", {
     content: [
       "Corporate Social Responsibility (CSR) in India is not merely philanthropy; it is a strict statutory mandate under Section 135 of the Companies Act, 2013. Qualifying companies must spend at least 2% of their average net profits over the preceding three years on designated social initiatives.",
@@ -588,7 +588,7 @@ export const servicesData: ServiceData[] = [
       { label: "Key Deliverable", value: "Annual CSR Report Filing" }
     ]
   }),
-  
+
   generateDefaultService("fema-compliance", "other", "FEMA Compliance", {
     content: [
       "The Foreign Exchange Management Act, 1999 (FEMA) regulates all cross-border financial transactions in India. Administered aggressively by the Reserve Bank of India (RBI) and the Enforcement Directorate (ED), FEMA violations can result in massive penalties and asset confiscation.",
@@ -602,7 +602,7 @@ export const servicesData: ServiceData[] = [
       { label: "Critical Filings", value: "FC-GPR, FC-TRS, FLA Return" }
     ]
   }),
-  
+
   generateDefaultService("business-consulting", "other", "Business Consulting", {
     content: [
       "Business Consulting is our apex advisory service, tailored for entrepreneurs facing pivotal growth stages, operational bottlenecks, or complex legal hurdles. We act as your outsourced brain-trust, combining legal, financial, and strategic acumen.",
@@ -616,7 +616,7 @@ export const servicesData: ServiceData[] = [
       { label: "Value Proposition", value: "Holistic Corporate Strategy" }
     ]
   }),
-  
+
   generateDefaultService("startup-fund-raising", "other", "Startup fund raising (Debt and Equity Both)", {
     content: [
       "We provide end-to-end assistance in raising capital for startups, whether through equity or debt instruments.",
@@ -628,7 +628,7 @@ export const servicesData: ServiceData[] = [
       { label: "Support", value: "Valuation & Pitch Decks" }
     ]
   }),
-  
+
   generateDefaultService("ipo-services", "other", "IPO services", {
     content: [
       "Comprehensive advisory services for companies planning to go public.",
@@ -640,7 +640,7 @@ export const servicesData: ServiceData[] = [
       { label: "Result", value: "Successful Listing" }
     ]
   }),
-  
+
   generateDefaultService("ind-as-implementation", "other", "IND AS implementation and Advisory", {
     content: [
       "Expert guidance on transitioning to and complying with Indian Accounting Standards (IND AS).",
@@ -652,7 +652,7 @@ export const servicesData: ServiceData[] = [
       { label: "Outcome", value: "Global Compliance" }
     ]
   }),
-  
+
   generateDefaultService("erp-implementation", "other", "Automation of Recording of Transaction or ERP Implementation", {
     content: [
       "Modernize your financial operations with our ERP implementation and transaction automation services.",
@@ -664,7 +664,7 @@ export const servicesData: ServiceData[] = [
       { label: "Benefit", value: "Zero Manual Errors" }
     ]
   }),
-  
+
   generateDefaultService("us-accounting", "other", "US Accounting", {
     content: [
       "Specialized accounting and bookkeeping services aligned with US GAAP.",

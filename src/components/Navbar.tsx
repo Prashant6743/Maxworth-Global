@@ -215,8 +215,8 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className={`fixed top-[2px] left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-            ? "py-3 bg-white/95 backdrop-blur-md shadow-[0_4px_32px_-8px_rgba(15,27,58,0.14)] border-b border-border/30"
-            : "py-5 bg-white/30 backdrop-blur-sm border-b border-white/20"
+          ? "py-3 bg-white/95 backdrop-blur-md shadow-[0_4px_32px_-8px_rgba(15,27,58,0.14)] border-b border-border/30"
+          : "py-5 bg-white/30 backdrop-blur-sm border-b border-white/20"
           }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
@@ -422,7 +422,7 @@ export function Navbar() {
                                           if (lbl) { lbl.style.color = "hsl(222 15% 38%)"; lbl.style.fontWeight = "400"; }
                                         }}
                                       >
-                                        {/* Hollow circle bullet — matches reference */}
+                                        {/* Hollow circle bullet - matches reference */}
                                         <span
                                           className="fd"
                                           style={{

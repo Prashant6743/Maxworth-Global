@@ -10,9 +10,9 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: "All fields are required." }) };
     }
 
-    const SERVICE_ID  = process.env.EMAILJS_SERVICE_ID;
+    const SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
     const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
-    const PUBLIC_KEY  = process.env.EMAILJS_PUBLIC_KEY;
+    const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
     const PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY;
 
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !PRIVATE_KEY) {
@@ -20,14 +20,14 @@ exports.handler = async (event) => {
       return { statusCode: 500, body: JSON.stringify({ error: "Server configuration error." }) };
     }
 
-    // Call EmailJS REST API directly — no package needed
+    // Call EmailJS REST API directly - no package needed
     const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        service_id:  SERVICE_ID,
+        service_id: SERVICE_ID,
         template_id: TEMPLATE_ID,
-        user_id:     PUBLIC_KEY,
+        user_id: PUBLIC_KEY,
         accessToken: PRIVATE_KEY,
         template_params: { from_name, from_email, phone, service, message },
       }),

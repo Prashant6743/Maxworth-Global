@@ -59,7 +59,7 @@ export function About() {
           ref={textRef}
           className="relative z-10 flex flex-col justify-center px-8 md:px-12 lg:px-16 xl:px-20 py-16 lg:py-20 w-full lg:w-[52%] xl:w-[50%] bg-background"
         >
-          {/* Section label — fade + slide down */}
+          {/* Section label - fade + slide down */}
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={isTextInView ? { opacity: 1, y: 0 } : {}}
@@ -78,7 +78,7 @@ export function About() {
             </span>
           </motion.div>
 
-          {/* Gold divider — scale in from left */}
+          {/* Gold divider - scale in from left */}
           <motion.div
             initial={{ scaleX: 0, originX: 0 }}
             animate={isTextInView ? { scaleX: 1 } : {}}
@@ -87,7 +87,7 @@ export function About() {
             style={{ background: "linear-gradient(90deg, hsl(38 88% 42%), hsl(38 88% 60%))" }}
           />
 
-          {/* Headline — word by word reveal from clip */}
+          {/* Headline - word by word reveal from clip */}
           <div className="overflow-hidden mb-8">
             <motion.h2
               initial={{ y: "100%", opacity: 0 }}
@@ -112,7 +112,7 @@ export function About() {
             </motion.h2>
           </div>
 
-          {/* Body paragraph 1 — fade + rise */}
+          {/* Body paragraph 1 - fade + rise */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isTextInView ? { opacity: 1, y: 0 } : {}}
@@ -132,7 +132,7 @@ export function About() {
             Our philosophy is simple: every business deserves expert guidance, not just compliance. We go beyond the numbers to provide insights that drive real growth with 15+ years of collective expertise behind every recommendation.
           </motion.p>
 
-          {/* CTA Buttons — slide up */}
+          {/* CTA Buttons - slide up */}
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={isTextInView ? { opacity: 1, y: 0 } : {}}
@@ -177,7 +177,7 @@ export function About() {
           ref={imageRef}
           className="relative w-full lg:w-[58%] xl:w-[60%] min-h-[440px] lg:min-h-0 overflow-hidden pb-14"
         >
-          {/* Diagonal clip container — clip-path wipe reveal */}
+          {/* Diagonal clip container - clip-path wipe reveal */}
           <motion.div
             className="absolute inset-0 z-0"
             style={{ clipPath: "polygon(6% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
@@ -204,7 +204,7 @@ export function About() {
             />
           </motion.div>
 
-          {/* Quote card — spring slide in from bottom-right */}
+          {/* Quote card - spring slide in from bottom-right */}
           <motion.div
             initial={{ opacity: 0, y: 50, x: 30, scale: 0.92 }}
             animate={isImageInView ? { opacity: 1, y: 0, x: 0, scale: 1 } : {}}
@@ -232,7 +232,7 @@ export function About() {
               "
             </motion.span>
 
-            {/* Quote text — fade line by line */}
+            {/* Quote text - fade line by line */}
             <motion.p
               className="font-serif text-[15px] italic text-white/90 leading-snug"
               initial={{ opacity: 0 }}
@@ -272,7 +272,7 @@ export function About() {
                 transition={{ duration: 0.5, delay: 0.65 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="flex items-start gap-4 px-6 py-7 lg:px-8 group"
               >
-                {/* Icon circle — scale-in with slight bounce */}
+                {/* Icon circle - scale-in with slight bounce */}
                 <motion.div
                   className="shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-colors duration-300 group-hover:bg-gold/20"
                   style={{ background: "hsl(38 88% 48% / 0.10)" }}

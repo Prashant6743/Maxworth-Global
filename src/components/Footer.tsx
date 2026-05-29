@@ -85,7 +85,7 @@ export function Footer() {
         {/* Main grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
 
-          {/* Brand col — span 2 */}
+          {/* Brand col - span 2 */}
           <div className="lg:col-span-2 pr-8">
             <div className="flex items-center gap-3 mb-6">
               <img src={logoDarkImg} alt="The Maxworth Global Logo" className="h-16 w-auto object-contain" />

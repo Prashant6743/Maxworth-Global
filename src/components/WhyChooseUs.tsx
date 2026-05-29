@@ -7,7 +7,7 @@ const reasons = [
   {
     icon: Users,
     title: "Partner led Approach",
-    desc: "Every client gets direct, undivided attention from experienced senior partners — not juniors or interns.",
+    desc: "Every client gets direct, undivided attention from team experts or senior partners and not juniors or interns.",
   },
   {
     icon: Lightbulb,
@@ -29,13 +29,13 @@ const reasons = [
 const testimonials = [
   {
     name: "Arjun Mehra",
-    role: "CEO",
+    role: "",
     text: "Maxworth Global LLP transformed how we approach compliance. Their proactive advisory saved us lakhs in penalties.",
     rating: 5,
   },
   {
     name: "Priya Nair",
-    role: "Founder",
+    role: "",
     text: "The team feels like an extension of our own. Always reachable, always precise, and remarkably insightful.",
     rating: 5,
   },
@@ -91,7 +91,7 @@ export function WhyChooseUs() {
         {/* Reasons Grid + Image */}
         <div className="grid lg:grid-cols-5 gap-12 items-center mb-24">
 
-          {/* Reasons — 2 cols */}
+          {/* Reasons - 2 cols */}
           <div className="lg:col-span-2 grid grid-cols-1 gap-6">
             {reasons.map((reason, i) => {
               const Icon = reason.icon;
@@ -118,7 +118,7 @@ export function WhyChooseUs() {
             })}
           </div>
 
-          {/* Image — 3 cols */}
+          {/* Image - 3 cols */}
           <motion.div
             initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
             animate={isInView ? { opacity: 1, clipPath: "inset(0 0% 0 0)" } : {}}

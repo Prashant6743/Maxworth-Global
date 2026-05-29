@@ -13,14 +13,14 @@ import {
   Loader2, AlertCircle,
 } from "lucide-react";
 
-const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string;
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
-const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string;
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
 
 // ── Validation helpers ──────────────────────────────────────────────
 const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 const isValidPhone = (v: string) => /^[+]?[\d\s\-().]{7,15}$/.test(v.trim());
-const isValidName  = (v: string) => v.trim().length >= 2;
+const isValidName = (v: string) => v.trim().length >= 2;
 
 interface CFormState {
   from_name: string;
@@ -39,7 +39,7 @@ interface CFormErrors {
 
 // ─── Generated Assets ───────────────────────────────────────────────────────────
 import imgContactBg from "@/assets/contactm.png";
-import imgForm   from "@/assets/contact_form.png";
+import imgForm from "@/assets/contact_form.png";
 
 // ─── Data ───────────────────────────────────────────────────────────────────────
 const reachMethods = [
@@ -124,8 +124,8 @@ const services = [
 
 const trustBadges = [
   { icon: Shield, label: "MCA Compliant" },
-  { icon: Award,  label: "15+ Years" },
-  { icon: Users,  label: "1500+ Clients" },
+  { icon: Award, label: "15+ Years" },
+  { icon: Users, label: "1500+ Clients" },
 ];
 
 // ─── 3D Tilt Hook ───────────────────────────────────────────────────────────────
@@ -234,16 +234,16 @@ export default function ContactPage() {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY       = useTransform(heroScroll, [0, 1], [0, 70]);
+  const heroY = useTransform(heroScroll, [0, 1], [0, 70]);
   const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
   const { scrollYProgress: pageScroll } = useScroll();
 
   const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending]     = useState(false);
+  const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
-  const [focused, setFocused]     = useState<string | null>(null);
-  const [touched, setTouched]     = useState<Partial<Record<keyof CFormState, boolean>>>({});
+  const [focused, setFocused] = useState<string | null>(null);
+  const [touched, setTouched] = useState<Partial<Record<keyof CFormState, boolean>>>({});
 
   const [form, setForm] = useState<CFormState>({
     from_name: "", from_email: "", phone: "", service: "", message: "",
@@ -251,15 +251,15 @@ export default function ContactPage() {
 
   const validate = (f: CFormState): CFormErrors => {
     const e: CFormErrors = {};
-    if (!isValidName(f.from_name))    e.from_name  = "Please enter your full name (at least 2 characters).";
-    if (!isValidEmail(f.from_email))  e.from_email = "Please enter a valid email address.";
-    if (!isValidPhone(f.phone))       e.phone      = "Please enter a valid phone number.";
-    if (!f.service)                   e.service    = "Please select a service.";
-    if (f.message.trim().length < 10) e.message    = "Please write at least 10 characters.";
+    if (!isValidName(f.from_name)) e.from_name = "Please enter your full name (at least 2 characters).";
+    if (!isValidEmail(f.from_email)) e.from_email = "Please enter a valid email address.";
+    if (!isValidPhone(f.phone)) e.phone = "Please enter a valid phone number.";
+    if (!f.service) e.service = "Please select a service.";
+    if (f.message.trim().length < 10) e.message = "Please write at least 10 characters.";
     return e;
   };
 
-  const errors  = validate(form);
+  const errors = validate(form);
   const isValid = Object.keys(errors).length === 0;
 
   const handleChange = (field: keyof CFormState, value: string) =>
@@ -273,7 +273,7 @@ export default function ContactPage() {
   const showErr = (field: keyof CFormState) => touched[field] && errors[field];
 
   const borderColor = (field: keyof CFormState) => {
-    if (showErr(field))    return "hsl(0 70% 55%)";
+    if (showErr(field)) return "hsl(0 70% 55%)";
     if (focused === field) return "hsl(38 88% 48%)";
     return "hsl(var(--border))";
   };
@@ -315,7 +315,7 @@ export default function ContactPage() {
       <Navbar />
 
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* HERO — PREMIUM SLANTED BACKDROP DESIGN */}
+      {/* HERO - PREMIUM SLANTED BACKDROP DESIGN */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
@@ -429,7 +429,7 @@ export default function ContactPage() {
                 transition={{ duration: 0.7, delay: 0.4 }}
                 className="text-muted-foreground font-light text-base md:text-lg leading-[1.85] mb-10 max-w-[520px]"
               >
-                Whether you're a growing startup or an established enterprise — our senior partners will personally
+                Whether you're a growing startup or an established enterprise, our senior partners will personally
                 review your needs and craft the right financial roadmap for you.
               </motion.p>
 
@@ -482,7 +482,7 @@ export default function ContactPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* MULTIPLE WAYS TO REACH US — 6-card grid                               */}
+      {/* MULTIPLE WAYS TO REACH US - 6-card grid                               */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section className="relative py-20 lg:py-28 overflow-hidden bg-[#f8f6f2]">
         {/* Decorative top border */}
@@ -514,7 +514,7 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.18 }}
               className="text-muted-foreground font-light text-base max-w-xl mx-auto"
             >
-              Every channel connects you directly to our expert team — no gatekeepers, no bots.
+              Every channel connects you directly to our expert team - no gatekeepers, no bots.
             </motion.p>
             <div className="w-12 h-[2px] mx-auto mt-6"
               style={{ background: "linear-gradient(90deg, transparent, hsl(38 88% 46%), transparent)" }} />
@@ -533,7 +533,7 @@ export default function ContactPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════════ */}
-      {/* FORM + GRAPHIC — Split: Left graphic  |  Right form                   */}
+      {/* FORM + GRAPHIC - Split: Left graphic  |  Right form                   */}
       {/* ═══════════════════════════════════════════════════════════════════════ */}
       <section ref={formSectionRef} id="form" className="relative py-20 lg:py-32 bg-background overflow-hidden">
         {/* Blob accents */}
@@ -562,7 +562,7 @@ export default function ContactPage() {
                 <div className="w-10 h-[2px] mb-6"
                   style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), transparent)" }} />
                 <p className="text-muted-foreground font-light text-[14px] leading-[1.85] max-w-md">
-                  Every enquiry at Maxworth Global is personally reviewed by a senior partner —
+                  Every enquiry at Maxworth Global is personally reviewed by and expert and 
                   not a support desk. You'll receive a tailored response within 24 hours.
                 </p>
               </div>
@@ -583,14 +583,14 @@ export default function ContactPage() {
                   <p className="font-serif font-bold text-white text-lg leading-tight">
                     "Precision is our craft; trust is our currency."
                   </p>
-                  <p className="text-white/55 text-[11px] uppercase tracking-wider mt-1">— Rakesh Maxworth, Founder</p>
+                  <p className="text-white/55 text-[11px] uppercase tracking-wider mt-1"> - FCA Satish Bhardwaj</p>
                 </div>
               </div>
 
               {/* Process steps */}
               <div className="space-y-3">
                 {[
-                  { step: "01", label: "Submit Enquiry", desc: "Fill the form — 2 minutes" },
+                  { step: "01", label: "Submit Enquiry", desc: "Fill the form in 2 minutes to get the quick resolution" },
                   { step: "02", label: "Partner Review", desc: "Senior partner evaluates within 24h" },
                   { step: "03", label: "Discovery Call", desc: "30-min free strategy session" },
                 ].map((s, i) => (

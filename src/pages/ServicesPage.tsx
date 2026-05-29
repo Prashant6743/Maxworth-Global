@@ -125,7 +125,7 @@ const services = [
 
 const steps = [
   { n: "01", title: "Discovery Call", desc: "30-min call to understand your business, goals, and pain points." },
-  { n: "02", title: "Proposal", desc: "A tailored scope of work with fixed, transparent pricing — no surprises." },
+  { n: "02", title: "Proposal", desc: "A tailored scope of work with fixed, transparent pricing - no surprises." },
   { n: "03", title: "Onboarding", desc: "Secure document handover and a dedicated senior partner assigned." },
   { n: "04", title: "Execution", desc: "Precision work delivered on schedule with real-time updates." },
   { n: "05", title: "Ongoing Support", desc: "Quarterly reviews that evolve your strategy as your business grows." },
@@ -224,11 +224,11 @@ export default function ServicesPage() {
     const start = rect.top + scrollTop;
     const totalHeight = processContainerRef.current.scrollHeight;
     const viewportHeight = window.innerHeight;
-    
+
     // Map index to progress values
     const progressValues = [0, 0.25, 0.45, 0.65, 0.85];
     const targetProgress = progressValues[idx];
-    
+
     const targetScroll = start + (totalHeight - viewportHeight) * targetProgress;
     window.scrollTo({
       top: targetScroll,
@@ -314,12 +314,12 @@ export default function ServicesPage() {
             className="absolute inset-0 w-full h-full object-cover object-center scale-[1.05] origin-left"
             style={{ filter: "brightness(0.75) contrast(1.05)" }}
           />
-          
+
           {/* Overlay gradients (Left fade) */}
           <div className="absolute inset-y-0 left-0 z-10 w-[32%] md:w-[35%]" style={{
             background: "linear-gradient(to right, hsl(36 33% 97%) 0%, transparent 100%)",
           }} />
-          
+
           {/* Soft top/bottom edge blend */}
           <div className="absolute inset-x-0 top-0 z-10 h-16" style={{
             background: "linear-gradient(to bottom, hsl(36 33% 97%) 0%, transparent 100%)",
@@ -445,7 +445,7 @@ export default function ServicesPage() {
         {/* Sticky viewport */}
         <div className="sticky top-0 h-screen w-full overflow-hidden" style={{ background: "hsl(222 55% 4%)" }}>
 
-          {/* Ambient glow — moves with active service color */}
+          {/* Ambient glow - moves with active service color */}
           <div
             className="absolute inset-0 pointer-events-none transition-all duration-700"
             style={{
@@ -471,7 +471,7 @@ export default function ServicesPage() {
               <div className="flex items-center gap-3 mb-10">
                 <span className="text-[10px] uppercase tracking-[0.28em] font-bold" style={{ color: "hsl(38 88% 55%)" }}>Our Services</span>
                 <span className="flex-1 h-px bg-white/10" />
-                <span className="font-mono text-[10px] text-white/30">{String(activeServiceIndex + 1).padStart(2,"0")} / {String(services.length).padStart(2,"0")}</span>
+                <span className="font-mono text-[10px] text-white/30">{String(activeServiceIndex + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}</span>
               </div>
 
               {/* Animated content with AnimatePresence */}
@@ -636,7 +636,7 @@ export default function ServicesPage() {
                           {/* Footer */}
                           <div className="mt-6 pt-5 border-t flex items-center gap-2" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: svc.color }} />
-                            <span className="text-[9px] uppercase tracking-[0.2em] text-white/35 font-semibold">Maxworth Global — {svc.title}</span>
+                            <span className="text-[9px] uppercase tracking-[0.2em] text-white/35 font-semibold">Maxworth Global - {svc.title}</span>
                           </div>
                         </div>
                       </motion.div>
@@ -669,7 +669,7 @@ export default function ServicesPage() {
         className="relative z-20"
         style={{ background: "hsl(36 25% 96%)", height: "300vh" }}
       >
-        {/* Full-height background fill — ensures no white gaps */}
+        {/* Full-height background fill - ensures no white gaps */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "hsl(36 25% 96%)" }}
@@ -721,13 +721,12 @@ export default function ServicesPage() {
                       {/* Step Indicator Dot/Bubble */}
                       <div className="relative shrink-0 z-10">
                         <div
-                          className={`w-8 h-8 rounded-full border flex items-center justify-center font-serif text-xs font-bold transition-all duration-300 ${
-                            isActive
+                          className={`w-8 h-8 rounded-full border flex items-center justify-center font-serif text-xs font-bold transition-all duration-300 ${isActive
                               ? "bg-gold text-white scale-110"
                               : isDone
                                 ? "text-white"
                                 : "bg-background text-muted-foreground group-hover:border-gold group-hover:text-gold"
-                          }`}
+                            }`}
                           style={{
                             borderColor: isActive || isDone ? "hsl(38 88% 48%)" : "hsl(var(--border))",
                             backgroundColor: isActive ? "hsl(38 88% 48%)" : isDone ? "hsl(var(--primary))" : "",
@@ -740,10 +739,9 @@ export default function ServicesPage() {
 
                       {/* Text */}
                       <div className="transition-all duration-300">
-                        <h4 className={`text-[13px] font-bold uppercase tracking-wider transition-colors duration-300 ${
-                          isActive ? "text-primary font-extrabold" : "text-muted-foreground group-hover:text-foreground"
-                        }`}
-                        style={{ color: isActive ? "hsl(var(--primary))" : "" }}
+                        <h4 className={`text-[13px] font-bold uppercase tracking-wider transition-colors duration-300 ${isActive ? "text-primary font-extrabold" : "text-muted-foreground group-hover:text-foreground"
+                          }`}
+                          style={{ color: isActive ? "hsl(var(--primary))" : "" }}
                         >
                           {step.title}
                         </h4>
@@ -764,11 +762,10 @@ export default function ServicesPage() {
                       className="flex flex-col items-center gap-1.5 flex-1 py-1 transition-all duration-300 outline-none"
                     >
                       <div
-                        className={`w-7 h-7 rounded-full border flex items-center justify-center font-serif text-[10px] font-bold transition-all duration-300 ${
-                          isActive
+                        className={`w-7 h-7 rounded-full border flex items-center justify-center font-serif text-[10px] font-bold transition-all duration-300 ${isActive
                             ? "text-white"
                             : "text-muted-foreground"
-                        }`}
+                          }`}
                         style={{
                           borderColor: isActive ? "hsl(38 88% 48%)" : "hsl(var(--border))",
                           backgroundColor: isActive ? "hsl(38 88% 48%)" : "",
@@ -886,7 +883,7 @@ export default function ServicesPage() {
                 transition={{ delay: 0.2 }}
                 className="text-white/55 font-light leading-[1.85]"
               >
-                Book a free 30-minute discovery call. No jargon, no commitment — just an honest conversation.
+                Book a free 30-minute discovery call. No jargon, no commitment - just an honest conversation.
               </motion.p>
             </div>
 

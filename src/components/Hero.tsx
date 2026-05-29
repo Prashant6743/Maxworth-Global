@@ -52,10 +52,10 @@ export function Hero() {
 
 
       {/* ═══════════════════════════════════════════
-          HERO BODY — image + text (between badges & ticker)
+          HERO BODY - image + text (between badges & ticker)
       ═══════════════════════════════════════════ */}
       <div className="relative flex-1 min-h-0 flex flex-col">
-        {/* Right-side hero image — matches reference split (~55–58% width) */}
+        {/* Right-side hero image - matches reference split (~55–58% width) */}
         <div className="absolute inset-0 right-0 left-0 md:left-[34%] lg:left-[38%] z-0 overflow-hidden pointer-events-none">
           <motion.div
             style={{ x: springX, y: springY, scale: imgScale }}
@@ -103,116 +103,116 @@ export function Hero() {
           style={{ background: bg }}
         />
 
-      {/* ═══════════════════════════════════════════
+        {/* ═══════════════════════════════════════════
           MAIN TEXT CONTENT
       ═══════════════════════════════════════════ */}
-      <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-30 flex-1 flex items-center py-10 md:py-14 lg:py-16"
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="max-w-[580px] transform md:-translate-x-2 lg:-translate-x-4 xl:-translate-x-6 2xl:-translate-x-20">
+        <motion.div
+          style={{ y: contentY, opacity: contentOpacity }}
+          className="relative z-30 flex-1 flex items-center py-10 md:py-14 lg:py-16"
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
+            <div className="max-w-[580px] transform md:-translate-x-2 lg:-translate-x-4 xl:-translate-x-6 2xl:-translate-x-20">
 
-            {/* Headline */}
-            <h1
-              className="font-serif font-bold leading-[0.92] mb-6 text-primary"
-              style={{ fontSize: "clamp(3rem, 7vw, 6.5rem)" }}
-            >
-              {["Where", "Numbers", "Build"].map((word, i) => (
-                <div key={i} className="overflow-hidden">
+              {/* Headline */}
+              <h1
+                className="font-serif font-bold leading-[0.92] mb-6 text-primary"
+                style={{ fontSize: "clamp(3rem, 7vw, 6.5rem)" }}
+              >
+                {["Where", "Numbers", "Build"].map((word, i) => (
+                  <div key={i} className="overflow-hidden">
+                    <motion.span
+                      className="inline-block"
+                      initial={{ y: "110%" }}
+                      animate={{ y: "0%" }}
+                      transition={{ duration: 0.85, delay: 0.3 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      {word}{" "}
+                    </motion.span>
+                  </div>
+                ))}
+                <div
+                  className="overflow-hidden"
+                  style={{ paddingBottom: "0.28em", marginBottom: "-0.28em" }}
+                >
                   <motion.span
                     className="inline-block"
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
-                    transition={{ duration: 0.85, delay: 0.3 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.85, delay: 0.66, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    {word}{" "}
+                    <span
+                      className="italic"
+                      style={{
+                        background: "linear-gradient(120deg, hsl(38 88% 36%), hsl(38 88% 54%), hsl(38 88% 40%))",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                        display: "inline-block",
+                        paddingRight: "0.12em",
+                        paddingBottom: "8px",
+                      }}
+                    >
+                      Empires...
+                    </span>
                   </motion.span>
                 </div>
-              ))}
-              <div
-                className="overflow-hidden"
-                style={{ paddingBottom: "0.28em", marginBottom: "-0.28em" }}
+              </h1>
+
+              {/* Gold rule */}
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.85, delay: 0.82, ease: [0.16, 1, 0.3, 1] }}
+                className="w-20 h-[2px] mb-7 origin-left"
+                style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
+              />
+
+              {/* Subtext */}
+              <motion.p
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.68, delay: 0.9 }}
+                className="text-base text-muted-foreground font-light leading-[1.88] mb-10 max-w-[460px]"
               >
-                <motion.span
-                  className="inline-block"
-                  initial={{ y: "110%" }}
-                  animate={{ y: "0%" }}
-                  transition={{ duration: 0.85, delay: 0.66, ease: [0.16, 1, 0.3, 1] }}
+                Your trusted partner for comprehensive financial, taxation, and business compliance solutions. Established in Delhi and serving clients across India - we bring together 15+ years of collective expertise to help individuals, startups, and enterprises navigate compliance with confidence.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.58, delay: 1.05 }}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-5"
+              >
+                <button
+                  id="hero-cta-consult"
+                  onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                  className="group relative flex items-center justify-center gap-3 h-13 px-7 overflow-hidden font-semibold uppercase tracking-[0.14em] text-[12px] text-white transition-all hover:shadow-[0_8px_30px_-6px_rgba(15,27,58,0.45)]"
+                  style={{ background: "hsl(222 55% 18%)", height: "3.25rem" }}
                 >
                   <span
-                    className="italic"
-                    style={{
-                      background: "linear-gradient(120deg, hsl(38 88% 36%), hsl(38 88% 54%), hsl(38 88% 40%))",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      display: "inline-block",
-                      paddingRight: "0.12em",
-                      paddingBottom: "8px",
-                    }}
-                  >
-                    Empires...
+                    className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-[380ms] ease-out"
+                    style={{ background: "linear-gradient(90deg, hsl(38 88% 40%), hsl(38 88% 54%))" }}
+                  />
+                  <span className="relative z-10">Schedule Consultation</span>
+                  <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+
+                <button
+                  id="hero-cta-services"
+                  onClick={() => setLocation("/services")}
+                  className="group flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-foreground/80 hover:text-primary transition-colors"
+                >
+                  <span className="relative">
+                    Explore Services
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-gold group-hover:w-full transition-all duration-300" />
                   </span>
-                </motion.span>
-              </div>
-            </h1>
-
-            {/* Gold rule */}
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.85, delay: 0.82, ease: [0.16, 1, 0.3, 1] }}
-              className="w-20 h-[2px] mb-7 origin-left"
-              style={{ background: "linear-gradient(90deg, hsl(38 88% 46%), hsl(38 88% 62%))" }}
-            />
-
-            {/* Subtext */}
-            <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.68, delay: 0.9 }}
-              className="text-base text-muted-foreground font-light leading-[1.88] mb-10 max-w-[460px]"
-            >
-              Your trusted partner for comprehensive financial, taxation, and business compliance solutions. Established in Delhi and serving clients across India — we bring together 15+ years of collective expertise to help individuals, startups, and enterprises navigate compliance with confidence.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.58, delay: 1.05 }}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-5"
-            >
-              <button
-                id="hero-cta-consult"
-                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="group relative flex items-center justify-center gap-3 h-13 px-7 overflow-hidden font-semibold uppercase tracking-[0.14em] text-[12px] text-white transition-all hover:shadow-[0_8px_30px_-6px_rgba(15,27,58,0.45)]"
-                style={{ background: "hsl(222 55% 18%)", height: "3.25rem" }}
-              >
-                <span
-                  className="absolute inset-0 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-[380ms] ease-out"
-                  style={{ background: "linear-gradient(90deg, hsl(38 88% 40%), hsl(38 88% 54%))" }}
-                />
-                <span className="relative z-10">Schedule Consultation</span>
-                <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-
-              <button
-                id="hero-cta-services"
-                onClick={() => setLocation("/services")}
-                className="group flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-foreground/80 hover:text-primary transition-colors"
-              >
-                <span className="relative">
-                  Explore Services
-                  <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-gold group-hover:w-full transition-all duration-300" />
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-              </button>
-            </motion.div>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </button>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
       </div>
 
       {/* ═══════════════════════════════════════════
